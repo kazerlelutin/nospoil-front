@@ -1,0 +1,68 @@
+@unocss preflights;
+@unocss default;
+
+:root {
+  --color-k-text: #adacaa;
+  --color-k-bg: black;
+  --color-highlight: #f5f5f5;
+  --color-k-border: rgb(88, 88, 88);
+  --color-k-bg-hover: rgb(41, 41, 41);
+  --menu-width: 240px;
+}
+
+:root .light {
+  --color-k-text: black;
+  --color--k-bg: white;
+}
+
+body {
+  margin: 0;
+  font-family: 'bunny', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+a {
+  color: var(--color-k-text);
+}
+
+a:hover {
+  color: var(--color-highlight);
+}
+
+/** ==============================
+ *  Editor JS
+ * ============================== */
+
+.dark .ce-popover {
+  --color-border: var(--color-k-border);
+  --color-background: black;
+  --color-text-primary: var(--color-k-text);
+  --color-background-item-hover: var(--color-k-bg-hover);
+  --color-background-item-focus: var(--color-k-bg-hover);
+  --color-background-item-hover: var(--color-k-bg-hover);
+}
+
+.cdx-search-field {
+  background-color: var(--color-k-bg);
+  color: var(--color-k-text);
+}
+
+.ce-block--selected .ce-block__content,
+.codex-editor ::selection {
+  background-color: var(--color-k-bg-hover);
+}
+
+.ce-toolbar__plus,
+.ce-toolbar__settings-btn {
+  background-color: var(--color-k-bg);
+  color: var(--color-k-text);
+}
+
+@media (hover: hover) {
+  .ce-toolbar__settings-btn:hover {
+    background-color: var(--color-k-bg-hover);
+    fill: var(--color-k-text);
+    color: var(--color-k-text);
+  }
+}
