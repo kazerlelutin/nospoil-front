@@ -20,9 +20,6 @@ export function App() {
       <div className="grid grid-rows-[auto_1fr] text-light-text dark:text-dark-text dark:bg-dark-bg bg-light-bg h-lvh">
         <Header />
         <div className="text-light-text dark:text-dark-text dark:bg-dark-bg bg-light-bg h-full relative">
-          <div className="absolute inset-0">
-            <Menu />
-          </div>
           <main className="relative h-full">
             <div className="absolute inset-0">
               <Router>
@@ -31,6 +28,9 @@ export function App() {
               </Router>
             </div>
           </main>
+          <div className="absolute left-0 bottom-0 top-0">
+            <Menu />
+          </div>
         </div>
       </div>
     </LocationProvider>

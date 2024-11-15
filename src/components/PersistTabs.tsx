@@ -1,0 +1,44 @@
+import { useEffect, useState } from 'preact/hooks'
+import { JSX } from 'preact/jsx-runtime'
+
+type PersistTabsProps = {
+  tabs: {
+    id: string
+    title: string
+    content: JSX.Element
+  }[]
+  defaultTab?: string
+}
+
+export function PersistTabs({ tabs, defaultTab }: PersistTabsProps) {
+  const [currentTab, setCurrentTab] = useState(
+    window.location.hash.slice(1) || defaultTab || tabs[0].id
+  )
+
+  return (
+    <>
+      <nav className="flex gap-4 border-b-solid border-white/15 border-b-1 py-2">
+        <ul className="flex flex gap-3 list-none m-0 p-0">
+          {tabs.map((tab, index) => (
+            <li key={tab.id} tabIndex={index} className="relative px-1">
+              <a
+                href={`#${tab.id}`}
+                onClick={(e) => {
+                  setCurrentTab(tab.id)
+                }}
+                data-current={currentTab === tab.id}
+                className="text-light-text dark:text-dark-text dark:hover:text-dark-text hover:text-light-text no-underline data-[current=true]:text-white hover:text-white"
+              >
+                {tab.title}
+              </a>
+              {currentTab === tab.id && (
+                <div className="absolute -bottom-3 left-0 right-0 h-1 dark:bg-dark-text"></div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </nav>
+      {tabs.find((tab) => tab.id === currentTab)?.content}
+    </>
+  )
+}
