@@ -2,6 +2,7 @@ import { Flux } from '@/components/Flux'
 import { PersistTabs } from '@/components/PersistTabs'
 import { SpoilZone } from '@/components/SpoilZone'
 import { WatchList } from '@/components/WatchList'
+import { lazy } from 'preact/compat'
 
 const tabs = [
   {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'preact/hooks'
+import { useState } from 'preact/hooks'
 import { JSX } from 'preact/jsx-runtime'
 
 type PersistTabsProps = {
@@ -11,8 +11,9 @@ type PersistTabsProps = {
 }
 
 export function PersistTabs({ tabs, defaultTab }: PersistTabsProps) {
+  const hash = typeof window !== 'undefined' ? window.location.hash : ''
   const [currentTab, setCurrentTab] = useState(
-    window.location.hash.slice(1) || defaultTab || tabs[0].id
+    hash.slice(1) || defaultTab || tabs[0].id
   )
 
   return (
