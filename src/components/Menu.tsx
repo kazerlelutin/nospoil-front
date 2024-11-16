@@ -3,10 +3,10 @@ import { Button } from './Button'
 
 const links = [
   { href: '/', label: 'home' },
-  { href: '/about', label: 'search' },
+  { href: '/search', label: 'search' },
   { href: '/notif', label: 'notification' },
-  { href: '/SDFSDF', label: 'movies' },
-  { href: '/noDFSDSFDStif', label: 'series' },
+  { href: '/params', label: 'params' },
+  { href: '/profil', label: 'profil' },
 ]
 
 export function Menu() {
@@ -24,10 +24,8 @@ export function Menu() {
           </li>
         ))}
       </ul>
-      <div className="flex flex-col gap-3 items-start">
-        <Button>Params</Button>
-        <Button>profil</Button>
-        <Button>Poster</Button>
+      <div className="flex w-full">
+        <Button>{i18n.t('newPost')}</Button>
       </div>
     </nav>
   )

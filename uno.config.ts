@@ -19,6 +19,8 @@ export default defineConfig({
       dark: {
         bg: '#000000',
         text: '#adacaa',
+        error: '#a12828',
+        success: '#2e7d32',
       },
       light: {
         bg: '#ffffff',

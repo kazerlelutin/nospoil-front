@@ -6,33 +6,29 @@ import {
   prerender as ssr,
 } from 'preact-iso'
 
-import { Header } from './components/Header.jsx'
 import { Home } from './pages/Home/index.jsx'
 import { NotFound } from './pages/_404.jsx'
+import { Search } from './pages/Search/index.js'
+import { Login } from './pages/Auth/index.js'
 import '@unocss/reset/normalize.css'
 import 'virtual:uno.css'
 import './style.css'
-import { Menu } from './components/Menu.js'
+import { MainLayout } from './components/MainLayout.js'
 
 export function App() {
   return (
     <LocationProvider>
-      <div className="grid grid-rows-[auto_1fr] text-light-text dark:text-dark-text dark:bg-dark-bg bg-light-bg h-lvh">
-        <Header />
-        <div className="text-light-text dark:text-dark-text dark:bg-dark-bg bg-light-bg h-full relative">
-          <main className="relative h-full">
-            <div className="absolute inset-0">
-              <Router>
-                <Route path="/" component={Home} />
-                <Route default component={NotFound} />
-              </Router>
-            </div>
-          </main>
-          <div className="absolute left-0 bottom-0 top-0">
-            <Menu />
-          </div>
-        </div>
-      </div>
+      <MainLayout>
+        <Router>
+          {/* PUBLIC*/}
+          <Route path="/login" component={Login} />
+
+          {/* AUTH */}
+          <Route path="/" component={Home} />
+          <Route path="/search" component={Search} />
+          <Route default component={NotFound} />
+        </Router>
+      </MainLayout>
     </LocationProvider>
   )
 }
