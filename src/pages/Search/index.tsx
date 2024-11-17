@@ -1,6 +1,11 @@
 import { PersistTabs } from '@/components/PersistTabs'
-import { SearchMedia } from '@/components/SearchMedia'
+
 import { i18n } from '@/utils/i18n'
+import { lazy } from 'preact-iso'
+
+const SearchMedia = lazy(() =>
+  import('@/components/SearchMedia').then((mod) => mod.SearchMedia)
+)
 
 const tabs = [
   {
