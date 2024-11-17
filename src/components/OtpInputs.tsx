@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'preact/hooks'
+import { useState } from 'preact/hooks'
 import { Loader } from './Loader'
+import { supabase } from '@/utils/supabase'
 
 type OtpInputsProps = {
   email: string
@@ -8,7 +9,6 @@ type OtpInputsProps = {
 export function OtpInputs({ email }: OtpInputsProps) {
   const [otp, setOtp] = useState(['', '', '', '', '', ''])
   const [loading, setLoading] = useState(false)
-  const ctrl = useRef(new AbortController())
 
   const handleChange = (otpValue: string, startIndex: number) => {
     if (isNaN(Number(otpValue))) return
@@ -26,35 +26,24 @@ export function OtpInputs({ email }: OtpInputsProps) {
   }
 
   const submitOtp = async (code: string) => {
-    console.log(code)
-    if (ctrl.current) ctrl.current.abort()
-    ctrl.current = new AbortController()
-    const signal = ctrl.current.signal
     setLoading(true)
 
-    try {
-      const res = await fetch(import.meta.env.VITE_API_URL + 'auth/verify', {
-        method: 'POST',
-        body: JSON.stringify({ email, otp: code }),
-        signal,
-      })
+    const { data, error } = await supabase.auth.verifyOtp({
+      email,
+      token: code,
+      type: 'email',
+    })
 
-      if (!res.ok) throw new Error('An error has occured')
-      const session = await res.json()
-      console.log(session)
+    // data session + user
 
-      //TODO Redirect to dashboard
-    } catch (e) {
-    } finally {
-      setLoading(false)
+    //TODO Redirect to dashboard
+
+    if (error) {
+      //TODO Handle error
+      console.log(error)
     }
+    setLoading(false)
   }
-
-  useEffect(() => {
-    return () => {
-      if (ctrl.current) ctrl.current.abort()
-    }
-  }, [])
 
   return (
     <div class="flex gap-2 relative">

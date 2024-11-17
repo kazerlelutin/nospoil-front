@@ -3,50 +3,36 @@ import { Loader } from '@/components/Loader'
 import { OtpInputs } from '@/components/OtpInputs'
 import { Logo } from '@/ui/Logo'
 import { i18n } from '@/utils/i18n'
-import { useEffect, useRef, useState } from 'preact/hooks'
+import { supabase } from '@/utils/supabase'
+import { useState } from 'preact/hooks'
 
 export function Login() {
   const [step, setStep] = useState(1)
   const [email, setEmail] = useState('')
   const [error, setError] = useState(false)
   const [loading, setLoading] = useState(false)
-  const ctrl = useRef(new AbortController())
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
-    if (ctrl.current) ctrl.current.abort()
-    ctrl.current = new AbortController()
-    const signal = ctrl.current.signal
+
     setLoading(true)
 
-    try {
-      const res = await fetch(import.meta.env.VITE_API_URL + 'auth/login', {
-        method: 'POST',
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        shouldCreateUser: true,
+      },
+    })
 
-        body: JSON.stringify({ email }),
-        signal,
-      })
+    if (error) setError(true)
+    else setStep(2)
 
-      if (!res.ok) throw new Error('An error has occured')
-      const data = await res.text()
-      console.log(data)
-      setStep(2)
-    } catch (e) {
-      setError(true)
-    } finally {
-      setLoading(false)
-    }
+    setLoading(false)
   }
 
   const resetEmail = () => {
     setEmail('')
   }
-
-  useEffect(() => {
-    return () => {
-      if (ctrl.current) ctrl.current.abort()
-    }
-  }, [])
 
   return (
     <div className="grid grid-cols-[1fr_2fr] text-light-text dark:text-dark-text dark:bg-dark-bg bg-light-bg h-lvh">
