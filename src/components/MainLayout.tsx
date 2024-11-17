@@ -5,18 +5,20 @@ import { JSX } from 'preact/jsx-runtime'
 
 type MainLayoutProps = {
   children: JSX.Element
-  url: string
 }
-export function MainLayout({ children, url }) {
+export function MainLayout({ children }: MainLayoutProps) {
   const { path } = useLocation()
-  const pathOrUrl = !path ? url : path
 
-  if (pathOrUrl === '/login') {
+  console.log('=====>', path)
+  if (path === '/login') {
     return children
   }
 
   return (
-    <div className="grid grid-rows-[auto_1fr] text-light-text dark:text-dark-text dark:bg-dark-bg bg-light-bg h-lvh">
+    <div
+      className="grid grid-rows-[auto_1fr] text-light-text dark:text-dark-text dark:bg-dark-bg bg-light-bg h-lvh"
+      data-test={true}
+    >
       <Header />
       <div className="text-light-text dark:text-dark-text dark:bg-dark-bg bg-light-bg h-full relative">
         <main className="relative h-full">
