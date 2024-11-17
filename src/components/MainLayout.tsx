@@ -1,11 +1,17 @@
 import { useLocation } from 'preact-iso'
 import { Header } from './Header'
 import { Menu } from './Menu'
+import { JSX } from 'preact/jsx-runtime'
 
-export function MainLayout({ children }) {
+type MainLayoutProps = {
+  children: JSX.Element
+  url: string
+}
+export function MainLayout({ children, url }) {
   const { path } = useLocation()
+  const pathOrUrl = !path ? url : path
 
-  if (path === '/login') {
+  if (pathOrUrl === '/login') {
     return children
   }
 

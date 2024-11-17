@@ -15,10 +15,22 @@ import 'virtual:uno.css'
 import './style.css'
 import { MainLayout } from './components/MainLayout.js'
 
-export function App() {
+type Data = {
+  ssr: boolean
+  url: string
+  route: {
+    url: string
+  }
+}
+
+type AppProps = {
+  data: Data
+}
+
+export function App({ data }: AppProps) {
   return (
     <LocationProvider>
-      <MainLayout>
+      <MainLayout url={data?.url}>
         <Router>
           {/* PUBLIC*/}
           <Route path="/login" component={Login} />
@@ -38,5 +50,6 @@ if (typeof window !== 'undefined') {
 }
 
 export async function prerender(data) {
+  console.log('data', data)
   return await ssr(<App {...data} />)
 }
