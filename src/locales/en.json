@@ -43,5 +43,10 @@
   "AErrorHasOccured": "An error has occurred",
   "back": "Back",
   "otpCodeEnter": "Enter the code received by email",
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "noOverview": "No overview...",
+  "buyMeACoffee": "Buy me a coffee",
+  "noResult": "No result",
+  "addToWatchlist": "Add to watchlist",
+  "moreInfo": "More info"
 }

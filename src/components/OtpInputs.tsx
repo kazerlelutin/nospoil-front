@@ -1,12 +1,14 @@
 import { useState } from 'preact/hooks'
 import { Loader } from './Loader'
 import { supabase } from '@/utils/supabase'
+import { useLocation } from 'preact-iso'
 
 type OtpInputsProps = {
   email: string
 }
 
 export function OtpInputs({ email }: OtpInputsProps) {
+  const { route } = useLocation()
   const [otp, setOtp] = useState(['', '', '', '', '', ''])
   const [loading, setLoading] = useState(false)
 
@@ -34,15 +36,14 @@ export function OtpInputs({ email }: OtpInputsProps) {
       type: 'email',
     })
 
-    // data session + user
-
     //TODO Redirect to dashboard
+    setLoading(false)
 
-    if (error) {
+    console.log(data)
+    if (error)
       //TODO Handle error
       console.log(error)
-    }
-    setLoading(false)
+    else route('/')
   }
 
   return (

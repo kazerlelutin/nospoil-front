@@ -14,6 +14,7 @@ import '@unocss/reset/normalize.css'
 import 'virtual:uno.css'
 import './style.css'
 import { MainLayout } from './components/MainLayout.js'
+import { AuthRoute } from './components/AuthRoute.js'
 
 export function App() {
   return (
@@ -21,11 +22,11 @@ export function App() {
       <MainLayout>
         <Router>
           <Route path="/login" component={Login} />
-          <Route path="/" component={Home} />
+          <AuthRoute path="/" component={Home} />
 
-          <Route path="/search" component={Search} />
+          <AuthRoute path="/search" component={Search} />
 
-          <Route default component={NotFound} />
+          <AuthRoute default component={NotFound} />
         </Router>
       </MainLayout>
     </LocationProvider>

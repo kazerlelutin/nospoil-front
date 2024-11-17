@@ -22,8 +22,8 @@ const tabs = [
 
 export function Search() {
   return (
-    <div class="w-full m-auto h-full grid grid-rows-[auto_1fr] gap-3">
-      <div class="border-b-solid pb-1 border-b-1 border-b-dark flex flex-col gap-6">
+    <div class="w-full m-auto h-full">
+      <div class="grid grid-rows-[auto_1fr] gap-6 h-full ">
         <PersistTabs tabs={tabs} />
       </div>
     </div>

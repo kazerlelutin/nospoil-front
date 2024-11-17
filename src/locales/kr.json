@@ -43,5 +43,10 @@
   "AErrorHasOccured": "오류가 발생했습니다",
   "back": "뒤로",
   "otpCodeEnter": "이메일로 받은 코드를 입력하세요",
-  "loading": "로딩 중..."
+  "loading": "로딩 중...",
+  "noOverview": "개요가 없습니다...",
+  "buyMeACoffee": "커피 사주세요",
+  "noResult": "결과가 없습니다",
+  "addToWatchlist": "시청 목록에 추가",
+  "moreInfo": "더 많은 정보"
 }

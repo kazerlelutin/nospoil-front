@@ -43,5 +43,10 @@
   "AErrorHasOccured": "Une erreur est survenue",
   "back": "Retour",
   "otpCodeEnter": "Entrez le code reçu par email",
-  "loading": "Chargement..."
+  "loading": "Chargement...",
+  "noOverview": "Pas de synopsis...",
+  "buyMeACoffee": "Offrez-moi un café",
+  "noResult": "Aucun résultat",
+  "addToWatchlist": "Ajouter à la watchlist",
+  "moreInfo": "Plus d'infos"
 }
