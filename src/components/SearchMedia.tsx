@@ -12,7 +12,7 @@ export function SearchMedia({ type }: SearchProps) {
   const initialRecentSearch =
     typeof window !== 'undefined'
       ? JSON.parse(localStorage.getItem(`recent_search_${type}`) || '[]')
-      : '[]'
+      : []
   const [recentSearch, setRecentSearch] =
     useState<string[]>(initialRecentSearch)
   const [data, setData] = useState([])
