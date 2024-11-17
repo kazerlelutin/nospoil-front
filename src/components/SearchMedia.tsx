@@ -9,9 +9,12 @@ type SearchProps = {
 export function SearchMedia({ type }: SearchProps) {
   const [search, setSearch] = useState('')
   const [focus, setFocus] = useState(false)
-  const [recentSearch, setRecentSearch] = useState<string[]>(
-    JSON.parse(localStorage.getItem(`recent_search_${type}`) || '[]')
-  )
+  const initialRecentSearch =
+    typeof window !== 'undefined'
+      ? JSON.parse(localStorage.getItem(`recent_search_${type}`) || '[]')
+      : '[]'
+  const [recentSearch, setRecentSearch] =
+    useState<string[]>(initialRecentSearch)
   const [data, setData] = useState([])
   const lsKey = `recent_search_${type}`
 

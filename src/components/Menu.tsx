@@ -4,9 +4,9 @@ import { Button } from './Button'
 const links = [
   { href: '/', label: 'home' },
   { href: '/search', label: 'search' },
-  { href: '/notif', label: 'notification' },
-  { href: '/params', label: 'params' },
-  { href: '/profil', label: 'profil' },
+  { href: '/notif', label: 'notifications' },
+  { href: '/settings', label: 'settings' },
+  { href: '/profil', label: 'profile' },
 ]
 
 export function Menu() {
