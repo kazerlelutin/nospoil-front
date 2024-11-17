@@ -6,7 +6,7 @@ const links = [
   { href: '/search', label: 'search' },
   { href: '/notif', label: 'notifications' },
   { href: '/settings', label: 'settings' },
-  { href: '/profil', label: 'profile' },
+  { href: '/profile', label: 'profile' },
 ]
 
 export function Menu() {

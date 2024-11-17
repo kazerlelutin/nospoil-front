@@ -13,7 +13,7 @@ export default defineConfig({
       prerender: {
         enabled: true,
         renderTarget: '#app',
-        additionalPrerenderRoutes: ['/404'],
+        additionalPrerenderRoutes: ['/404', '/login'],
         previewMiddlewareEnabled: true,
         previewMiddlewareFallback: '/404',
       },

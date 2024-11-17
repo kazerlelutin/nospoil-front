@@ -20,8 +20,8 @@ export function App() {
     <LocationProvider>
       <MainLayout>
         <Router>
-          <Route path="/" component={Home} />
           <Route path="/login" component={Login} />
+          <Route path="/" component={Home} />
 
           <Route path="/search" component={Search} />
 

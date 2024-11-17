@@ -9,16 +9,12 @@ type MainLayoutProps = {
 export function MainLayout({ children }: MainLayoutProps) {
   const { path } = useLocation()
 
-  console.log('=====>', path)
-  if (path === '/login') {
+  if (path.startsWith('/login')) {
     return children
   }
 
   return (
-    <div
-      className="grid grid-rows-[auto_1fr] text-light-text dark:text-dark-text dark:bg-dark-bg bg-light-bg h-lvh"
-      data-test={true}
-    >
+    <div className="grid grid-rows-[auto_1fr] text-light-text dark:text-dark-text dark:bg-dark-bg bg-light-bg h-lvh">
       <Header />
       <div className="text-light-text dark:text-dark-text dark:bg-dark-bg bg-light-bg h-full relative">
         <main className="relative h-full">
