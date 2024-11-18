@@ -15,6 +15,7 @@ import 'virtual:uno.css'
 import './style.css'
 import { MainLayout } from './components/MainLayout.js'
 import { AuthRoute } from './components/AuthRoute.js'
+import { Media } from './pages/Media/index.js'
 
 export function App() {
   return (
@@ -23,6 +24,7 @@ export function App() {
         <Router>
           <Route path="/login" component={Login} />
           <AuthRoute path="/" component={Home} />
+          <AuthRoute path="/media/:type/:id" component={Media} />
 
           <AuthRoute path="/search" component={Search} />
 

@@ -50,5 +50,7 @@
   "addToWatchlist": "시청 목록에 추가",
   "moreInfo": "더 많은 정보",
   "removeToWatchlist": "시청 목록에서 제거",
-  "areYouSureRemoveToWatchlist": "이 영화를 시청 목록에서 제거하시겠습니까?"
+  "areYouSureRemoveToWatchlist": "이 영화를 시청 목록에서 제거하시겠습니까?",
+  "details": "세부사항",
+  "reviews": "리뷰"
 }

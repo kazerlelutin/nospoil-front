@@ -50,5 +50,7 @@
   "addToWatchlist": "Add to watchlist",
   "moreInfo": "More info",
   "removeToWatchlist": "Remove to watchlist",
-  "areYouSureRemoveToWatchlist": "Are you sure you want to remove this movie from your watchlist?"
+  "areYouSureRemoveToWatchlist": "Are you sure you want to remove this movie from your watchlist?",
+  "details": "Details",
+  "reviews": "Reviews"
 }
