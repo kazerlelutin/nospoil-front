@@ -49,5 +49,6 @@
   "noResult": "Aucun résultat",
   "addToWatchlist": "Ajouter à la watchlist",
   "moreInfo": "Plus d'infos",
-  "removeToWatchlist": "Retirer de la watchlist"
+  "removeToWatchlist": "Retirer de la watchlist",
+  "areYouSureRemoveToWatchlist": "Êtes-vous sûr de vouloir retirer ce film de votre watchlist?"
 }

@@ -49,5 +49,6 @@
   "noResult": "No result",
   "addToWatchlist": "Add to watchlist",
   "moreInfo": "More info",
-  "removeToWatchlist": "Remove to watchlist"
+  "removeToWatchlist": "Remove to watchlist",
+  "areYouSureRemoveToWatchlist": "Are you sure you want to remove this movie from your watchlist?"
 }

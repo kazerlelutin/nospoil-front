@@ -81,7 +81,6 @@ export function SearchMedia({ type }: SearchProps) {
     } finally {
       setLoading(false)
     }
-    // fetch data
   }
 
   useEffect(() => {
@@ -94,25 +93,32 @@ export function SearchMedia({ type }: SearchProps) {
     handleSearch(debouncedSearch)
   }, [type])
 
+  /*
   useEffect(() => {
-    // Crée un abonnement à la table "watchlist"
-
     const channels = supabase
       .channel('watchlist')
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'watchlist' },
-        (payload) => {
-          console.log('Change received!', payload)
+        async () => {
+          const { data: wl } = await supabase
+            .from('watchlist')
+            .select('tmdb_id')
+            .eq('user_id', session.user.id)
+            .in(
+              'tmdb_id',
+              data.map((r: any) => r.id)
+            )
+          setWatchList(wl.map((w: any) => w.tmdb_id))
         }
       )
       .subscribe()
 
-    // Nettoyage de l'abonnement lors du démontage du composant
     return () => {
       supabase.removeChannel(channels)
     }
   }, [])
+  */
 
   return (
     <div class="h-full grid grid-rows-[auto_1fr] gap-2 pb-4">
@@ -184,7 +190,7 @@ export function SearchMedia({ type }: SearchProps) {
               {Array.from({
                 length: 12,
               }).map((_, index) => (
-                <MediaCard key={index} />
+                <MediaCard key={`${index}`} type={type} />
               ))}
             </div>
           )}

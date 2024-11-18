@@ -2,6 +2,8 @@ import { i18n } from '@/utils/i18n'
 import { Button } from './Button'
 import { supabase } from '@/utils/supabase'
 import { useSession } from '@/providers/session'
+import { useState } from 'preact/hooks'
+import { Modal } from './Modal'
 
 type MediaCardProps = {
   id?: number
@@ -21,26 +23,35 @@ export function MediaCard({
   isAdd,
   type,
 }: MediaCardProps) {
+  const [isInWatchlist, setIsInWatchlist] = useState(isAdd)
   const session = useSession()
 
   const handleAddToWatchlist = async () => {
-    if (isAdd) {
-    } else {
-      const { data, error } = await supabase.from('watchlist').insert([
-        {
-          user_id: session.user.id, // Associe l'élément à l'utilisateur actuel
-          tmdb_id: id,
-          title: title || name,
-          type,
-          poster_path,
-          //TODO  params in profil, for now is_public is false
-          is_public: false,
-        },
-      ])
-      console.log('Add to watchlist', data)
-    }
+    const oldstate = isInWatchlist
+    setIsInWatchlist(true)
+    const { error } = await supabase.from('watchlist').insert([
+      {
+        user_id: session.user.id,
+        tmdb_id: id,
+        title: title || name,
+        type,
+        poster_path,
+        //TODO  params in profil, for now is_public is false
+        is_public: false,
+      },
+    ])
+    if (error) setIsInWatchlist(oldstate)
+  }
 
-    console.log('Add to watchlist')
+  const handleRemoveToWatchlist = async () => {
+    const oldstate = isInWatchlist
+    setIsInWatchlist(false)
+    const { error } = await supabase
+      .from('watchlist')
+      .delete()
+      .eq('user_id', session.user.id)
+      .eq('tmdb_id', id)
+    if (error) setIsInWatchlist(oldstate)
   }
 
   return (
@@ -80,9 +91,45 @@ export function MediaCard({
       </div>
       <div class="flex justify-end gap-6 items-center">
         <a href={`/media/${id}`}>{i18n.t('moreInfo')}</a>
-        <Button onClick={handleAddToWatchlist}>
-          {i18n.t(isAdd ? 'removeToWatchlist' : 'addToWatchlist')}
-        </Button>
+        {isInWatchlist ? (
+          <Modal
+            button={(open) => (
+              <Button
+                onClick={() => {
+                  open()
+                  handleAddToWatchlist()
+                }}
+              >
+                <span>
+                  {'-'} {i18n.t('removeToWatchlist')}
+                </span>
+              </Button>
+            )}
+          >
+            {(close) => (
+              <div class="flex flex-col gap-5">
+                <div class="flex flex-col justify-center gap-1">
+                  <div class="font-bold">{title || name}</div>
+                  {i18n.t('areYouSureRemoveToWatchlist')}
+                </div>
+                <div class="flex justify-between gap-4">
+                  <Button onClick={() => close(handleRemoveToWatchlist)}>
+                    <span>{i18n.t('removeToWatchlist')}</span>
+                  </Button>
+                  <Button onClick={() => close()} type="reset">
+                    {i18n.t('cancel')}
+                  </Button>
+                </div>
+              </div>
+            )}
+          </Modal>
+        ) : (
+          <Button onClick={handleAddToWatchlist}>
+            <span>
+              {'+'} {i18n.t('addToWatchlist')}
+            </span>
+          </Button>
+        )}
       </div>
     </article>
   )
