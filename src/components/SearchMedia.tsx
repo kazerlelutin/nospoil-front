@@ -2,6 +2,8 @@ import { useDebounce } from '@/hooks/useDebounce'
 import { i18n } from '@/utils/i18n'
 import { useEffect, useState } from 'preact/hooks'
 import { MediaCard } from './MediaCard'
+import { supabase } from '@/utils/supabase'
+import { useSession } from '@/providers/session'
 
 type SearchProps = {
   type: 'movie' | 'tv'
@@ -14,6 +16,8 @@ export function SearchMedia({ type }: SearchProps) {
   const [error, setError] = useState('')
   const [data, setData] = useState([])
   const [noResult, setNoResult] = useState(false)
+  const [watchtList, setWatchList] = useState([])
+  const session = useSession()
 
   const initialRecentSearch =
     typeof window !== 'undefined'
@@ -42,8 +46,13 @@ export function SearchMedia({ type }: SearchProps) {
     setRecentSearch(newRecentSearch)
   }
 
+  const handleCancel = () => {
+    setSearch('')
+    setData([])
+    setNoResult(false)
+  }
+
   const handleSearch = async (search: string) => {
-    console.log('search', search)
     setNoResult(false)
     if (!search) return
     setLoading(true)
@@ -54,6 +63,17 @@ export function SearchMedia({ type }: SearchProps) {
         }tv/search/${type}?query=${search}&language=${i18n.language}&limit=100`
       )
       const { results, page, total_pages } = await res.json()
+      const { data: wl } = await supabase
+        .from('watchlist')
+        .select('tmdb_id')
+        .eq('user_id', session.user.id)
+        .in(
+          'tmdb_id',
+          results.map((r: any) => r.id)
+        )
+
+      setWatchList(wl.map((w: any) => w.tmdb_id))
+
       setData(results)
       if (!results.length) setNoResult(true)
     } catch (error) {
@@ -74,8 +94,28 @@ export function SearchMedia({ type }: SearchProps) {
     handleSearch(debouncedSearch)
   }, [type])
 
+  useEffect(() => {
+    // Crée un abonnement à la table "watchlist"
+
+    const channels = supabase
+      .channel('watchlist')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'watchlist' },
+        (payload) => {
+          console.log('Change received!', payload)
+        }
+      )
+      .subscribe()
+
+    // Nettoyage de l'abonnement lors du démontage du composant
+    return () => {
+      supabase.removeChannel(channels)
+    }
+  }, [])
+
   return (
-    <div class="h-full grid grid-rows-[auto_1fr] gap-2">
+    <div class="h-full grid grid-rows-[auto_1fr] gap-2 pb-4">
       <div class="flex gap-3 items-center">
         <input
           type="text"
@@ -89,11 +129,7 @@ export function SearchMedia({ type }: SearchProps) {
         {(focus || search) && (
           <button
             class="bg-transparent rounded-none border-none p-0 cursor-pointer"
-            onClick={() => {
-              setSearch('')
-              setFocus(false)
-              setData([])
-            }}
+            onClick={handleCancel}
           >
             {i18n.t('cancel')}
           </button>
@@ -129,7 +165,12 @@ export function SearchMedia({ type }: SearchProps) {
           {data.length > 0 && !loading && (
             <div class="flex flex-col gap-3">
               {data.map((item: any) => (
-                <MediaCard key={item.id} {...item} />
+                <MediaCard
+                  key={item.id}
+                  {...item}
+                  type={type}
+                  isAdd={watchtList.includes(item.id)}
+                />
               ))}
             </div>
           )}

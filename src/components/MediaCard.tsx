@@ -1,5 +1,7 @@
 import { i18n } from '@/utils/i18n'
 import { Button } from './Button'
+import { supabase } from '@/utils/supabase'
+import { useSession } from '@/providers/session'
 
 type MediaCardProps = {
   id?: number
@@ -7,6 +9,8 @@ type MediaCardProps = {
   name?: string
   poster_path?: string
   overview?: string
+  isAdd?: boolean
+  type: 'movie' | 'tv'
 }
 export function MediaCard({
   id,
@@ -14,7 +18,31 @@ export function MediaCard({
   name,
   poster_path,
   overview,
+  isAdd,
+  type,
 }: MediaCardProps) {
+  const session = useSession()
+
+  const handleAddToWatchlist = async () => {
+    if (isAdd) {
+    } else {
+      const { data, error } = await supabase.from('watchlist').insert([
+        {
+          user_id: session.user.id, // Associe l'élément à l'utilisateur actuel
+          tmdb_id: id,
+          title: title || name,
+          type,
+          poster_path,
+          //TODO  params in profil, for now is_public is false
+          is_public: false,
+        },
+      ])
+      console.log('Add to watchlist', data)
+    }
+
+    console.log('Add to watchlist')
+  }
+
   return (
     <article class="flex flex-col gap-3 rounded-md border-solid border-1 border-white/10 p-2">
       <div class="flex gap-3">
@@ -52,8 +80,8 @@ export function MediaCard({
       </div>
       <div class="flex justify-end gap-6 items-center">
         <a href={`/media/${id}`}>{i18n.t('moreInfo')}</a>
-        <Button onClick={() => console.log('d')}>
-          {i18n.t('addToWatchlist')}
+        <Button onClick={handleAddToWatchlist}>
+          {i18n.t(isAdd ? 'removeToWatchlist' : 'addToWatchlist')}
         </Button>
       </div>
     </article>
