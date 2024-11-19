@@ -92,7 +92,7 @@ export function WatchListTvCard({ item, removeCb }: WatchListTvCardProps) {
   }, [interObs])
 
   return (
-    <article class="w-full flex flex-col gap-3 rounded-md border-solid border-1 border-white/10 p-2">
+    <article class="w-full flex flex-col gap-6 rounded-md border-solid border-1 border-white/10 p-2">
       <div class="flex gap-3">
         <div class="w-16 flex items-center justify-center ">
           {item.poster_path ? (
@@ -117,17 +117,75 @@ export function WatchListTvCard({ item, removeCb }: WatchListTvCardProps) {
           <p
             data-placeholder={!item.id}
             class="data-[placeholder=true]:bg-white/10 data-[placeholder=true]:rounded-sm data-[placeholder=true]:h-20"
-          >
-            {item.overview ? (
-              item.overview
-            ) : (
-              <span class="italic">{item.id && i18n.t('noOverview')}</span>
-            )}
-          </p>
+          ></p>
+
+          <div class="flex flex-col gap-4">
+            <div class="flex gap-2 items-center">
+              <label for={`season-${item.id}`}>{i18n.t('season')}</label>
+
+              <select
+                name={`season-${item.id}`}
+                id={`season-${item.id}`}
+                value={currentSeason}
+                onChange={(e) => {
+                  const newSeason = Number(
+                    (e.target as HTMLSelectElement).value
+                  )
+                  setCurrentSeason(newSeason)
+                  if (newSeason < currentSeason)
+                    setCurrentEpisode(
+                      seasons.find((s) => s.season === newSeason)
+                        ?.episode_count || 1
+                    )
+                  if (newSeason > currentSeason) setCurrentEpisode(1)
+                }}
+                class="p-2 bg-transparent border-none border-b-solid border-b-white/10 rounded-none flex-1 text-md cursor-pointer"
+              >
+                {seasons.map((s) => (
+                  <option
+                    value={s.season}
+                    selected={s.season === currentSeason}
+                    class="bg-dark-bg text-md"
+                  >
+                    {s.season === 0 ? i18n.t('specials') : s.season}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div class="flex flex-wrap gap-3">
+              {Array.from(
+                {
+                  length:
+                    seasons.find((s) => s.season === currentSeason)
+                      ?.episode_count || 0,
+                },
+                (_, i) => i + 1
+              ).map((episode) => (
+                <button
+                  data-current={episode === currentEpisode}
+                  data-is-before={episode < currentEpisode}
+                  class="cursor-pointer p-2 w-8 h-8 flex items-center justify-center bg-transparent border-solid border-white/10 rounded-md data-[current=true]:border-green-600 data-[current=true]:text-green-600 data-[is-before=true]:opacity-50"
+                  onClick={() => handleEpisodeChange(episode)}
+                >
+                  {episode}
+                </button>
+              ))}
+            </div>
+            <div class="italic text-sm text-right">
+              {i18n.t(
+                episodeRemaining === 0
+                  ? 'episodeRemaining_0'
+                  : 'episodeRemaining',
+                {
+                  count: episodeRemaining,
+                }
+              )}
+            </div>
+          </div>
         </div>
       </div>
-      <div class="flex justify-end gap-6 items-center">
-        <a href={link}>{i18n.t('moreInfo')}</a>
+
+      <div class="flex  gap-6 items-center justify-between border-t-solid border-t-1 border-t-white/10 pt-4">
         <ToggleInWatchList
           removeCb={removeCb}
           id={item.tmdb_id}
@@ -136,65 +194,9 @@ export function WatchListTvCard({ item, removeCb }: WatchListTvCardProps) {
           poster_path={item.poster_path}
           isAdd={true}
         />
-      </div>
-      <div class="flex flex-col gap-4">
-        <div class="flex gap-2 items-center">
-          <label for={`season-${item.id}`}>{i18n.t('season')}</label>
-
-          <select
-            name={`season-${item.id}`}
-            id={`season-${item.id}`}
-            value={currentSeason}
-            onChange={(e) => {
-              const newSeason = Number((e.target as HTMLSelectElement).value)
-              setCurrentSeason(newSeason)
-              if (newSeason < currentSeason)
-                setCurrentEpisode(
-                  seasons.find((s) => s.season === newSeason)?.episode_count ||
-                    1
-                )
-              if (newSeason > currentSeason) setCurrentEpisode(1)
-            }}
-            class="p-2 bg-transparent border-none border-b-solid border-b-white/10 rounded-none flex-1 text-md cursor-pointer"
-          >
-            {seasons.map((s) => (
-              <option
-                value={s.season}
-                selected={s.season === currentSeason}
-                class="bg-dark-bg text-md"
-              >
-                {s.season === 0 ? i18n.t('specials') : s.season}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div class="flex flex-wrap gap-3">
-          {Array.from(
-            {
-              length:
-                seasons.find((s) => s.season === currentSeason)
-                  ?.episode_count || 0,
-            },
-            (_, i) => i + 1
-          ).map((episode) => (
-            <button
-              data-current={episode === currentEpisode}
-              data-is-before={episode < currentEpisode}
-              class="cursor-pointer p-2 w-8 h-8 flex items-center justify-center bg-transparent border-solid border-white/10 rounded-md data-[current=true]:border-green-600 data-[current=true]:text-green-600 data-[is-before=true]:opacity-50"
-              onClick={() => handleEpisodeChange(episode)}
-            >
-              {episode}
-            </button>
-          ))}
-        </div>
-        <div class="italic text-sm text-right">
-          {i18n.t(
-            episodeRemaining === 0 ? 'episodeRemaining_0' : 'episodeRemaining',
-            {
-              count: episodeRemaining,
-            }
-          )}
-        </div>
+        <a href={link} class="self-end">
+          {i18n.t('moreInfo')}
+        </a>
       </div>
     </article>
   )

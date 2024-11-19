@@ -41,7 +41,7 @@ export function WatchListMovieCard({ item, removeCb }: WatchListTvCardProps) {
   }
 
   return (
-    <article class="w-full flex flex-col gap-3 rounded-md border-solid border-1 border-white/10 p-2">
+    <article class="w-full flex flex-col gap-6 rounded-md border-solid border-1 border-white/10 p-2">
       <div class="flex gap-3">
         <div class="w-16 flex items-center justify-center ">
           {item.poster_path ? (
@@ -54,8 +54,7 @@ export function WatchListMovieCard({ item, removeCb }: WatchListTvCardProps) {
             <div class="w-16 h-24 bg-white/10 rounded-sm"></div>
           )}
         </div>
-
-        <div class="flex-1">
+        <div class="flex flex-col gap-6">
           <a
             href={link}
             data-placeholder={!item.id}
@@ -63,20 +62,26 @@ export function WatchListMovieCard({ item, removeCb }: WatchListTvCardProps) {
           >
             {item.title}
           </a>
-          <p
-            data-placeholder={!item.id}
-            class="data-[placeholder=true]:bg-white/10 data-[placeholder=true]:rounded-sm data-[placeholder=true]:h-20"
-          >
-            {item.overview ? (
-              item.overview
-            ) : (
-              <span class="italic">{item.id && i18n.t('noOverview')}</span>
-            )}
-          </p>
+
+          <div class="flex flex-wrap gap-3">
+            {[
+              MEDIA_STATUS.PLANNED,
+              MEDIA_STATUS.NOT_INTERESTED,
+              MEDIA_STATUS.COMPLETED,
+            ].map((status) => (
+              <button
+                data-current={status === currentStatus}
+                class="cursor-pointer p-2  h-8 flex items-center justify-center bg-transparent border-solid border-white/10 rounded-md data-[current=true]:border-green-600 data-[current=true]:text-green-600"
+                onClick={() => handleChangeStatus(status)}
+              >
+                {i18n.t(status)}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
-      <div class="flex justify-end gap-6 items-center">
-        <a href={link}>{i18n.t('moreInfo')}</a>
+
+      <div class="flex  gap-6 items-center justify-between border-t-solid border-t-1 border-t-white/10 pt-4">
         <ToggleInWatchList
           removeCb={removeCb}
           id={item.tmdb_id}
@@ -85,22 +90,9 @@ export function WatchListMovieCard({ item, removeCb }: WatchListTvCardProps) {
           poster_path={item.poster_path}
           isAdd={true}
         />
-      </div>
-
-      <div class="flex flex-wrap gap-3">
-        {[
-          MEDIA_STATUS.PLANNED,
-          MEDIA_STATUS.NOT_INTERESTED,
-          MEDIA_STATUS.COMPLETED,
-        ].map((status) => (
-          <button
-            data-current={status === currentStatus}
-            class="cursor-pointer p-2  h-8 flex items-center justify-center bg-transparent border-solid border-white/10 rounded-md data-[current=true]:border-green-600 data-[current=true]:text-green-600"
-            onClick={() => handleChangeStatus(status)}
-          >
-            {i18n.t(status)}
-          </button>
-        ))}
+        <a href={link} class="self-end">
+          {i18n.t('moreInfo')}
+        </a>
       </div>
     </article>
   )
