@@ -59,5 +59,12 @@
   "season": "Saison",
   "episode": "Épisode",
   "episodeRemaining": "{{count}} Épisode restant",
-  "episodeRemaining_other": "{{count}} Épisodes restants"
+  "episodeRemaining_other": "{{count}} Épisodes restants",
+  "episodeRemaining_0": "Aucun épisode restant",
+  "planned": "Prévu",
+  "watching": "En cours",
+  "completed": "Terminé",
+  "on_hold": "En pause",
+  "dropped": "Abandonné",
+  "not_interested": "Pas intéressé"
 }

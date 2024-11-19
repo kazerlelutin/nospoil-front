@@ -11,14 +11,15 @@ type ToggleInWatchListProps = {
   poster_path?: string
   isAdd: boolean
   type: 'movie' | 'tv'
+  removeCb?: () => void
 }
 export function ToggleInWatchList({
   id,
   title,
-
   poster_path,
   isAdd,
   type,
+  removeCb,
 }: ToggleInWatchListProps) {
   const [isInWatchlist, setIsInWatchlist] = useState(isAdd)
   const session = useSession()
@@ -48,6 +49,7 @@ export function ToggleInWatchList({
       .delete()
       .eq('user_id', session.user.id)
       .eq('tmdb_id', id)
+    removeCb?.()
     if (error) setIsInWatchlist(oldstate)
   }
 

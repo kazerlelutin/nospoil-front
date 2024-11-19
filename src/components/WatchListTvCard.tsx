@@ -16,13 +16,14 @@ type WatchListTvCardProps = {
     tmdb_id: number
     overview: string
   }
+  removeCb: () => void
 }
 
-export function WatchListTvCard({ item }: WatchListTvCardProps) {
+export function WatchListTvCard({ item, removeCb }: WatchListTvCardProps) {
   const session = useSession()
-  const [currentSeason, setCurrentSeason] = useState(item.current_season || 1)
+  const [currentSeason, setCurrentSeason] = useState(item.current_season || 0)
   const [currentEpisode, setCurrentEpisode] = useState(
-    item.current_episode || 1
+    item.current_episode || 0
   )
 
   const interObs = useInterObs()
@@ -128,8 +129,9 @@ export function WatchListTvCard({ item }: WatchListTvCardProps) {
       <div class="flex justify-end gap-6 items-center">
         <a href={link}>{i18n.t('moreInfo')}</a>
         <ToggleInWatchList
-          id={item.id}
-          title={item.name}
+          removeCb={removeCb}
+          id={item.tmdb_id}
+          title={item.title}
           type="tv"
           poster_path={item.poster_path}
           isAdd={true}
@@ -186,9 +188,12 @@ export function WatchListTvCard({ item }: WatchListTvCardProps) {
           ))}
         </div>
         <div class="italic text-sm text-right">
-          {i18n.t('episodeRemaining', {
-            count: episodeRemaining,
-          })}
+          {i18n.t(
+            episodeRemaining === 0 ? 'episodeRemaining_0' : 'episodeRemaining',
+            {
+              count: episodeRemaining,
+            }
+          )}
         </div>
       </div>
     </article>

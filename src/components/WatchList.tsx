@@ -4,6 +4,7 @@ import { useEffect, useState } from 'preact/hooks'
 import { Loader } from './Loader'
 import { WatchListTvCard } from './WatchListTvCard'
 import { InterObsProvider } from '@/providers/interObs'
+import { WatchListMovieCard } from './WatchListMovieCard'
 
 type WatchListProps = {
   type: 'movie' | 'tv'
@@ -52,23 +53,23 @@ export function WatchList({ type }: WatchListProps) {
         if (item.type === 'tv')
           return (
             <InterObsProvider>
-              <WatchListTvCard item={item} key={item.id} />
+              <WatchListTvCard
+                item={item}
+                key={item.id}
+                removeCb={fetchWatchList}
+              />
             </InterObsProvider>
           )
 
-        return (
-          <div class="flex gap-3">
-            <img
-              class="w-10 h-auto"
-              src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
-              alt={item.title}
+        if (item.type === 'movie')
+          return (
+            <WatchListMovieCard
+              item={item}
+              key={item.id}
+              removeCb={fetchWatchList}
             />
-            <div class="flex flex-col gap-1">
-              <span class="text-sm">{item.title}</span>
-              <span class="text-xs">{item.release_date}</span>
-            </div>
-          </div>
-        )
+          )
+        return null
       })}
     </div>
   )

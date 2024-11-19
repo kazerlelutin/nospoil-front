@@ -59,5 +59,12 @@
   "season": "시즌",
   "episode": "에피소드",
   "episodeRemaining": "{{count}} 남은 에피소드",
-  "episodeRemaining_other": "{{count}} 남은 에피소드"
+  "episodeRemaining_other": "{{count}} 남은 에피소드",
+  "episodeRemaining_0": "남은 에피소드 없음",
+  "planned": "계획",
+  "watching": "시청 중",
+  "completed": "완료",
+  "on_hold": "보류 중",
+  "dropped": "포기함",
+  "not_interested": "관심 없음"
 }
