@@ -8,7 +8,7 @@ import { useSession } from '@/providers/session'
 type WatchListTvCardProps = {
   item: {
     poster_path: string
-    name: string
+    title: string
     release_date: string
     current_season: number
     current_episode: number
@@ -97,7 +97,7 @@ export function WatchListTvCard({ item }: WatchListTvCardProps) {
           {item.poster_path ? (
             <img
               src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
-              alt={item.name}
+              alt={item.title}
               class="w-full h-auto"
             />
           ) : (
@@ -111,7 +111,7 @@ export function WatchListTvCard({ item }: WatchListTvCardProps) {
             data-placeholder={!item.id}
             class="data-[placeholder=true]:bg-white/10 data-[placeholder=true]:rounded-sm data-[placeholder=true]:h-6 no-underline text-xl font-bold"
           >
-            {item.name}
+            {item.title}
           </a>
           <p
             data-placeholder={!item.id}
