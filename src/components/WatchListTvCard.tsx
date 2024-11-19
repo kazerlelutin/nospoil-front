@@ -183,7 +183,7 @@ export function WatchListTvCard({ item, removeCb }: WatchListTvCardProps) {
               class="cursor-pointer p-2 w-8 h-8 flex items-center justify-center bg-transparent border-solid border-white/10 rounded-md data-[current=true]:border-green-600 data-[current=true]:text-green-600 data-[is-before=true]:opacity-50"
               onClick={() => handleEpisodeChange(episode)}
             >
-              {episode + 10}
+              {episode}
             </button>
           ))}
         </div>
