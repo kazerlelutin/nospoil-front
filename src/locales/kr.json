@@ -52,5 +52,12 @@
   "removeToWatchlist": "시청 목록에서 제거",
   "areYouSureRemoveToWatchlist": "이 영화를 시청 목록에서 제거하시겠습니까?",
   "details": "세부사항",
-  "reviews": "리뷰"
+  "reviews": "리뷰",
+  "myMovies": "내 영화",
+  "mySeries": "내 시리즈",
+  "specials": "특별한 것들",
+  "season": "시즌",
+  "episode": "에피소드",
+  "episodeRemaining": "{{count}} 남은 에피소드",
+  "episodeRemaining_other": "{{count}} 남은 에피소드"
 }

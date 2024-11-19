@@ -14,14 +14,14 @@ const tabs = [
     content: <Flux />,
   },
   {
-    id: 'watch-list',
-    title: i18n.t('myWatchlist'),
-    content: <WatchList />,
+    id: 'watch-list-movie',
+    title: i18n.t('myMovies'),
+    content: <WatchList type="movie" />,
   },
   {
-    id: 'spoil-zone',
-    title: i18n.t('spoilZone'),
-    content: <SpoilZone />,
+    id: 'watch-list-serie',
+    title: i18n.t('mySeries'),
+    content: <WatchList type="tv" />,
   },
 ]
 
@@ -53,8 +53,8 @@ export function Home() {
   }
 
   return (
-    <div class="w-full m-auto h-full grid grid-rows-[auto_1fr] gap-3">
-      <div class="border-b-solid pb-1 border-b-1 border-b-dark flex flex-col gap-6">
+    <div class="w-full m-auto h-full">
+      <div class="grid grid-rows-[auto_1fr] gap-6 h-full">
         <PersistTabs tabs={tabs} />
       </div>
     </div>

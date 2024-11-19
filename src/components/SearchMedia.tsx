@@ -62,7 +62,7 @@ export function SearchMedia({ type }: SearchProps) {
           import.meta.env.VITE_API_URL
         }tv/search/${type}?query=${search}&language=${i18n.language}&limit=100`
       )
-      const { results, page, total_pages } = await res.json()
+      const { results } = await res.json()
       const { data: wl } = await supabase
         .from('watchlist')
         .select('tmdb_id')

@@ -52,5 +52,12 @@
   "removeToWatchlist": "Remove to watchlist",
   "areYouSureRemoveToWatchlist": "Are you sure you want to remove this movie from your watchlist?",
   "details": "Details",
-  "reviews": "Reviews"
+  "reviews": "Reviews",
+  "myMovies": "My movies",
+  "mySeries": "My series",
+  "specials": "Specials",
+  "season": "Season",
+  "episode": "Episode",
+  "episodeRemaining": "{{count}} Episode remaining",
+  "episodeRemaining_other": "{{count}} Episodes remaining"
 }

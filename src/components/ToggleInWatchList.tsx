@@ -7,8 +7,7 @@ import { useSession } from '@/providers/session'
 
 type ToggleInWatchListProps = {
   id: number
-  title?: string
-  name?: string
+  title: string
   poster_path?: string
   isAdd: boolean
   type: 'movie' | 'tv'
@@ -16,7 +15,7 @@ type ToggleInWatchListProps = {
 export function ToggleInWatchList({
   id,
   title,
-  name,
+
   poster_path,
   isAdd,
   type,
@@ -31,7 +30,7 @@ export function ToggleInWatchList({
       {
         user_id: session.user.id,
         tmdb_id: id,
-        title: title || name,
+        title: title,
         type,
         poster_path,
         //TODO  params in profil, for now is_public is false
@@ -79,7 +78,7 @@ export function ToggleInWatchList({
       {(close) => (
         <div class="flex flex-col gap-5">
           <div class="flex flex-col justify-center gap-1">
-            <div class="font-bold">{title || name}</div>
+            <div class="font-bold">{title}</div>
             {i18n.t('areYouSureRemoveToWatchlist')}
           </div>
           <div class="flex justify-between gap-4">

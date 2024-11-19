@@ -14,7 +14,7 @@ export function Spoiler({ children }: SpoilerProps) {
 
   return (
     <div class="relative cursor-pointer" data-show={true} onClick={toggleShow}>
-      {show && (
+      {!show && (
         <div class="absolute inset-0 backdrop-blur-sm backdrop-filter"></div>
       )}
       {children}

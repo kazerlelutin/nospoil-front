@@ -6,7 +6,7 @@ import { supabase } from '@/utils/supabase'
 import { useSession } from '@/providers/session'
 
 type MovieDetailsProps = {
-  id: string
+  id: number
 }
 
 type Movie = {
@@ -36,6 +36,16 @@ export function MovieDetails({ id }: MovieDetailsProps) {
 
   const fetchMovie = async () => {
     setLoading(true)
+
+    const { data: wl } = await supabase
+      .from('watchlist')
+      .select('tmdb_id')
+      .eq('user_id', session.user.id)
+      .eq('tmdb_id', id)
+      .maybeSingle()
+
+    setIsInWatchlist(!!wl)
+
     try {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}tv/movie/${id}?language=${
@@ -43,15 +53,6 @@ export function MovieDetails({ id }: MovieDetailsProps) {
         }`
       )
       const data = await res.json()
-
-      const { data: wl } = await supabase
-        .from('watchlist')
-        .select('tmdb_id')
-        .eq('user_id', session.user.id)
-        .eq('tmdb_id', data.id as number)
-        .single()
-
-      setIsInWatchlist(!!wl)
       setMovie(data)
     } catch (error) {
       setError(error.message)

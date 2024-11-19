@@ -35,10 +35,10 @@ export function Login() {
   }
 
   return (
-    <div className="grid grid-cols-[1fr_2fr] text-light-text dark:text-dark-text dark:bg-dark-bg bg-light-bg h-lvh">
+    <div class="grid grid-cols-[1fr_2fr] text-light-text dark:text-dark-text dark:bg-dark-bg bg-light-bg h-lvh">
       <div class="flex  flex-col items-end justify-center gap-2 p-4 border-r-1 border-r-solid border-r-white/10">
         <Logo />
-        <h1 className="text-xl font-bold">{i18n.t('logOtp')}</h1>
+        <h1 class="text-xl font-bold">{i18n.t('logOtp')}</h1>
       </div>
       <div class="w-sm m-auto">
         {step === 2 && (

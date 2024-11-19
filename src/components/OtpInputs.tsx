@@ -30,7 +30,7 @@ export function OtpInputs({ email }: OtpInputsProps) {
   const submitOtp = async (code: string) => {
     setLoading(true)
 
-    const { data, error } = await supabase.auth.verifyOtp({
+    const { error } = await supabase.auth.verifyOtp({
       email,
       token: code,
       type: 'email',
@@ -39,7 +39,6 @@ export function OtpInputs({ email }: OtpInputsProps) {
     //TODO Redirect to dashboard
     setLoading(false)
 
-    console.log(data)
     if (error)
       //TODO Handle error
       console.log(error)
