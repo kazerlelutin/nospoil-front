@@ -139,18 +139,22 @@ export function WatchListTvCard({ item, removeCb }: WatchListTvCardProps) {
                     )
                   if (newSeason > currentSeason) setCurrentEpisode(1)
                 }}
-                class="p-2 bg-transparent border-none border-b-solid border-b-white/10 rounded-none flex-1 text-md cursor-pointer"
+                class="p-2 bg-transparent border-none rounded-none w-14 cursor-pointer text-base font-bold"
               >
                 {seasons.map((s) => (
                   <option
                     value={s.season}
                     selected={s.season === currentSeason}
-                    class="bg-dark-bg text-md"
+                    class="bg-dark-bg"
                   >
                     {s.season === 0 ? i18n.t('specials') : s.season}
                   </option>
                 ))}
               </select>
+              <div class="ml-1 font-bold opacity-50">
+                <span>{' / '}</span>
+                {seasons?.[seasons.length - 1]?.season || 0}
+              </div>
             </div>
             <div class="flex flex-wrap gap-3">
               {Array.from(
