@@ -21,7 +21,7 @@ type WatchListTvCardProps = {
 
 export function WatchListTvCard({ item, removeCb }: WatchListTvCardProps) {
   const session = useSession()
-  const [currentSeason, setCurrentSeason] = useState(item.current_season || 0)
+  const [currentSeason, setCurrentSeason] = useState(item.current_season || 1)
   const [currentEpisode, setCurrentEpisode] = useState(
     item.current_episode || 0
   )
