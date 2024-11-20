@@ -16,7 +16,7 @@ type WatchListTvCardProps = {
     tmdb_id: number
     overview: string
   }
-  removeCb: () => void
+  removeCb: () => Promise<void>
 }
 
 export function WatchListTvCard({ item, removeCb }: WatchListTvCardProps) {

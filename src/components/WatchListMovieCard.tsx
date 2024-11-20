@@ -16,7 +16,7 @@ type WatchListTvCardProps = {
     overview: string
     status: MediaStatus
   }
-  removeCb: () => void
+  removeCb: () => Promise<void>
 }
 
 export function WatchListMovieCard({ item, removeCb }: WatchListTvCardProps) {

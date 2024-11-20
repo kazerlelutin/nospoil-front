@@ -11,7 +11,7 @@ type ToggleInWatchListProps = {
   poster_path?: string
   isAdd: boolean
   type: 'movie' | 'tv'
-  removeCb?: () => void
+  removeCb?: () => Promise<void>
 }
 export function ToggleInWatchList({
   id,
@@ -49,8 +49,8 @@ export function ToggleInWatchList({
       .delete()
       .eq('user_id', session.user.id)
       .eq('tmdb_id', id)
-    removeCb?.()
     if (error) setIsInWatchlist(oldstate)
+    else await removeCb?.()
   }
 
   if (!isInWatchlist)
