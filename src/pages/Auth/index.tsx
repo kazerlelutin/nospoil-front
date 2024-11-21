@@ -1,7 +1,7 @@
 import { Button } from '@/components/Button'
 import { Loader } from '@/components/Loader'
 import { OtpInputs } from '@/components/OtpInputs'
-import { Logo } from '@/ui/Logo'
+import { Logo } from '@/components/Logo'
 import { i18n } from '@/utils/i18n'
 import { supabase } from '@/utils/supabase'
 import { useState } from 'preact/hooks'

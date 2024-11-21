@@ -78,6 +78,14 @@ a:hover {
   color: var(--color-k-text);
 }
 
+button {
+  background: none;
+  padding: 0;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
 @media (hover: hover) {
   .ce-toolbar__settings-btn:hover {
     background-color: var(--color-k-bg-hover);

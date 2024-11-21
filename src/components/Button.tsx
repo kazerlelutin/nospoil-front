@@ -13,7 +13,7 @@ export function Button({ children, onClick, type, ...rest }: ButtonProps) {
       type={type}
       {...rest}
       data-type={type}
-      class="border-solid border-1 border-dark-text text-dark-text bg-dark-bg rounded-sm px-3 py-2 cursor-pointer hover:bg-dark-text hover:text-dark-bg data-[type=reset]:border-white/20 data-[type=reset]:bg-white/5"
+      class="border-solid border-1 border-dark-text text-dark-text bg-dark-bg rounded-sm px-2 py-1 cursor-pointer hover:bg-dark-text hover:text-dark-bg data-[type=reset]:border-white/20 data-[type=reset]:bg-white/5"
     >
       {children}
     </button>

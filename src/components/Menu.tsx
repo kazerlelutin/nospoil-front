@@ -11,8 +11,11 @@ const links = [
 
 export function Menu() {
   return (
-    <nav className="max-w-[240px] p-4 flex flex-col gap-6">
-      <ul className="list-none p-0 flex flex-col gap-2">
+    <nav
+      data-menu="false"
+      className="md:w-[200px] md:data-[menu=true]:w-[200px] md:data-[menu=false]:w-[200px] h-full p-4 md:flex hidden flex-col gap-6 md:data-[menu=true]:flex data-[menu=true]:flex md:data-[menu=false]:flex data-[menu=false]:hidden data-[menu=true]:bg-dark-bg data-[menu=true]:w-[100dvw] data-[menu=true]:max-w-inherit"
+    >
+      <ul className="list-none p-0 flex flex-col gap-5 md:gap-3">
         {links.map(({ href, label }) => (
           <li key={href} className="">
             <a

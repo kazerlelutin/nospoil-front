@@ -63,8 +63,11 @@
   "episodeRemaining_0": "No episode remaining",
   "planned": "Planned",
   "watching": "Watching",
-  "completed": "Completed",
+  "completed": "Viewed",
   "on_hold": "On hold",
   "dropped": "Dropped",
-  "not_interested": "Not interested"
+  "not_interested": "Not interested",
+  "myProgress": "My progress",
+  "edit": "Edit",
+  "close": "Close"
 }

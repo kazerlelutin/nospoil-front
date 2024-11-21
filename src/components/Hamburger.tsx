@@ -19,12 +19,11 @@ import { JSX } from 'preact/jsx-runtime'
  */
 export function Hamburger(): JSX.Element {
   const handleClick = () => {
-    const main = document.querySelector('main')
+    const nav = document.querySelector('[data-menu]')
 
-    const isOpen = main?.getAttribute('data-menu') === 'true'
+    const isOpen = nav?.getAttribute('data-menu') === 'true'
     const strOpen = String(!isOpen)
-    main?.setAttribute('data-menu', strOpen)
-    localStorage.setItem(LS_KEYS.MENU_OPEN, strOpen)
+    nav?.setAttribute('data-menu', strOpen)
   }
 
   return (

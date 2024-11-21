@@ -16,7 +16,7 @@ export function MainLayout({ children }: MainLayoutProps) {
 
   return (
     <SessionProvider>
-      <div className="grid grid-rows-[auto_1fr] text-light-text dark:text-dark-text dark:bg-dark-bg bg-light-bg h-lvh">
+      <div className="grid grid-rows-[auto_1fr] text-light-text dark:text-dark-text dark:bg-dark-bg bg-light-bg h-lvh p-2 md:p-0">
         <Header />
         <div className="text-light-text dark:text-dark-text dark:bg-dark-bg bg-light-bg h-full relative">
           <main className="relative h-full">

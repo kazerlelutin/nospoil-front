@@ -1,7 +1,7 @@
 import { cleanup, render } from '@testing-library/preact'
 import { axe } from 'vitest-axe'
 import { afterEach, describe, expect, it } from 'vitest'
-import { Title } from '@/ui/Title'
+import { Title } from '@/components/Title'
 import fc from 'fast-check'
 
 describe('Title Component', () => {

@@ -63,8 +63,11 @@
   "episodeRemaining_0": "Aucun épisode restant",
   "planned": "Prévu",
   "watching": "En cours",
-  "completed": "Terminé",
+  "completed": "Vu",
   "on_hold": "En pause",
   "dropped": "Abandonné",
-  "not_interested": "Pas intéressé"
+  "not_interested": "Pas intéressé",
+  "myProgress": "Ma progression",
+  "edit": "Modifier",
+  "close": "Fermer"
 }

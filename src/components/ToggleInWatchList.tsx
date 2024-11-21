@@ -65,16 +65,18 @@ export function ToggleInWatchList({
   return (
     <Modal
       button={(open) => (
-        <Button
-          onClick={() => {
-            open()
-            handleAddToWatchlist()
-          }}
-        >
-          <span>
-            {'-'} {i18n.t('removeToWatchlist')}
-          </span>
-        </Button>
+        <div>
+          <Button
+            onClick={() => {
+              open()
+              handleAddToWatchlist()
+            }}
+          >
+            <span>
+              {'-'} {i18n.t('removeToWatchlist')}
+            </span>
+          </Button>
+        </div>
       )}
     >
       {(close) => (
