@@ -26,7 +26,10 @@ export function Profile() {
   const canvasRef = useRef(null)
 
   const handleFetchProfile = async () => {
-    const { data, error } = await supabase.from('profiles').select().single()
+    const { data, error } = await supabase
+      .from('profiles')
+      .select()
+      .maybeSingle()
     console.log(data)
     if (error) {
       console.error('Error fetching profile:', error.message)
