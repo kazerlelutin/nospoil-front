@@ -6,16 +6,16 @@ import {
   prerender as ssr,
 } from 'preact-iso'
 
-import { Home } from './pages/Home/index.jsx'
-import { NotFound } from './pages/_404.jsx'
-import { Search } from './pages/Search/index.js'
-import { Login } from './pages/Auth/index.js'
+import { Home } from '@/pages/Home.jsx'
+import { NotFound } from '@/pages/_404.jsx'
+import { Search } from '@/pages/Search.js'
+import { Login } from '@/pages/Auth.js'
 import '@unocss/reset/normalize.css'
 import 'virtual:uno.css'
 import './style.css'
 import { MainLayout } from './components/MainLayout.js'
 import { AuthRoute } from './components/AuthRoute.js'
-import { Media } from './pages/Media/index.js'
+import { Media } from './pages/Media.js'
 
 export function App() {
   return (

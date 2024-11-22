@@ -69,5 +69,7 @@
   "not_interested": "Pas intéressé",
   "myProgress": "Ma progression",
   "edit": "Modifier",
-  "close": "Fermer"
+  "close": "Fermer",
+  "save": "Enregistrer",
+  "username": "Nom d'utilisateur"
 }

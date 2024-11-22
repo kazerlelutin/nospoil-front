@@ -63,11 +63,13 @@ export function WatchList({ type }: WatchListProps) {
 
         if (item.type === 'movie')
           return (
-            <WatchListMovieCard
-              item={item}
-              key={item.id}
-              removeCb={fetchWatchList}
-            />
+            <div>
+              <WatchListMovieCard
+                item={item}
+                key={item.id}
+                removeCb={fetchWatchList}
+              />
+            </div>
           )
         return null
       })}

@@ -41,58 +41,56 @@ export function WatchListMovieCard({ item, removeCb }: WatchListTvCardProps) {
   }
 
   return (
-    <article class="w-full flex flex-col gap-6 rounded-md border-solid border-1 border-white/10 p-2">
-      <div class="flex gap-3">
-        <div class="w-16 flex items-center justify-center ">
-          {item.poster_path ? (
-            <img
-              src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
-              alt={item.title}
-              class="w-full h-auto"
-            />
-          ) : (
-            <div class="w-16 h-24 bg-white/10 rounded-sm"></div>
-          )}
-        </div>
-        <div class="flex flex-col gap-6">
-          <a
-            href={link}
-            data-placeholder={!item.id}
-            class="data-[placeholder=true]:bg-white/10 data-[placeholder=true]:rounded-sm data-[placeholder=true]:h-6 no-underline text-xl font-bold"
-          >
-            {item.title}
-          </a>
-
-          <div class="flex flex-wrap gap-3">
-            {[
-              MEDIA_STATUS.PLANNED,
-              MEDIA_STATUS.NOT_INTERESTED,
-              MEDIA_STATUS.COMPLETED,
-            ].map((status) => (
-              <button
-                data-current={status === currentStatus}
-                class="cursor-pointer p-2  h-8 flex items-center justify-center bg-transparent border-solid border-white/10 rounded-md data-[current=true]:border-green-600 data-[current=true]:text-green-600"
-                onClick={() => handleChangeStatus(status)}
-              >
-                {i18n.t(status)}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div class="flex  gap-6 items-center justify-between border-t-solid border-t-1 border-t-white/10 pt-4">
-        <ToggleInWatchList
-          removeCb={removeCb}
-          id={item.tmdb_id}
-          title={item.title}
-          type="tv"
-          poster_path={item.poster_path}
-          isAdd={true}
+    <article class="w-full rounded-md border-solid border-1 border-white/10 overflow-hidden relative grid grid-cols-[auto_1fr]">
+      <a href={link} class=" flex items-center justify-center">
+        <img
+          src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
+          alt={item.title}
+          class="w-28 h-40 object-cover"
+          onError={(e) => {
+            e.currentTarget.src = '/poster.svg'
+          }}
         />
-        <a href={link} class="self-end">
-          {i18n.t('moreInfo')}
-        </a>
+      </a>
+
+      <div class="p-2 flex flex-col justify-between">
+        <header class="flex gap-3 items-center justify-between">
+          <h2 class="text-lg font-bold p-0 m-0 ">
+            <a
+              href={link}
+              data-placeholder={!item.id}
+              class="text-white no-underline text-lg font-bold"
+            >
+              {item.title}
+            </a>
+          </h2>
+        </header>
+        <div class="flex gap-3">
+          {[
+            MEDIA_STATUS.PLANNED,
+            MEDIA_STATUS.NOT_INTERESTED,
+            MEDIA_STATUS.COMPLETED,
+          ].map((status) => (
+            <button
+              data-current={status === currentStatus}
+              class="cursor-pointer p-2  h-8 flex items-center justify-center bg-transparent border-solid border-white/10 rounded-md data-[current=true]:border-green-700 data-[current=true]:text-green-700"
+              onClick={() => handleChangeStatus(status)}
+            >
+              {i18n.t(status)}
+            </button>
+          ))}
+        </div>
+
+        <footer class="flex justify-between gap-2 ">
+          <ToggleInWatchList
+            removeCb={removeCb}
+            id={item.tmdb_id}
+            title={item.title}
+            type="tv"
+            poster_path={item.poster_path}
+            isAdd={true}
+          />
+        </footer>
       </div>
     </article>
   )

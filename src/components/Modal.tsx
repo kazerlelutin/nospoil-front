@@ -4,10 +4,11 @@ import { JSX } from 'preact/jsx-runtime'
 type ModalProps = {
   children: (close: (cb?: () => void) => void) => JSX.Element
   button: (open: () => void) => JSX.Element
+  defaultOpen?: boolean
 }
 
-export function Modal({ button, children }: ModalProps) {
-  const [isOpen, setIsOpen] = useState(false)
+export function Modal({ defaultOpen = false, button, children }: ModalProps) {
+  const [isOpen, setIsOpen] = useState(defaultOpen)
 
   const openModal = () => setIsOpen(true)
 

@@ -69,5 +69,7 @@
   "not_interested": "Not interested",
   "myProgress": "My progress",
   "edit": "Edit",
-  "close": "Close"
+  "close": "Close",
+  "save": "Save",
+  "username": "Username"
 }

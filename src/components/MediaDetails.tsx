@@ -7,8 +7,8 @@ export function MediaDetails() {
     params: { type, id },
   } = useRoute()
 
-  if (type === 'movie') return <MovieDetails id={id} />
+  if (type === 'movie') return <MovieDetails id={Number(id)} />
 
-  if (type === 'tv') return <TvDetails id={id} />
+  if (type === 'tv') return <TvDetails id={Number(id)} />
   return null
 }

@@ -35,15 +35,17 @@ export function Login() {
   }
 
   return (
-    <div class="grid grid-cols-[1fr_2fr] text-light-text dark:text-dark-text dark:bg-dark-bg bg-light-bg h-lvh">
-      <div class="flex  flex-col items-end justify-center gap-2 p-4 border-r-1 border-r-solid border-r-white/10">
+    <div class="flex flex-col sm:grid sm:grid-cols-[1fr_2fr] text-light-text dark:text-dark-text dark:bg-dark-bg bg-light-bg h-lvh">
+      <div class="flex flex-col items-end justify-center gap-2 p-4 border-r-1 border-r-solid border-r-white/10">
         <Logo />
         <h1 class="text-xl font-bold">{i18n.t('logOtp')}</h1>
       </div>
-      <div class="w-sm m-auto">
+      <div class="sm:w-sm w-full p-6 sm:p-0 sm:w-auto sm:m-auto">
         {step === 2 && (
-          <div class="flex flex-col gap-3 w-full">
-            <label class="text-sm self-start">{i18n.t('otpCodeEnter')}</label>
+          <div class="flex flex-col gap-3 w-full items-center sm:items-start">
+            <label class="text-sm sm:self-start self-center">
+              {i18n.t('otpCodeEnter')}
+            </label>
             <OtpInputs email={email} />
             {error && (
               <div class="text-dark-error">{i18n.t('AErrorHasOccured')}</div>

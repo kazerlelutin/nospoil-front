@@ -1,5 +1,6 @@
 import { i18n } from '@/utils/i18n'
 import { Button } from './Button'
+import { Profile } from './Profile'
 
 const links = [
   { href: '/', label: 'home' },
@@ -27,6 +28,9 @@ export function Menu() {
           </li>
         ))}
       </ul>
+      <div class="my-5">
+        <Profile />
+      </div>
       <div className="flex w-full">
         <Button>{i18n.t('newPost')}</Button>
       </div>

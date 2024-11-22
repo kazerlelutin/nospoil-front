@@ -1,6 +1,5 @@
 import { MediaDetails } from '@/components/MediaDetails'
 import { PersistTabs } from '@/components/PersistTabs'
-import { WatchList } from '@/components/WatchList'
 import { i18n } from '@/utils/i18n'
 
 const tabs = [
@@ -12,7 +11,7 @@ const tabs = [
   {
     id: 'reviews',
     title: i18n.t('reviews'),
-    content: <WatchList />,
+    content: <MediaDetails />,
   },
 ]
 
