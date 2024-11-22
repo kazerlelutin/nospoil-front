@@ -5,6 +5,7 @@ import { supabase } from '@/utils/supabase'
 import { EditIcon } from './editIcon'
 import { i18n } from '@/utils/i18n'
 import { Button } from './Button'
+import { useSession } from '@/providers/session'
 
 type Profile = {
   username: string | undefined
@@ -14,6 +15,7 @@ type Profile = {
   id?: string | undefined
 }
 export function Profile() {
+  const session = useSession()
   const [isInit, setIsInit] = useState(false)
   const [profile, setProfile] = useState<Profile>({
     username: undefined,
@@ -106,9 +108,10 @@ export function Profile() {
         // Injecte le blob dans l'avatarRef pour prévisualisation
         avatarRef.current.src = URL.createObjectURL(blob)
 
+        console.log(profile.id)
         const { data, error } = await supabase.storage
           .from('avatars')
-          .upload(`avatar/${profile.id}`, blob)
+          .upload(`avatar/${session.user.id}`, blob)
         if (error) {
           console.error('Error uploading avatar:', error.message)
           return
