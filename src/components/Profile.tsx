@@ -11,6 +11,7 @@ type Profile = {
   email: string | undefined
   avatar: string | undefined
   update_at?: Date | undefined
+  id?: string | undefined
 }
 export function Profile() {
   const [isInit, setIsInit] = useState(false)
@@ -19,6 +20,7 @@ export function Profile() {
     email: undefined,
     avatar: undefined,
     update_at: undefined,
+    id: undefined,
   })
 
   const profileRef = useRef(profile)
@@ -106,7 +108,7 @@ export function Profile() {
 
         const { data, error } = await supabase.storage
           .from('avatars')
-          .upload(`avatar/${profile.username}`, blob)
+          .upload(`avatar/${profile.id}`, blob)
         if (error) {
           console.error('Error uploading avatar:', error.message)
           return
