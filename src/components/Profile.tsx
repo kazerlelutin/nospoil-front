@@ -30,14 +30,15 @@ export function Profile() {
       .from('profiles')
       .select()
       .maybeSingle()
-    console.log(data)
+
     if (error) {
       console.error('Error fetching profile:', error.message)
       return
     }
-    if (!data) return
-    setProfile(data as Profile)
-    profileRef.current = data as Profile
+    if (data) {
+      setProfile(data as Profile)
+      profileRef.current = data as Profile
+    }
     // fetch profile
     setIsInit(true)
   }
