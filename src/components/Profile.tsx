@@ -124,8 +124,7 @@ export function Profile() {
           return
         }
 
-        console.log(data)
-        handleUpdateProfile({ ...profile, avatar: data.Key })
+        handleUpdateProfile({ ...profile, avatar: data.path })
       }, 'image/png') // Format PNG pour conserver la transparence si nécessaire
     }
 
