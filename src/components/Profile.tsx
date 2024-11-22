@@ -51,6 +51,8 @@ export function Profile() {
     const { data, error } = await supabase
       .from('profiles')
       .upsert({ ...profile, updated_at: new Date() })
+      .eq('id', session.user.id)
+
     if (error) {
       setProfile(profileRef.current)
       return
@@ -152,10 +154,13 @@ export function Profile() {
           <div class="relative p-2 ">
             <div class="flex items-center justify-center">
               <img
-                src="/avatar.svg"
+                src={import.meta.env.VITE_VITE_SUPABASE_URL + profile.avatar}
                 alt="avatar"
                 class="w-16 h-16 rounded-full border-solid border-3 border-white/50 "
                 ref={avatarRef}
+                onError={(e) => {
+                  e.currentTarget.src = '/avatar.svg'
+                }}
               />
               <canvas ref={canvasRef} class="hidden" />
             </div>
