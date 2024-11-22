@@ -109,9 +109,14 @@ export function Profile() {
         avatarRef.current.src = URL.createObjectURL(blob)
 
         console.log(profile.id)
+
+        const path = `avatar/${session.user.id}`
+
+        await supabase.storage.from('avatars').remove([path])
         const { data, error } = await supabase.storage
           .from('avatars')
-          .upload(`avatar/${session.user.id}`, blob)
+
+          .upload(path, blob)
         if (error) {
           console.error('Error uploading avatar:', error.message)
           return
