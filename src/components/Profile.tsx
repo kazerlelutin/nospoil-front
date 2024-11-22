@@ -11,7 +11,7 @@ type Profile = {
   username: string | undefined
   email: string | undefined
   avatar: string | undefined
-  update_at?: Date | undefined
+  updated_at?: Date | undefined
   id?: string | undefined
 }
 export function Profile() {
@@ -21,7 +21,7 @@ export function Profile() {
     username: undefined,
     email: undefined,
     avatar: undefined,
-    update_at: undefined,
+    updated_at: undefined,
     id: undefined,
   })
 
@@ -50,7 +50,7 @@ export function Profile() {
   const handleUpdateProfile = async (profile: Profile) => {
     const { data, error } = await supabase
       .from('profiles')
-      .upsert({ ...profile, update_at: new Date() })
+      .upsert({ ...profile, updated_at: new Date() })
     if (error) {
       setProfile(profileRef.current)
       return
