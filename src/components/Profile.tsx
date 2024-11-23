@@ -51,7 +51,7 @@ export function Profile() {
     setIsInit(true)
   }
 
-  const handleUpdateProfile = async (profile: Profile, close) => {
+  const handleUpdateProfile = async (profile: Profile, close: () => void) => {
     setAlreadyExist(false)
     const { data: existUserName } = await supabase
       .from('profiles')
@@ -65,7 +65,7 @@ export function Profile() {
       return
     }
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('profiles')
       .upsert({ ...profile, id: session.user.id, updated_at: new Date() })
       .eq('id', session.user.id)
@@ -79,7 +79,7 @@ export function Profile() {
     close()
   }
 
-  const handleUpdateAvatar = async (e, close) => {
+  const handleUpdateAvatar = async (e: any, close: () => void) => {
     const file = e.target.files[0]
     if (!file) return
 
@@ -139,7 +139,7 @@ export function Profile() {
           return
         }
 
-        handleUpdateProfile({ ...profile, avatar: data.path }, close)
+        await handleUpdateProfile({ ...profile, avatar: data.path }, close)
       }, 'image/png') // Format PNG pour conserver la transparence si nécessaire
     }
 
