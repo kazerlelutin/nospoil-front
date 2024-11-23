@@ -96,7 +96,7 @@ export function WatchListTvCard({ item, removeCb }: WatchListTvCardProps) {
   }
 
   useEffect(() => {
-    if (interObs) fetchSeason()
+    if (interObs && seasons.length === 0) fetchSeason()
   }, [interObs, editMode])
 
   return (
