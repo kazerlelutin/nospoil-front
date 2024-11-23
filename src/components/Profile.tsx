@@ -158,7 +158,7 @@ export function Profile() {
               <img
                 src={`${
                   import.meta.env.VITE_SUPABASE_URL
-                }/storage/v1/object/public/${profile.avatar}`}
+                }/storage/v1/object/public/avatars/${profile.avatar}`}
                 alt="avatar"
                 class="w-16 h-16 rounded-full border-solid border-3 border-white/50 "
                 ref={avatarRef}
