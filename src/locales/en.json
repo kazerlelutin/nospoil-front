@@ -73,5 +73,18 @@
   "save": "Save",
   "username": "Username",
   "usernameAlreadyExists": "Username already exists",
-  "noTypeOnWatchlist": "No {{type}} on your watchlist"
+  "noTypeOnWatchlist": "No {{type}} on your watchlist",
+  "review": "Review",
+
+  "ratings": {
+    "excellent": "Excellent",
+    "very_good": "Very good",
+    "good": "Good",
+    "average": "Average",
+    "mediocre": "Mediocre",
+    "bad": "Bad",
+    "not_for_me": "Not for me",
+    "guilty_pleasure": "Guilty pleasure"
+  },
+  "writeYourReviewHere": "Write your review here"
 }

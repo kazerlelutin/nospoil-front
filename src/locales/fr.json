@@ -73,5 +73,17 @@
   "save": "Enregistrer",
   "username": "Nom d'utilisateur",
   "usernameAlreadyExists": "Nom d'utilisateur déjà existant",
-  "noTypeOnWatchlist": "Aucun {{type}} dans votre watchlist"
+  "noTypeOnWatchlist": "Aucun {{type}} dans votre watchlist",
+  "review": "Avis",
+  "ratings": {
+    "excellent": "Excellent",
+    "very_good": "Très bon",
+    "good": "Bon",
+    "average": "Correct",
+    "mediocre": "Passable",
+    "bad": "Mauvais",
+    "not_for_me": "Pas pour moi",
+    "guilty_pleasure": "Plaisir coupable"
+  },
+  "writeYourReviewHere": "Écrivez votre avis ici"
 }

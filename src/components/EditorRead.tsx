@@ -5,21 +5,21 @@ import Header from '@editorjs/header'
 import { useId, useMemo } from 'preact/hooks'
 
 type EditorProps = {
+  blocks: string
   id?: string
-  placeholder?: string
-  onChange?: (data: any) => void
 }
 
-export function Editor({ id: _id, placeholder, onChange }: EditorProps) {
+export function EditorRead({ blocks, id: _id }: EditorProps) {
   const id = _id || useId()
 
+  console.log(blocks)
   const editorId = useMemo(() => {
     const ed = new EditorJS({
-      /**
-       * Id of Element that should contain Editor instance
-       */
-      autofocus: true,
-      placeholder,
+      readOnly: true,
+      //@ts-ignore
+      data: {
+        blocks: JSON.parse(blocks || '[]'),
+      },
 
       tools: {
         // --- BLOCKS ---
@@ -38,18 +38,10 @@ export function Editor({ id: _id, placeholder, onChange }: EditorProps) {
         // TextSpolier,
       },
       holder: id,
-      onChange: () => {
-        ed.save()
-          .then((outputData) => {
-            onChange?.(outputData.blocks)
-          })
-          .catch((error) => {
-            console.log('Saving failed: ', error)
-          })
-      },
+      minHeight: 0,
     })
     return id
-  }, [])
+  }, [blocks])
 
   return <div id={editorId}></div>
 }

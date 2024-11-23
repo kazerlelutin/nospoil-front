@@ -1,6 +1,7 @@
 import { i18n } from '@/utils/i18n'
 import { Button } from './Button'
 import { Profile } from './Profile'
+import { ReviewModal } from './ReviewModal'
 
 const links = [
   { href: '/', label: 'home' },
@@ -11,6 +12,11 @@ const links = [
 ]
 
 export function Menu() {
+  //reset mobile menu
+  const handleClick = () => {
+    document.querySelector('[data-menu]')?.setAttribute('data-menu', 'false')
+  }
+
   return (
     <nav
       data-menu="false"
@@ -21,6 +27,7 @@ export function Menu() {
           <li key={href} className="">
             <a
               href={href}
+              onClick={handleClick}
               className="text-light-text dark:text-dark-text dark:hover:text-dark-text hover:text-light-text no-underline"
             >
               {i18n.t(label)}
@@ -30,7 +37,7 @@ export function Menu() {
       </ul>
 
       <div className="flex w-full">
-        <Button>{i18n.t('newPost')}</Button>
+        <ReviewModal />
       </div>
     </nav>
   )

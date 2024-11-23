@@ -1,26 +1,35 @@
 import { MediaDetails } from '@/components/MediaDetails'
+import { MediaResume } from '@/components/MediaResume'
 import { PersistTabs } from '@/components/PersistTabs'
+import { Reviews } from '@/components/Reviews'
+import { MediaProvider } from '@/providers/media'
 import { i18n } from '@/utils/i18n'
+import { useRoute } from 'preact-iso'
 
 const tabs = [
+  {
+    id: 'reviews',
+    title: i18n.t('reviews'),
+    content: <Reviews />,
+  },
   {
     id: 'details',
     title: i18n.t('details'),
     content: <MediaDetails />,
   },
-  {
-    id: 'reviews',
-    title: i18n.t('reviews'),
-    content: <MediaDetails />,
-  },
 ]
 
 export function Media() {
+  const {
+    params: { type, id },
+  } = useRoute()
+
   return (
-    <div class="w-full m-auto h-full grid grid-rows-[auto_1fr] gap-3">
-      <div class="border-b-solid pb-1 border-b-1 border-b-dark flex flex-col gap-6">
+    <MediaProvider type={type} id={Number(id)}>
+      <div class="w-full m-auto h-full grid grid-rows-[auto_auto_1fr] gap-3">
+        <MediaResume />
         <PersistTabs tabs={tabs} />
       </div>
-    </div>
+    </MediaProvider>
   )
 }

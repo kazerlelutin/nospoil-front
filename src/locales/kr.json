@@ -73,5 +73,17 @@
   "save": "저장",
   "username": "사용자 이름",
   "usernameAlreadyExists": "사용자 이름이 이미 존재합니다",
-  "noTypeOnWatchlist": "{{type}}에 대한 시청 목록이 없습니다"
+  "noTypeOnWatchlist": "{{type}}에 대한 시청 목록이 없습니다",
+  "review": "리뷰",
+  "rating": {
+    "excellent": "훌륭함",
+    "very_good": "매우 좋음",
+    "good": "좋음",
+    "average": "보통",
+    "mediocre": "보통 이하",
+    "bad": "나쁨",
+    "not_for_me": "나에게는 아님",
+    "guilty_pleasure": "부끄러운 즐거움"
+  },
+  "writeYourReviewHere": "여기에 리뷰 작성"
 }
