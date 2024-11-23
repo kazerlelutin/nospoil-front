@@ -74,8 +74,7 @@ export function Profile() {
       setProfile(profileRef.current)
       return
     } else {
-      setProfile(data as Profile)
-      profileRef.current = data as Profile
+      profileRef.current = profile as Profile
     }
     close()
   }
