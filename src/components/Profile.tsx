@@ -33,6 +33,7 @@ export function Profile() {
     const { data, error } = await supabase
       .from('profiles')
       .select()
+      .eq('id', session.user.id)
       .maybeSingle()
 
     if (error) {
@@ -50,7 +51,7 @@ export function Profile() {
   const handleUpdateProfile = async (profile: Profile) => {
     const { data, error } = await supabase
       .from('profiles')
-      .upsert({ ...profile })
+      .upsert({ ...profile, id: session.user.id })
       .eq('id', session.user.id)
 
     if (error) {
@@ -134,12 +135,14 @@ export function Profile() {
   }
 
   useEffect(() => {
+    if (!session?.user?.id) return
     handleFetchProfile()
-  }, [])
+  }, [session])
 
+  if (!isInit) return null
   return (
     <Modal
-      key={isInit && !profile.username}
+      //key={isInit && !profile.username}
       defaultOpen={isInit && !profile.username}
       button={(open) => (
         <button class="bg-blue-500 text-white p-2 rounded-lg">
@@ -198,7 +201,7 @@ export function Profile() {
             </Button>
             <Button
               onClick={() => handleUpdateProfile(profile)}
-              type="submit"
+              type="button"
               disabled={!profile.username}
             >
               {i18n.t('save')}
