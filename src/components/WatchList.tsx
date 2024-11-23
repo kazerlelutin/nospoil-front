@@ -5,6 +5,7 @@ import { Loader } from './Loader'
 import { WatchListTvCard } from './WatchListTvCard'
 import { InterObsProvider } from '@/providers/interObs'
 import { WatchListMovieCard } from './WatchListMovieCard'
+import { i18n } from '@/utils/i18n'
 
 type WatchListProps = {
   type: 'movie' | 'tv'
@@ -44,6 +45,13 @@ export function WatchList({ type }: WatchListProps) {
     return (
       <div class="flex justify-center m-4">
         <Loader />
+      </div>
+    )
+
+  if (!watchList.length)
+    return (
+      <div class="text-center text-white">
+        {i18n.t('noTypeOnWatchlist', { type })}
       </div>
     )
 

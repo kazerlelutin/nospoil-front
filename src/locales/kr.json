@@ -72,5 +72,6 @@
   "close": "닫기",
   "save": "저장",
   "username": "사용자 이름",
-  "usernameAlreadyExists": "사용자 이름이 이미 존재합니다"
+  "usernameAlreadyExists": "사용자 이름이 이미 존재합니다",
+  "noTypeOnWatchlist": "{{type}}에 대한 시청 목록이 없습니다"
 }

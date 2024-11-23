@@ -72,5 +72,6 @@
   "close": "Fermer",
   "save": "Enregistrer",
   "username": "Nom d'utilisateur",
-  "usernameAlreadyExists": "Nom d'utilisateur déjà existant"
+  "usernameAlreadyExists": "Nom d'utilisateur déjà existant",
+  "noTypeOnWatchlist": "Aucun {{type}} dans votre watchlist"
 }

@@ -72,5 +72,6 @@
   "close": "Close",
   "save": "Save",
   "username": "Username",
-  "usernameAlreadyExists": "Username already exists"
+  "usernameAlreadyExists": "Username already exists",
+  "noTypeOnWatchlist": "No {{type}} on your watchlist"
 }
