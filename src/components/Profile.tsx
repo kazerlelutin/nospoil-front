@@ -51,7 +51,7 @@ export function Profile() {
   const handleUpdateProfile = async (profile: Profile) => {
     const { data, error } = await supabase
       .from('profiles')
-      .upsert({ ...profile, id: session.user.id })
+      .upsert({ ...profile, id: session.user.id, updated_at: new Date() })
       .eq('id', session.user.id)
 
     if (error) {
