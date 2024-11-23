@@ -30,6 +30,7 @@ export function WatchListTvCard({ item, removeCb }: WatchListTvCardProps) {
   )
 
   const interObs = useInterObs()
+
   const [seasons, setSeasons] = useState<
     {
       season: number
@@ -96,7 +97,7 @@ export function WatchListTvCard({ item, removeCb }: WatchListTvCardProps) {
 
   useEffect(() => {
     if (interObs) fetchSeason()
-  }, [interObs])
+  }, [interObs, editMode])
 
   return (
     <article class="w-full rounded-md border-solid border-1 border-white/10 overflow-hidden relative grid grid-cols-[auto_1fr]">

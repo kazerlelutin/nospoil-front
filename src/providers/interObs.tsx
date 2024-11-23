@@ -14,8 +14,8 @@ export function InterObsProvider({ children }) {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => entry.isIntersecting && setInterObs(true),
-      { rootMargin: '0px 0px 0px 0px', threshold: 0.1 }
+      ([entry]) => setInterObs(entry.isIntersecting),
+      { rootMargin: '0px 0px 0px 0px', threshold: 0.2 }
     )
 
     observer.observe(observerRef.current)
