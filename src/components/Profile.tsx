@@ -156,7 +156,7 @@ export function Profile() {
           <div class="relative p-2 ">
             <div class="flex items-center justify-center">
               <img
-                src={import.meta.env.VITE_SUPABASE_URL + profile.avatar}
+                src={`${import.meta.env.VITE_SUPABASE_URL}/${profile.avatar}`}
                 alt="avatar"
                 class="w-16 h-16 rounded-full border-solid border-3 border-white/50 "
                 ref={avatarRef}
