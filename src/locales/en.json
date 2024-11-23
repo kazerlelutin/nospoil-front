@@ -71,5 +71,6 @@
   "edit": "Edit",
   "close": "Close",
   "save": "Save",
-  "username": "Username"
+  "username": "Username",
+  "usernameAlreadyExists": "Username already exists"
 }

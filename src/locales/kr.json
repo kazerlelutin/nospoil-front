@@ -71,5 +71,6 @@
   "edit": "수정",
   "close": "닫기",
   "save": "저장",
-  "username": "사용자 이름"
+  "username": "사용자 이름",
+  "usernameAlreadyExists": "사용자 이름이 이미 존재합니다"
 }

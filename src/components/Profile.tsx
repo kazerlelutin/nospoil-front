@@ -6,6 +6,7 @@ import { EditIcon } from './editIcon'
 import { i18n } from '@/utils/i18n'
 import { Button } from './Button'
 import { useSession } from '@/providers/session'
+import { Avatar } from './Avatar'
 
 type Profile = {
   username: string | undefined
@@ -24,6 +25,8 @@ export function Profile() {
     updated_at: undefined,
     id: undefined,
   })
+
+  const [alreadyExist, setAlreadyExist] = useState(false)
 
   const profileRef = useRef(profile)
   const avatarRef = useRef(null)
@@ -48,7 +51,20 @@ export function Profile() {
     setIsInit(true)
   }
 
-  const handleUpdateProfile = async (profile: Profile) => {
+  const handleUpdateProfile = async (profile: Profile, close) => {
+    setAlreadyExist(false)
+    const { data: existUserName } = await supabase
+      .from('profiles')
+      .select('username')
+      .eq('username', profile.username)
+      .neq('id', session.user.id)
+      .maybeSingle()
+
+    if (existUserName) {
+      setAlreadyExist(true)
+      return
+    }
+
     const { data, error } = await supabase
       .from('profiles')
       .upsert({ ...profile, id: session.user.id, updated_at: new Date() })
@@ -61,9 +77,10 @@ export function Profile() {
       setProfile(data as Profile)
       profileRef.current = data as Profile
     }
+    close()
   }
 
-  const handleUpdateAvatar = async (e) => {
+  const handleUpdateAvatar = async (e, close) => {
     const file = e.target.files[0]
     if (!file) return
 
@@ -111,8 +128,6 @@ export function Profile() {
         // Injecte le blob dans l'avatarRef pour prévisualisation
         avatarRef.current.src = URL.createObjectURL(blob)
 
-        console.log(profile.id)
-
         const path = `avatar/${session.user.id}`
 
         await supabase.storage.from('avatars').remove([path])
@@ -125,7 +140,7 @@ export function Profile() {
           return
         }
 
-        handleUpdateProfile({ ...profile, avatar: data.path })
+        handleUpdateProfile({ ...profile, avatar: data.path }, close)
       }, 'image/png') // Format PNG pour conserver la transparence si nécessaire
     }
 
@@ -140,13 +155,17 @@ export function Profile() {
   }, [session])
 
   if (!isInit) return null
+
   return (
     <Modal
-      //key={isInit && !profile.username}
-      defaultOpen={isInit && !profile.username}
+      defaultOpen={isInit && !profile?.username}
       button={(open) => (
-        <button class="bg-blue-500 text-white p-2 rounded-lg">
-          Open Modal
+        <button
+          class="text-xs flex gap-2 items-center md:flex-row-reverse"
+          onClick={open}
+        >
+          <span class="ml-2">{profile?.username}</span>
+          <Avatar src={profile?.avatar} alt="avatar" size="sm" />
         </button>
       )}
     >
@@ -155,17 +174,7 @@ export function Profile() {
           <h2>{i18n.t('profile')}</h2>
           <div class="relative p-2 ">
             <div class="flex items-center justify-center">
-              <img
-                src={`${
-                  import.meta.env.VITE_SUPABASE_URL
-                }/storage/v1/object/public/avatars/${profile.avatar}`}
-                alt="avatar"
-                class="w-16 h-16 rounded-full border-solid border-3 border-white/50 "
-                ref={avatarRef}
-                onError={(e) => {
-                  e.currentTarget.src = '/avatar.svg'
-                }}
-              />
+              <Avatar src={profile?.avatar} alt="avatar" ref={avatarRef} />
               <canvas ref={canvasRef} class="hidden" />
             </div>
 
@@ -179,7 +188,7 @@ export function Profile() {
               type="file"
               id="avatar"
               class="hidden"
-              onInput={handleUpdateAvatar}
+              onInput={(e) => handleUpdateAvatar(e, close)}
             />
           </div>
           <div class="flex flex-col gap-2">
@@ -196,13 +205,18 @@ export function Profile() {
                 setProfile({ ...profile, username: e.currentTarget.value })
               }
             />
+            {alreadyExist && (
+              <span class="text-red-500">
+                {i18n.t('usernameAlreadyExists')}
+              </span>
+            )}
           </div>
           <div class="flex justify-between items-center flex-wrap gap-3">
             <Button onClick={() => close()} type="reset">
               {i18n.t('cancel')}
             </Button>
             <Button
-              onClick={() => handleUpdateProfile(profile)}
+              onClick={() => handleUpdateProfile(profile, close)}
               type="button"
               disabled={!profile.username}
             >
