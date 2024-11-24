@@ -16,6 +16,7 @@ export function Flux() {
   const session = useSession()
 
   const [posts, setPosts] = useState([])
+
   const handleFetchPosts = async () => {
     const { data, error } = await supabase
       .from('enriched_posts') // Appelle la vue
@@ -28,7 +29,6 @@ export function Flux() {
       return
     }
 
-    console.log(data)
     setPosts(
       data.map((post_) => {
         const post = { ...post_, hide: true }
@@ -89,7 +89,7 @@ export function Flux() {
                 </div>
               </div>
               <Spoiler
-                defaultShow={review.hide}
+                defaultShow={!review.hide}
                 fake={
                   <div class="flex items-center gap-2 ">
                     <span class="text-xl">❓</span>
@@ -105,7 +105,7 @@ export function Flux() {
             </header>
             <div class="flex flex-col gap-3">
               <span class="text-xs italic opacity-50">{review.updated_at}</span>
-              <Spoiler defaultShow={review.hide}>
+              <Spoiler defaultShow={!review.hide}>
                 <EditorRead blocks={review.content} id={review.id} />
               </Spoiler>
             </div>
