@@ -112,7 +112,7 @@ export function Flux() {
 
             <div className="flex gap-2">
               <img
-                src={review.poster_path}
+                src={`https://image.tmdb.org/t/p/w500${review.poster_path}`}
                 alt={review.title}
                 class="w-10 h-14 object-cover"
                 onError={(e) => {
