@@ -85,5 +85,6 @@
     "not_for_me": "Pas pour moi",
     "guilty_pleasure": "Plaisir coupable"
   },
-  "writeYourReviewHere": "Écrivez votre avis ici"
+  "writeYourReviewHere": "Écrivez votre avis ici",
+  "alreadyReview": "Vous avez déjà donné votre avis sur ce media"
 }

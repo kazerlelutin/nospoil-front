@@ -86,5 +86,6 @@
     "not_for_me": "Not for me",
     "guilty_pleasure": "Guilty pleasure"
   },
-  "writeYourReviewHere": "Write your review here"
+  "writeYourReviewHere": "Write your review here",
+  "alreadyReview": "You have already reviewed this media"
 }

@@ -2,7 +2,7 @@ import { i18n } from '@/utils/i18n'
 import { Button } from './Button'
 import { Modal } from './Modal'
 import { EditIcon } from './editIcon'
-import { useState } from 'preact/hooks'
+import { useEffect, useState } from 'preact/hooks'
 import { useSession } from '@/providers/session'
 import { MEDIA_RATINGS, RATING_EMOJIS, RATING_LABELS } from '@/utils/constants'
 import { useMedia } from '@/hooks/useMedia'
@@ -28,15 +28,28 @@ export function ReviewModal({
   status,
   cb,
 }: ReviewModalProps) {
-  const { media, watchlist } = useMedia()
+  const { watchlist } = useMedia()
   const session = useSession()
   const [loading, setLoading] = useState(false)
+  const [alreadyReviewed, setAlreadyReviewed] = useState(false)
   const [review, setReview] = useState<any>(undefined)
   const [rating, setRating] = useState<string>(MEDIA_RATINGS.GOOD)
   const [error, setError] = useState('')
 
   const handleOpen = (openCb: () => void) => {
     openCb()
+  }
+
+  const handleFetchReviewState = async () => {
+    const { data } = await supabase
+      .from('posts')
+      .select('id')
+      .eq('user_id', session.user.id)
+      .eq('media_id', watchlist.tmdb_id)
+      .eq('media_state', watchlist.status)
+      .maybeSingle()
+    if (data) setAlreadyReviewed(true)
+    console.log(data)
   }
 
   const handleSave = async (closeCb: () => void) => {
@@ -65,17 +78,28 @@ export function ReviewModal({
     }
   }
 
+  useEffect(() => {
+    handleFetchReviewState()
+  }, [])
+
   return (
     <Modal
-      button={(openCb) =>
-        size === 'small' ? (
-          <button onClick={() => handleOpen(openCb)}>
-            <EditIcon />
-          </button>
-        ) : (
-          <Button onClick={() => handleOpen(openCb)}>{i18n.t('review')}</Button>
-        )
-      }
+      button={(openCb) => (
+        <div class="flex flex-col gap-2">
+          <div>
+            <Button
+              onClick={() => !alreadyReviewed && handleOpen(openCb)}
+              disabled={alreadyReviewed}
+            >
+              {i18n.t('review')}
+            </Button>
+          </div>
+
+          <span class="text-xs italic">
+            {alreadyReviewed && i18n.t('alreadyReview')}
+          </span>
+        </div>
+      )}
     >
       {(closeCb) => (
         <div class="grid gap-4 grid-rows-[auto_auto_1fr_auto] h-[80dvh] w-[90dvw] md:w-[40dvw]">
