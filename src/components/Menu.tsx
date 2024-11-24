@@ -1,5 +1,4 @@
 import { i18n } from '@/utils/i18n'
-import { ReviewModal } from './ReviewModal'
 
 const links = [
   { href: '/', label: 'home' },
@@ -33,10 +32,6 @@ export function Menu() {
           </li>
         ))}
       </ul>
-
-      <div className="flex w-full">
-        <ReviewModal />
-      </div>
     </nav>
   )
 }

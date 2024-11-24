@@ -51,7 +51,6 @@ export function Review({ review, type }: ReviewProps) {
     return false
   }, [watchlist, review])
 
-  console.log(defaultShow)
   return (
     <article class="flex flex-col gap-3 border-b-solid border-b-1 border-b-white/10 p-2">
       <header class="flex justify-between">

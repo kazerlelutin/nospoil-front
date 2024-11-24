@@ -22,7 +22,6 @@ const Editor = lazy(() =>
 ) as any
 
 export function ReviewModal({
-  size,
   currentEpisode,
   currentSeason,
   status,
@@ -49,7 +48,6 @@ export function ReviewModal({
       .eq('media_state', watchlist.status)
       .maybeSingle()
     if (data) setAlreadyReviewed(true)
-    console.log(data)
   }
 
   const handleSave = async (closeCb: () => void) => {
