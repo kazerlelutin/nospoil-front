@@ -2,12 +2,12 @@ import { i18n } from '@/utils/i18n'
 import { Button } from './Button'
 import { Modal } from './Modal'
 import { EditIcon } from './editIcon'
-import { Editor } from './Editor'
 import { useState } from 'preact/hooks'
 import { useSession } from '@/providers/session'
 import { MEDIA_RATINGS, RATING_EMOJIS, RATING_LABELS } from '@/utils/constants'
 import { useMedia } from '@/hooks/useMedia'
 import { supabase } from '@/utils/supabase'
+import { lazy } from 'preact-iso'
 
 type ReviewModalProps = {
   size?: 'small' | 'medium' | 'large'
@@ -16,6 +16,10 @@ type ReviewModalProps = {
   currentSeason?: number
   status?: string
 }
+
+const Editor = lazy(() =>
+  import('./Editor').then((mod) => ({ default: mod.Editor }))
+)
 
 export function ReviewModal({
   size,

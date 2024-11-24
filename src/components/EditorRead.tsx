@@ -12,9 +12,8 @@ type EditorProps = {
 export function EditorRead({ blocks, id: _id }: EditorProps) {
   const id = _id || useId()
 
-  console.log(blocks)
   const editorId = useMemo(() => {
-    const ed = new EditorJS({
+    new EditorJS({
       readOnly: true,
       //@ts-ignore
       data: {

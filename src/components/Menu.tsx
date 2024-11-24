@@ -1,6 +1,4 @@
 import { i18n } from '@/utils/i18n'
-import { Button } from './Button'
-import { Profile } from './Profile'
 import { ReviewModal } from './ReviewModal'
 
 const links = [

@@ -20,10 +20,7 @@ type Serie = {
   production_countries: { iso_3166_1: string; name: string }[]
 }
 
-type TvDetailsProps = {
-  id: number
-}
-export function TvDetails({ id }: TvDetailsProps) {
+export function TvDetails() {
   const { media, isInWatchlist } = useMedia()
   const serie = media as Serie
 

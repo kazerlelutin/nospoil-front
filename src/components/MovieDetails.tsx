@@ -1,36 +1,9 @@
-import { useEffect, useState } from 'preact/hooks'
-import { Loader } from './Loader'
-import { i18n } from '@/utils/i18n'
 import { ToggleInWatchList } from './ToggleInWatchList'
-import { supabase } from '@/utils/supabase'
-import { useSession } from '@/providers/session'
 import { useMedia } from '@/hooks/useMedia'
 import { ReviewModal } from './ReviewModal'
 
-type MovieDetailsProps = {
-  id: number
-}
-
-type Movie = {
-  id: number
-  title: string
-  overview: string
-  poster_path: string
-  backdrop_path: string
-  genres: { id: number; name: string }[]
-  vote_average: number
-  vote_count: number
-  release_date: string
-  runtime: number
-  status: string
-  tagline: string
-  original_language: string
-  production_companies: { id: number; name: string }[]
-  production_countries: { iso_3166_1: string; name: string }[]
-}
-
-export function MovieDetails({ id }: MovieDetailsProps) {
-  const { media: movie,watchlist, isInWatchlist } = useMedia()
+export function MovieDetails() {
+  const { media: movie, watchlist, isInWatchlist } = useMedia()
 
   return (
     <div class="flex flex-col gap-2">

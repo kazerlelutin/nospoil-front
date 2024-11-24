@@ -7,8 +7,8 @@ export function MediaResume() {
     params: { type, id },
   } = useRoute()
 
-  if (type === 'movie') return <MovieDetails id={Number(id)} />
+  if (type === 'movie') return <MovieDetails />
 
-  if (type === 'tv') return <TvDetails id={Number(id)} />
+  if (type === 'tv') return <TvDetails />
   return null
 }

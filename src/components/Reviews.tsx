@@ -2,16 +2,19 @@ import { useMedia } from '@/hooks/useMedia'
 import { Avatar } from './Avatar'
 import { RATING_EMOJIS, RATING_LABELS } from '@/utils/constants'
 import { i18n } from '@/utils/i18n'
-import { useRoute } from 'preact-iso'
-import { EditorRead } from './EditorRead'
-import { SpoilZone } from './SpoilZone'
+import { lazy, useRoute } from 'preact-iso'
+
 import { Spoiler } from './Spoiler'
+
+const EditorRead = lazy(() =>
+  import('./EditorRead').then((mod) => ({ default: mod.EditorRead }))
+)
 
 export function Reviews() {
   const {
     params: { type },
   } = useRoute()
-  const { reviews, watchlist, isInWatchlist } = useMedia()
+  const { reviews } = useMedia()
 
   return (
     <div class="h-full relative overflow-hidden">
