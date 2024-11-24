@@ -19,7 +19,7 @@ type ReviewModalProps = {
 
 const Editor = lazy(() =>
   import('./Editor').then((mod) => ({ default: mod.Editor }))
-)
+) as any
 
 export function ReviewModal({
   size,
