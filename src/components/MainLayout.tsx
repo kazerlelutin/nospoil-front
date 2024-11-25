@@ -23,7 +23,7 @@ export function MainLayout({ children }: MainLayoutProps) {
           <main className="relative h-full">
             <div className="absolute inset-0 md:w-lg m-auto">{children}</div>
           </main>
-          <div className="absolute left-0 bottom-0 top-0 ">
+          <div className="absolute left-0 bottom-0 top-0 z-50">
             <Menu />
           </div>
         </div>
