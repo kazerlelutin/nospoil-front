@@ -90,4 +90,11 @@ export type Serie = {
   first_air_date: string
   number_of_seasons: number
   number_of_episodes: number
+  seasons: {
+    air_date: string
+    poster_path: string
+    season_number: number
+    episode_count: number
+    overview: string
+  }[]
 }

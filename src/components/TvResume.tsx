@@ -2,11 +2,11 @@ import { i18n } from '@/utils/i18n'
 
 import { useMedia } from '@/hooks/useMedia'
 import dayjs from 'dayjs'
+import { TvState } from './TvState'
 
 export function TvResume() {
-  const { media: tv } = useMedia()
+  const { media: tv, watchlist } = useMedia()
 
-  console.log(tv)
   const fields = [
     {
       name: 'releaseDate',
@@ -39,12 +39,11 @@ export function TvResume() {
         .join(', '),
     },
   ]
+
   return (
     <div class="">
-      <h1 class="text-xl font-bold m-0 uppercase p-0 mb-4 text-center">
-        {tv.name}
-      </h1>
-      <div class="flex justify-center">ICI MA PROGRESSION</div>
+      <TvState item={watchlist} canFetch={false} defaultSeasons={tv.seasons} />
+
       <div class="text-sm text-left">
         <img
           src={`https://image.tmdb.org/t/p/w500${tv.poster_path}`}
