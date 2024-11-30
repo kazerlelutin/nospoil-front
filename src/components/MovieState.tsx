@@ -1,3 +1,4 @@
+import { useMedia } from '@/hooks/useMedia'
 import { useSession } from '@/providers/session'
 import { MEDIA_STATUS, MediaStatus } from '@/utils/constants'
 import { i18n } from '@/utils/i18n'
@@ -9,6 +10,7 @@ type MovieStateProps = {
 }
 export function MovieState({ movie }: MovieStateProps) {
   const session = useSession()
+  const mediaCtx = useMedia()
 
   const [currentStatus, setCurrentStatus] = useState<MediaStatus>(
     movie.status || MEDIA_STATUS.NOT_SEEN
@@ -48,7 +50,15 @@ export function MovieState({ movie }: MovieStateProps) {
     if (error) {
       console.error("Erreur lors de l'upsert :", error.message)
       setCurrentStatus(oldStatus)
+
+      return
     }
+
+    mediaCtx?.setWatchlist({
+      ...mediaCtx.watchlist,
+      // @ts-ignore
+      status,
+    })
   }
 
   return (

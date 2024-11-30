@@ -12,12 +12,14 @@ export const MediaCtx = createContext<{
   isInWatchlist: boolean
   watchlist: Watchlist | undefined
   fetchReviews: () => void
+  setWatchlist: (watchlist: Watchlist) => void
   reviews: any[]
 }>({
   media: null,
   isInWatchlist: false,
   watchlist: undefined,
   fetchReviews: () => {},
+  setWatchlist: () => {},
   reviews: [],
 })
 
@@ -97,6 +99,7 @@ export function MediaProvider({ children, type, id }: MediaProviderProps) {
         isInWatchlist: !!watchlist,
         watchlist,
         fetchReviews: handleFetchReviews,
+        setWatchlist,
         reviews,
       }}
     >

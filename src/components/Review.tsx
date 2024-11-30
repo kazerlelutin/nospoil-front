@@ -5,6 +5,7 @@ import { i18n } from '@/utils/i18n'
 import { useMedia } from '@/hooks/useMedia'
 import { MEDIA_STATUS, RATING_EMOJIS, RATING_LABELS } from '@/utils/constants'
 import { useMemo } from 'preact/hooks'
+import dayjs from 'dayjs'
 
 const EditorRead = lazy(() =>
   import('./EditorRead').then((mod) => ({ default: mod.EditorRead }))
@@ -66,6 +67,11 @@ export function Review({ review, type }: ReviewProps) {
               {type === 'movie' && (
                 <span class="text-xs italic">{i18n.t(review.media_state)}</span>
               )}
+              {type === 'tv' && (
+                <span class="text-xs italic">
+                  S{review.current_season}E{review.current_episode}
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -85,7 +91,9 @@ export function Review({ review, type }: ReviewProps) {
         </Spoiler>
       </header>
       <div class="flex flex-col gap-3">
-        <span class="text-xs italic opacity-50">{review.updated_at}</span>
+        <span class="text-xs italic opacity-50">
+          {dayjs(review.updated_at).format('LL')}
+        </span>
         <Spoiler defaultShow={defaultShow}>
           <EditorRead blocks={review.content} id={review.id} />
         </Spoiler>

@@ -26,14 +26,30 @@ export function ReviewModal() {
   }
 
   const handleFetchReviewState = async () => {
-    const { data } = await supabase
-      .from('posts')
-      .select('id')
-      .eq('user_id', session.user.id)
-      .eq('media_id', watchlist.tmdb_id)
-      .eq('media_state', watchlist.status)
-      .maybeSingle()
-    if (data) setAlreadyReviewed(true)
+    if (watchlist?.type === 'tv') {
+      const { data } = await supabase
+        .from('posts')
+        .select('id')
+        .eq('user_id', session.user.id)
+        .eq('media_id', watchlist.tmdb_id)
+        .eq('current_episode', watchlist.current_episode)
+        .eq('current_season', watchlist.current_season)
+        .maybeSingle()
+
+      setAlreadyReviewed(!!data)
+    }
+
+    if (watchlist?.type === 'movie') {
+      const { data } = await supabase
+        .from('posts')
+        .select('id')
+        .eq('user_id', session.user.id)
+        .eq('media_id', watchlist.tmdb_id)
+        .eq('media_state', watchlist.status)
+        .maybeSingle()
+
+      setAlreadyReviewed(!!data)
+    }
   }
 
   const handleSave = async (closeCb: () => void) => {
@@ -52,6 +68,7 @@ export function ReviewModal() {
         content: review,
         updated_at: new Date(),
       })
+      setAlreadyReviewed(true)
       fetchReviews()
       if (error) throw error
     } catch (error) {
@@ -64,7 +81,7 @@ export function ReviewModal() {
 
   useEffect(() => {
     handleFetchReviewState()
-  }, [])
+  }, [watchlist])
 
   return (
     <Modal

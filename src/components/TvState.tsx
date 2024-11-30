@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'preact/hooks'
 import { EditIcon } from './editIcon'
 import { Button } from './Button'
 import { Serie } from '@/types/media'
+import { useMedia } from '@/hooks/useMedia'
 
 type TvStateProps = {
   item: any
@@ -13,6 +14,7 @@ type TvStateProps = {
 }
 export function TvState({ item, canFetch, defaultSeasons = [] }: TvStateProps) {
   const session = useSession()
+  const mediaCtx = useMedia()
   const [editMode, setEditMode] = useState(false)
   const [currentSeason, setCurrentSeason] = useState(item.current_season || 1)
   const [currentEpisode, setCurrentEpisode] = useState(
@@ -69,6 +71,13 @@ export function TvState({ item, canFetch, defaultSeasons = [] }: TvStateProps) {
       })
       .eq('tmdb_id', item.tmdb_id)
       .eq('user_id', session.user.id)
+
+    mediaCtx?.setWatchlist({
+      ...mediaCtx.watchlist,
+      current_episode: episode,
+      current_season: currentSeason,
+    })
+    mediaCtx.fetchReviews()
     if (error) setCurrentEpisode(oldEpisode)
   }
 
