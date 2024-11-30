@@ -13,7 +13,7 @@ export function MovieState({ movie }: MovieStateProps) {
   const mediaCtx = useMedia()
 
   const [currentStatus, setCurrentStatus] = useState<MediaStatus>(
-    movie.status || MEDIA_STATUS.NOT_SEEN
+    movie?.status || MEDIA_STATUS.NOT_SEEN
   )
 
   const handleChangeStatus = async (status: MediaStatus) => {
