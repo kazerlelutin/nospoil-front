@@ -1,4 +1,3 @@
-import { ToggleInWatchList } from './ToggleInWatchList'
 import { ReviewModal } from './ReviewModal'
 import { useMedia } from '@/hooks/useMedia'
 
@@ -33,15 +32,6 @@ export function TvDetails() {
             alt={serie.name}
             class="h-auto w-full"
           />
-          <div class="flex justify-center mt-2">
-            <ToggleInWatchList
-              id={serie.id}
-              title={serie?.name}
-              type={'tv'}
-              poster_path={serie.poster_path}
-              isAdd={isInWatchlist}
-            />
-          </div>
         </div>
         <div class="flex-1">
           <h1 class="text-xl font-bold m-0 uppercase p-0">{serie.name}</h1>

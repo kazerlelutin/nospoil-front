@@ -41,7 +41,6 @@ export function Flux() {
             post?.status?.match(/completed|not_interested/)
           )
             post.hide = false
-
         }
 
         //TV
@@ -111,7 +110,10 @@ export function Flux() {
               </Spoiler>
             </div>
 
-            <div className="flex gap-2">
+            <a
+              href={`/media/${review.type}/${review.media_id}`}
+              className="flex gap-2 no-underline"
+            >
               <img
                 src={`https://image.tmdb.org/t/p/w500${review.poster_path}`}
                 alt={review.title}
@@ -126,7 +128,7 @@ export function Flux() {
                   <span class="font-bold">{`E${review.current_episode}S${review.current_season}`}</span>
                 )}
               </div>
-            </div>
+            </a>
           </article>
         ))}
       </section>

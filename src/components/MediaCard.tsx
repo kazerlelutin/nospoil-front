@@ -1,5 +1,4 @@
 import { i18n } from '@/utils/i18n'
-import { ToggleInWatchList } from './ToggleInWatchList'
 
 type MediaCardProps = {
   id?: number
@@ -65,16 +64,6 @@ export function MediaCard({
             <span class="italic">{id && i18n.t('noOverview')}</span>
           )}
         </div>
-
-        <footer class="flex justify-between gap-2 ">
-          <ToggleInWatchList
-            id={id}
-            title={title || name}
-            type={type}
-            poster_path={poster_path}
-            isAdd={isAdd}
-          />
-        </footer>
       </div>
     </article>
   )

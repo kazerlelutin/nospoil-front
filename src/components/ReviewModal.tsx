@@ -58,8 +58,8 @@ export function ReviewModal({
       const { data, error } = await supabase.from('posts').upsert({
         user_id: session.user.id,
         media_id: watchlist.tmdb_id,
-        current_episode: currentEpisode,
-        current_season: currentSeason,
+        current_episode: watchlist.current_episode,
+        current_season: watchlist.current_season,
         media_state: watchlist.status,
         importance: 0,
         rating,
@@ -112,7 +112,7 @@ export function ReviewModal({
 
               <span class="italic bold">
                 {watchlist.type === 'tv' &&
-                  `E${currentEpisode}S${currentSeason}`}
+                  `E${watchlist.current_episode}S${watchlist.current_season}`}
                 {watchlist.type === 'movie' && i18n.t(status)}
               </span>
             </div>

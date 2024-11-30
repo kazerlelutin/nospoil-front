@@ -61,6 +61,7 @@
   "episodeRemaining": "{{count}} Episode remaining",
   "episodeRemaining_other": "{{count}} Episodes remaining",
   "episodeRemaining_0": "No episode remaining",
+  "not_seen": "Not seen",
   "planned": "Planned",
   "watching": "Watching",
   "completed": "Viewed",

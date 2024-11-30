@@ -1,7 +1,6 @@
 import { useInterObs } from '@/providers/interObs'
 import { i18n } from '@/utils/i18n'
 import { useEffect, useMemo, useState } from 'preact/hooks'
-import { ToggleInWatchList } from './ToggleInWatchList'
 import { supabase } from '@/utils/supabase'
 import { useSession } from '@/providers/session'
 import { EditIcon } from './editIcon'
@@ -18,7 +17,7 @@ type WatchListTvCardProps = {
     tmdb_id: number
     overview: string
   }
-  removeCb: () => Promise<void>
+  removeCb?: () => Promise<void>
 }
 
 export function WatchListTvCard({ item, removeCb }: WatchListTvCardProps) {
@@ -51,6 +50,7 @@ export function WatchListTvCard({ item, removeCb }: WatchListTvCardProps) {
   }, [currentEpisode, currentSeason, seasons])
 
   const link = `/media/tv/${item.tmdb_id}`
+
   const fetchSeason = async () => {
     try {
       const res = await fetch(
@@ -77,16 +77,19 @@ export function WatchListTvCard({ item, removeCb }: WatchListTvCardProps) {
     const oldEpisode = currentEpisode
     setCurrentEpisode(episode)
 
-    const { error } = await supabase
-      .from('watchlist')
-
-      .update({
+    //TODO gérer le cas ou insert ou update.
+    const { error } = await supabase.from('watchlist').upsert(
+      {
+        tmdb_id: item.id,
+        user_id: session.user.id,
         current_episode: episode,
         current_season: currentSeason,
+        type: 'tv',
+        title: item.title,
         updated_at: new Date(),
-      })
-      .eq('id', item.id)
-      .eq('user_id', session.user.id)
+      },
+      { onConflict: 'tmdb_id, user_id' }
+    )
 
     if (error) setCurrentEpisode(oldEpisode)
   }
@@ -160,17 +163,6 @@ export function WatchListTvCard({ item, removeCb }: WatchListTvCardProps) {
               )}
             </div>
           </div>
-
-          <footer class="flex justify-between gap-2 ">
-            <ToggleInWatchList
-              removeCb={removeCb}
-              id={item.tmdb_id}
-              title={item.title}
-              type="tv"
-              poster_path={item.poster_path}
-              isAdd={true}
-            />
-          </footer>
         </div>
       ) : (
         <div class="gap-2 p-2 flex flex-col justify-between text-sm">

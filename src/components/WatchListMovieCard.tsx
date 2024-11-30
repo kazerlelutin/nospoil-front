@@ -1,7 +1,5 @@
-import { useInterObs } from '@/providers/interObs'
 import { i18n } from '@/utils/i18n'
-import { useEffect, useMemo, useState } from 'preact/hooks'
-import { ToggleInWatchList } from './ToggleInWatchList'
+import { useState } from 'preact/hooks'
 import { supabase } from '@/utils/supabase'
 import { useSession } from '@/providers/session'
 import { MEDIA_STATUS, type MediaStatus } from '@/utils/constants'
@@ -16,30 +14,37 @@ type WatchListTvCardProps = {
     overview: string
     status: MediaStatus
   }
-  removeCb: () => Promise<void>
+  removeCb?: () => Promise<void>
 }
 
 export function WatchListMovieCard({ item, removeCb }: WatchListTvCardProps) {
   const session = useSession()
   const link = `/media/movie/${item.tmdb_id}`
-  const [currentStatus, setCurrentStatus] = useState<MediaStatus>(item.status)
+  const [currentStatus, setCurrentStatus] = useState<MediaStatus>(
+    item.status || MEDIA_STATUS.NOT_SEEN
+  )
 
   const handleChangeStatus = async (status: MediaStatus) => {
     const oldStatus = currentStatus
     setCurrentStatus(status)
-    const { error } = await supabase
-      .from('watchlist')
 
-      .update({
+    const { error } = await supabase.from('watchlist').upsert(
+      {
+        tmdb_id: item.id,
+        user_id: session.user.id,
         status,
+        type: 'movie',
+        title: item.title,
         updated_at: new Date(),
-      })
-      .eq('id', item.id)
-      .eq('user_id', session.user.id)
+      },
+      { onConflict: 'tmdb_id, user_id' }
+    )
 
-    if (error) setCurrentStatus(oldStatus)
+    if (error) {
+      console.error("Erreur lors de l'upsert :", error.message)
+      setCurrentStatus(oldStatus)
+    }
   }
-
   return (
     <article class="w-full rounded-md border-solid border-1 border-white/10 overflow-hidden relative grid grid-cols-[auto_1fr]">
       <a href={link} class=" flex items-center justify-center">
@@ -53,7 +58,7 @@ export function WatchListMovieCard({ item, removeCb }: WatchListTvCardProps) {
         />
       </a>
 
-      <div class="p-2 flex flex-col justify-between">
+      <div class="p-2 flex flex-col gap-4">
         <header class="flex gap-3 items-center justify-between">
           <h2 class="text-lg font-bold p-0 m-0 ">
             <a
@@ -67,6 +72,7 @@ export function WatchListMovieCard({ item, removeCb }: WatchListTvCardProps) {
         </header>
         <div class="flex gap-3">
           {[
+            MEDIA_STATUS.NOT_SEEN,
             MEDIA_STATUS.PLANNED,
             MEDIA_STATUS.NOT_INTERESTED,
             MEDIA_STATUS.COMPLETED,
@@ -80,17 +86,6 @@ export function WatchListMovieCard({ item, removeCb }: WatchListTvCardProps) {
             </button>
           ))}
         </div>
-
-        <footer class="flex justify-between gap-2 ">
-          <ToggleInWatchList
-            removeCb={removeCb}
-            id={item.tmdb_id}
-            title={item.title}
-            type="tv"
-            poster_path={item.poster_path}
-            isAdd={true}
-          />
-        </footer>
       </div>
     </article>
   )

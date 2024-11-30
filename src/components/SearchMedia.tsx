@@ -4,6 +4,9 @@ import { useEffect, useState } from 'preact/hooks'
 import { MediaCard } from './MediaCard'
 import { supabase } from '@/utils/supabase'
 import { useSession } from '@/providers/session'
+import { InterObsProvider } from '@/providers/interObs'
+import { WatchListTvCard } from './WatchListTvCard'
+import { WatchListMovieCard } from './WatchListMovieCard'
 
 type SearchProps = {
   type: 'movie' | 'tv'
@@ -34,7 +37,7 @@ export function SearchMedia({ type }: SearchProps) {
     if (recentSearch.includes(str)) return
 
     recentSearch.unshift(str)
-    localStorage.setItem(lsKey, JSON.stringify(recentSearch))
+    localStorage.setItem(lsKey, JSON.stringify(recentSearch.splice(0, 10)))
     setRecentSearch(recentSearch)
   }
 
@@ -65,7 +68,7 @@ export function SearchMedia({ type }: SearchProps) {
       const { results } = await res.json()
       const { data: wl } = await supabase
         .from('watchlist')
-        .select('tmdb_id')
+        .select()
         .eq('user_id', session.user.id)
         .in(
           'tmdb_id',
@@ -74,7 +77,18 @@ export function SearchMedia({ type }: SearchProps) {
 
       setWatchList(wl.map((w: any) => w.tmdb_id))
 
-      setData(results)
+      setData(
+        results.map((r: any) => {
+          const wlItem = wl.find((w: any) => w.tmdb_id == r.id)
+          return {
+            ...r,
+            type,
+            title: r.title || r.name,
+            tmdb_id: r.id || wlItem.tmdb_id,
+            ...wlItem,
+          }
+        })
+      )
       if (!results.length) setNoResult(true)
     } catch (error) {
       setError(error.message)
@@ -92,33 +106,6 @@ export function SearchMedia({ type }: SearchProps) {
   useEffect(() => {
     handleSearch(debouncedSearch)
   }, [type])
-
-  /*
-  useEffect(() => {
-    const channels = supabase
-      .channel('watchlist')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'watchlist' },
-        async () => {
-          const { data: wl } = await supabase
-            .from('watchlist')
-            .select('tmdb_id')
-            .eq('user_id', session.user.id)
-            .in(
-              'tmdb_id',
-              data.map((r: any) => r.id)
-            )
-          setWatchList(wl.map((w: any) => w.tmdb_id))
-        }
-      )
-      .subscribe()
-
-    return () => {
-      supabase.removeChannel(channels)
-    }
-  }, [])
-  */
 
   return (
     <div class="h-full grid grid-rows-[auto_1fr] gap-2 pb-4">
@@ -170,14 +157,23 @@ export function SearchMedia({ type }: SearchProps) {
 
           {data.length > 0 && !loading && (
             <div class="flex flex-col gap-3">
-              {data.map((item: any) => (
-                <MediaCard
-                  key={item.id}
-                  {...item}
-                  type={type}
-                  isAdd={watchtList.includes(item.id)}
-                />
-              ))}
+              {data.map((item) => {
+                console.log(item)
+                if (item.type === 'tv')
+                  return (
+                    <InterObsProvider>
+                      <WatchListTvCard item={item} key={item.id} />
+                    </InterObsProvider>
+                  )
+
+                if (item.type === 'movie')
+                  return (
+                    <div>
+                      <WatchListMovieCard item={item} key={item.id} />
+                    </div>
+                  )
+                return null
+              })}
             </div>
           )}
 

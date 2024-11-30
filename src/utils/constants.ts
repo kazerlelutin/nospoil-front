@@ -6,6 +6,7 @@ export const LS_KEYS = {
 }
 
 export const MEDIA_STATUS = {
+  NOT_SEEN: 'not_seen',
   PLANNED: 'planned',
   WATCHING: 'watching',
   ON_HOLD: 'on_hold',

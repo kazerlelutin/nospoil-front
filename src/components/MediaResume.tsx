@@ -4,7 +4,7 @@ import { TvDetails } from './TvDetails'
 
 export function MediaResume() {
   const {
-    params: { type, id },
+    params: { type },
   } = useRoute()
 
   if (type === 'movie') return <MovieDetails />
