@@ -16,6 +16,25 @@ import './style.css'
 import { MainLayout } from './components/MainLayout.js'
 import { AuthRoute } from './components/AuthRoute.js'
 import { Media } from './pages/Media.js'
+import dayjs from 'dayjs'
+import { i18n } from './utils/i18n'
+
+import 'dayjs/locale/en'
+import 'dayjs/locale/ko'
+import 'dayjs/locale/fr'
+
+import duration from 'dayjs/plugin/duration'
+import LocalizedFormat from 'dayjs/plugin/localizedFormat'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
+
+dayjs.extend(duration)
+dayjs.extend(relativeTime)
+dayjs.extend(LocalizedFormat)
+dayjs.extend(timezone)
+dayjs.extend(utc)
+dayjs.locale(i18n.language.split('-')[0])
 
 export function App() {
   return (

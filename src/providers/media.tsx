@@ -11,13 +11,13 @@ export const MediaCtx = createContext<{
   media: (Movie & Serie) | null
   isInWatchlist: boolean
   watchlist: Watchlist | undefined
-  fetchReview: () => void
+  fetchReviews: () => void
   reviews: any[]
 }>({
   media: null,
   isInWatchlist: false,
   watchlist: undefined,
-  fetchReview: () => {},
+  fetchReviews: () => {},
   reviews: [],
 })
 
@@ -48,13 +48,13 @@ export function MediaProvider({ children, type, id }: MediaProviderProps) {
 
     setWatchlist(wl)
 
-    handleFetchReview()
+    handleFetchReviews()
 
     try {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}tv/${type}/${id}?language=${
           i18n.language
-        }`
+        }&append_to_response=videos,images,credits`
       )
       const data = await res.json()
       setMedia(data)
@@ -65,7 +65,7 @@ export function MediaProvider({ children, type, id }: MediaProviderProps) {
     }
   }
 
-  const handleFetchReview = async () => {
+  const handleFetchReviews = async () => {
     if (!session?.user?.id) return
 
     const { data, error } = await supabase
@@ -96,7 +96,7 @@ export function MediaProvider({ children, type, id }: MediaProviderProps) {
         media,
         isInWatchlist: !!watchlist,
         watchlist,
-        fetchReview: handleFetchReview,
+        fetchReviews: handleFetchReviews,
         reviews,
       }}
     >

@@ -88,5 +88,19 @@
     "guilty_pleasure": "Guilty pleasure"
   },
   "writeYourReviewHere": "Write your review here",
-  "alreadyReview": "You have already reviewed this media"
+  "alreadyReview": "You have already reviewed this media",
+  "writeAReview": "Write a review",
+  "noReviewYet": "No review yet",
+  "releaseDate": "Release date",
+  "runtime": "Runtime",
+  "budget": "Budget",
+  "revenue": "Revenue",
+  "directedBy": "Directed by",
+  "writedBy": "Written by",
+  "with": "With",
+  "cast": "Cast",
+  "Ended": "Ended",
+  "Returning Series": "Returning Series",
+  "numberOfSeasons": "Number of seasons",
+  "createdBy": "Created by"
 }

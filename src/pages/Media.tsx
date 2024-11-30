@@ -26,9 +26,11 @@ export function Media() {
 
   return (
     <MediaProvider type={type} id={Number(id)}>
-      <div class="w-full m-auto h-full grid grid-rows-[auto_auto_1fr] gap-3">
-        <MediaResume />
-        <PersistTabs tabs={tabs} />
+      <div class="w-full m-auto h-full relative gap-3">
+        <div class="absolute inset-0 overflow-y-auto py-1 px-4">
+          <MediaResume />
+          <PersistTabs tabs={tabs} />
+        </div>
       </div>
     </MediaProvider>
   )

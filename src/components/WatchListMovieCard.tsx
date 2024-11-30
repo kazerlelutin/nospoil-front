@@ -1,8 +1,5 @@
-import { i18n } from '@/utils/i18n'
-import { useState } from 'preact/hooks'
-import { supabase } from '@/utils/supabase'
-import { useSession } from '@/providers/session'
-import { MEDIA_STATUS, type MediaStatus } from '@/utils/constants'
+import type { MediaStatus } from '@/utils/constants'
+import { MovieState } from './MovieState'
 
 type WatchListTvCardProps = {
   item: {
@@ -14,37 +11,11 @@ type WatchListTvCardProps = {
     overview: string
     status: MediaStatus
   }
-  removeCb?: () => Promise<void>
 }
 
-export function WatchListMovieCard({ item, removeCb }: WatchListTvCardProps) {
-  const session = useSession()
+export function WatchListMovieCard({ item }: WatchListTvCardProps) {
   const link = `/media/movie/${item.tmdb_id}`
-  const [currentStatus, setCurrentStatus] = useState<MediaStatus>(
-    item.status || MEDIA_STATUS.NOT_SEEN
-  )
 
-  const handleChangeStatus = async (status: MediaStatus) => {
-    const oldStatus = currentStatus
-    setCurrentStatus(status)
-
-    const { error } = await supabase.from('watchlist').upsert(
-      {
-        tmdb_id: item.id,
-        user_id: session.user.id,
-        status,
-        type: 'movie',
-        title: item.title,
-        updated_at: new Date(),
-      },
-      { onConflict: 'tmdb_id, user_id' }
-    )
-
-    if (error) {
-      console.error("Erreur lors de l'upsert :", error.message)
-      setCurrentStatus(oldStatus)
-    }
-  }
   return (
     <article class="w-full rounded-md border-solid border-1 border-white/10 overflow-hidden relative grid grid-cols-[auto_1fr]">
       <a href={link} class=" flex items-center justify-center">
@@ -70,22 +41,7 @@ export function WatchListMovieCard({ item, removeCb }: WatchListTvCardProps) {
             </a>
           </h2>
         </header>
-        <div class="flex gap-3">
-          {[
-            MEDIA_STATUS.NOT_SEEN,
-            MEDIA_STATUS.PLANNED,
-            MEDIA_STATUS.NOT_INTERESTED,
-            MEDIA_STATUS.COMPLETED,
-          ].map((status) => (
-            <button
-              data-current={status === currentStatus}
-              class="cursor-pointer p-2  h-8 flex items-center justify-center bg-transparent border-solid border-white/10 rounded-md data-[current=true]:border-green-700 data-[current=true]:text-green-700"
-              onClick={() => handleChangeStatus(status)}
-            >
-              {i18n.t(status)}
-            </button>
-          ))}
-        </div>
+        <MovieState movie={item} />
       </div>
     </article>
   )

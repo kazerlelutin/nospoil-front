@@ -14,6 +14,60 @@ export type Movie = {
   original_language: string
   production_companies: { id: number; name: string }[]
   production_countries: { iso_3166_1: string; name: string }[]
+  budget: number
+  revenue: number
+  credits: {
+    crew: Cast[]
+    cast: Cast[]
+  }
+
+  videos: {
+    results: {
+      id: string
+      key: string
+      name: string
+      site: string
+      type: string
+    }[]
+  } | null
+}
+
+type Cast = {
+  id: number
+  name: string
+  original_name: string
+  job: string
+  profile_path: string
+  department:
+    | 'Directing'
+    | 'Production'
+    | 'Writing'
+    | 'Sound'
+    | 'Camera'
+    | 'Art'
+    | 'Costume & Make-Up'
+    | 'Visual Effects'
+    | 'Crew'
+    | 'Lighting'
+    | 'Editing'
+    | 'Actors'
+    | 'Creator'
+    | 'Production Management'
+    | 'Costume & Make-Up'
+    | 'Directing'
+    | 'Writing'
+    | 'Production'
+    | 'Sound'
+    | 'Camera'
+    | 'Art'
+    | 'Visual Effects'
+    | 'Crew'
+    | 'Lighting'
+    | 'Editing'
+    | 'Actors'
+    | 'Creator'
+    | 'Production Management'
+  known_for_department: string
 }
 
 export type Serie = {
@@ -32,4 +86,8 @@ export type Serie = {
   original_language: string
   production_companies: { id: number; name: string }[]
   production_countries: { iso_3166_1: string; name: string }[]
+  created_by: Cast[]
+  first_air_date: string
+  number_of_seasons: number
+  number_of_episodes: number
 }

@@ -87,5 +87,19 @@
     "guilty_pleasure": "Plaisir coupable"
   },
   "writeYourReviewHere": "Écrivez votre avis ici",
-  "alreadyReview": "Vous avez déjà donné votre avis sur ce media"
+  "alreadyReview": "Vous avez déjà donné votre avis sur ce media",
+  "writeAReview": "Donnez votre avis",
+  "noReviewYet": "Aucun avis pour le moment",
+  "releaseDate": "Date de sortie",
+  "runtime": "Durée",
+  "budget": "Budget",
+  "revenue": "Recette",
+  "directedBy": "Réalisé par",
+  "writedBy": "Écrit par",
+  "with": "Avec",
+  "cast": "Casting",
+  "Ended": "Terminé",
+  "Returning Series": "Série en cours",
+  "numberOfSeasons": "Nombre de saisons",
+  "createdBy": "Créé par"
 }

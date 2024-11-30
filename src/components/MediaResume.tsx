@@ -1,14 +1,15 @@
 import { useRoute } from 'preact-iso'
-import { MovieDetails } from './MovieDetails'
-import { TvDetails } from './TvDetails'
+import { MovieResume } from './MovieResume'
+import { TvResume } from './TvResume'
 
 export function MediaResume() {
   const {
     params: { type },
   } = useRoute()
 
-  if (type === 'movie') return <MovieDetails />
+  if (type === 'movie') return <MovieResume />
 
-  if (type === 'tv') return <TvDetails />
+  if (type === 'tv') return <TvResume />
+
   return null
 }

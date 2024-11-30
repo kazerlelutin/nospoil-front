@@ -1,26 +1,36 @@
 import { useMedia } from '@/hooks/useMedia'
-import { ReviewModal } from './ReviewModal'
+import { i18n } from '@/utils/i18n'
 
 export function MovieDetails() {
-  const { media: movie, watchlist, isInWatchlist } = useMedia()
+  const { media: movie } = useMedia()
 
   return (
-    <div class="flex flex-col gap-2">
-      <div class="flex gap-3">
-        <div class="w-38">
-          <img
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            alt={movie.title}
-            class="h-auto w-full"
-          />
+    <div class="flex flex-col gap-3 mt-6">
+      <div class="text-sm py-2">{movie.overview}</div>
+      {movie?.videos?.results.length > 0 && (
+        <div class="w-full flex justify-center">
+          <iframe
+            class="aspect-w-16 aspect-h-9"
+            src={`https://www.youtube.com/embed/${movie.videos.results[0].key}`}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          ></iframe>
         </div>
-        <div class="flex-1">
-          <h1 class="text-xl font-bold m-0 uppercase p-0">{movie.title}</h1>
-
-          <p class="text-lg">{movie.tagline}</p>
-          <div>{movie.release_date}</div>
-          {isInWatchlist && <ReviewModal status={watchlist.status} />}
-        </div>
+      )}
+      <h2>{i18n.t('cast')}</h2>
+      <div class="flex gap-3 flex-wrap">
+        {movie?.credits?.cast
+          ?.filter((person) => person.known_for_department === 'Acting')
+          .slice(0, 5)
+          .map((person) => (
+            <div key={person.id} class="w-20">
+              <img
+                src={`https://image.tmdb.org/t/p/w500${person.profile_path}`}
+                alt={person.name}
+                class="h-auto w-full"
+              />
+              <div class="text-xs text-center">{person.name}</div>
+            </div>
+          ))}
       </div>
     </div>
   )

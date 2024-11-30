@@ -1,7 +1,6 @@
 import { i18n } from '@/utils/i18n'
 import { Button } from './Button'
 import { Modal } from './Modal'
-import { EditIcon } from './editIcon'
 import { useEffect, useState } from 'preact/hooks'
 import { useSession } from '@/providers/session'
 import { MEDIA_RATINGS, RATING_EMOJIS, RATING_LABELS } from '@/utils/constants'
@@ -9,25 +8,12 @@ import { useMedia } from '@/hooks/useMedia'
 import { supabase } from '@/utils/supabase'
 import { lazy } from 'preact-iso'
 
-type ReviewModalProps = {
-  size?: 'small' | 'medium' | 'large'
-  cb?: (id: number) => void
-  currentEpisode?: number
-  currentSeason?: number
-  status?: string
-}
-
 const Editor = lazy(() =>
   import('./Editor').then((mod) => ({ default: mod.Editor }))
 ) as any
 
-export function ReviewModal({
-  currentEpisode,
-  currentSeason,
-  status,
-  cb,
-}: ReviewModalProps) {
-  const { watchlist } = useMedia()
+export function ReviewModal() {
+  const { watchlist, fetchReviews } = useMedia()
   const session = useSession()
   const [loading, setLoading] = useState(false)
   const [alreadyReviewed, setAlreadyReviewed] = useState(false)
@@ -55,7 +41,7 @@ export function ReviewModal({
 
     setLoading(true)
     try {
-      const { data, error } = await supabase.from('posts').upsert({
+      const { error } = await supabase.from('posts').upsert({
         user_id: session.user.id,
         media_id: watchlist.tmdb_id,
         current_episode: watchlist.current_episode,
@@ -66,8 +52,8 @@ export function ReviewModal({
         content: review,
         updated_at: new Date(),
       })
+      fetchReviews()
       if (error) throw error
-      console.log(data)
     } catch (error) {
       setError(error.message)
     } finally {
@@ -83,13 +69,13 @@ export function ReviewModal({
   return (
     <Modal
       button={(openCb) => (
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col items-end gap-2">
           <div>
             <Button
               onClick={() => !alreadyReviewed && handleOpen(openCb)}
               disabled={alreadyReviewed}
             >
-              {i18n.t('review')}
+              {i18n.t('writeAReview')}
             </Button>
           </div>
 
@@ -113,7 +99,7 @@ export function ReviewModal({
               <span class="italic bold">
                 {watchlist.type === 'tv' &&
                   `E${watchlist.current_episode}S${watchlist.current_season}`}
-                {watchlist.type === 'movie' && i18n.t(status)}
+                {watchlist.type === 'movie' && i18n.t(watchlist.status)}
               </span>
             </div>
             <div class="flex flex-wrap gap-4">

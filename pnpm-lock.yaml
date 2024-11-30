@@ -17,6 +17,9 @@ dependencies:
   '@unocss/reset':
     specifier: ^0.63.6
     version: 0.63.6
+  dayjs:
+    specifier: ^1.11.13
+    version: 1.11.13
   i18next:
     specifier: ^23.16.4
     version: 23.16.4
@@ -2250,6 +2253,10 @@ packages:
       es-errors: 1.3.0
       is-data-view: 1.0.1
     dev: true
+
+  /dayjs@1.11.13:
+    resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
+    dev: false
 
   /debug@4.3.7:
     resolution: {integrity: sha512-Er2nc/H7RrMXZBFCEim6TCmMk02Z8vLC2Rbi1KEBggpo0fS6l0S1nnapwmIi3yW/+GOJap1Krg4w0Hg80oCqgQ==}
