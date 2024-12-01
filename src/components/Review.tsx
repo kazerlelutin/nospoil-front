@@ -34,7 +34,8 @@ export function Review({ review, type }: ReviewProps) {
   const defaultShow = useMemo(() => {
     if (!watchlist) return false
     if (type === 'movie') {
-      if (watchlist.status.match(/completed|not_interested/)) return true
+      if (watchlist.status.match(/completed|not_seen|not_interested/))
+        return true
       if (review.media_state === MEDIA_STATUS.PLANNED) return true
       return false
     }

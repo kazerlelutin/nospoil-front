@@ -3,17 +3,25 @@ import { Button } from './Button'
 import { Modal } from './Modal'
 import { useEffect, useState } from 'preact/hooks'
 import { useSession } from '@/providers/session'
-import { MEDIA_RATINGS, RATING_EMOJIS, RATING_LABELS } from '@/utils/constants'
+import {
+  MEDIA_RATINGS,
+  MEDIA_STATUS,
+  RATING_EMOJIS,
+  RATING_LABELS,
+} from '@/utils/constants'
 import { useMedia } from '@/hooks/useMedia'
 import { supabase } from '@/utils/supabase'
-import { lazy } from 'preact-iso'
+import { lazy, useRoute } from 'preact-iso'
 
 const Editor = lazy(() =>
   import('./Editor').then((mod) => ({ default: mod.Editor }))
 ) as any
 
 export function ReviewModal() {
-  const { watchlist, fetchReviews } = useMedia()
+  const {
+    params: { type, id },
+  } = useRoute()
+  const { watchlist, media, fetchReviews } = useMedia()
   const session = useSession()
   const [loading, setLoading] = useState(false)
   const [alreadyReviewed, setAlreadyReviewed] = useState(false)
@@ -21,17 +29,41 @@ export function ReviewModal() {
   const [rating, setRating] = useState<string>(MEDIA_RATINGS.GOOD)
   const [error, setError] = useState('')
 
-  const handleOpen = (openCb: () => void) => {
+  const handleOpen = async (openCb: () => void) => {
+    setLoading(true)
+    if (!watchlist?.id) {
+      const payload: any = {
+        tmdb_id: media.id,
+        user_id: session.user.id,
+        type,
+        title: media.title || media.name,
+        updated_at: new Date(),
+      }
+
+      if (type === 'tv') {
+        payload.current_episode = 1
+        payload.current_season = 1
+      }
+
+      if (type === 'movie') {
+        payload.status = MEDIA_STATUS.NOT_SEEN
+      }
+
+      await supabase.from('watchlist').insert(payload)
+    }
+    setLoading(false)
+
     openCb()
   }
 
   const handleFetchReviewState = async () => {
-    if (watchlist?.type === 'tv') {
+    if (!watchlist?.tmdb_id) return
+    if (type === 'tv') {
       const { data } = await supabase
         .from('posts')
         .select('id')
         .eq('user_id', session.user.id)
-        .eq('media_id', watchlist.tmdb_id)
+        .eq('media_id', id)
         .eq('current_episode', watchlist.current_episode)
         .eq('current_season', watchlist.current_season)
         .maybeSingle()
@@ -39,12 +71,12 @@ export function ReviewModal() {
       setAlreadyReviewed(!!data)
     }
 
-    if (watchlist?.type === 'movie') {
+    if (type === 'movie') {
       const { data } = await supabase
         .from('posts')
         .select('id')
         .eq('user_id', session.user.id)
-        .eq('media_id', watchlist.tmdb_id)
+        .eq('media_id', id)
         .eq('media_state', watchlist.status)
         .maybeSingle()
 
@@ -59,10 +91,10 @@ export function ReviewModal() {
     try {
       const { error } = await supabase.from('posts').upsert({
         user_id: session.user.id,
-        media_id: watchlist.tmdb_id,
-        current_episode: watchlist.current_episode,
-        current_season: watchlist.current_season,
-        media_state: watchlist.status,
+        media_id: id,
+        current_episode: watchlist?.current_episode,
+        current_season: watchlist?.current_season,
+        media_state: watchlist?.status || MEDIA_STATUS.NOT_SEEN,
         importance: 0,
         rating,
         content: review,
@@ -114,9 +146,12 @@ export function ReviewModal() {
               </div>
 
               <span class="italic bold">
-                {watchlist.type === 'tv' &&
-                  `E${watchlist.current_episode}S${watchlist.current_season}`}
-                {watchlist.type === 'movie' && i18n.t(watchlist.status)}
+                {type === 'tv' &&
+                  `E${watchlist?.current_episode || 1}S${
+                    watchlist?.current_season || 1
+                  }`}
+                {type === 'movie' &&
+                  i18n.t(watchlist?.status || MEDIA_STATUS.NOT_SEEN)}
               </span>
             </div>
             <div class="flex flex-wrap gap-4">
