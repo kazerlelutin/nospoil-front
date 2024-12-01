@@ -55,6 +55,7 @@ export function TvState({ item, canFetch, defaultSeasons = [] }: TvStateProps) {
         type: 'tv',
         status: null,
         title: item.title,
+        poster_path: item.poster_path,
         updated_at: new Date(),
       })
 

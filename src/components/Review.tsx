@@ -4,8 +4,9 @@ import { Spoiler } from './Spoiler'
 import { i18n } from '@/utils/i18n'
 import { useMedia } from '@/hooks/useMedia'
 import { MEDIA_STATUS, RATING_EMOJIS, RATING_LABELS } from '@/utils/constants'
-import { useMemo } from 'preact/hooks'
+import { useEffect, useMemo } from 'preact/hooks'
 import dayjs from 'dayjs'
+import { supabase } from '@/utils/supabase'
 
 const EditorRead = lazy(() =>
   import('./EditorRead').then((mod) => ({ default: mod.EditorRead }))

@@ -9,7 +9,7 @@ export function MovieResume() {
 
   const fields = [
     {
-      name: 'first_air_date',
+      name: 'releaseDate',
       value: dayjs(movie.first_air_date).format('LL'),
     },
     {
