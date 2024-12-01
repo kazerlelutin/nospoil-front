@@ -64,6 +64,7 @@ export function MovieResume() {
           movie={{
             title: movie.title,
             tmdb_id: movie.id,
+            poster_path: movie.poster_path,
             ...watchlist,
           }}
           id={movie.id}

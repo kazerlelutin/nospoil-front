@@ -35,6 +35,7 @@ export function MovieState({ movie, id }: MovieStateProps) {
         status,
         type: 'movie',
         title: movie.title,
+        poster_path: movie.poster_path,
         updated_at: new Date(),
       })
     } else {
