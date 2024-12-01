@@ -36,22 +36,22 @@ export function MovieState({ movie }: MovieStateProps) {
         title: movie.title,
         updated_at: new Date(),
       })
-      return
-    }
-    const { error } = await supabase
-      .from('watchlist')
-      .update({
-        status,
-        updated_at: new Date(),
-      })
-      .eq('tmdb_id', movie.tmdb_id)
-      .eq('user_id', session.user.id)
+    } else {
+      const { error } = await supabase
+        .from('watchlist')
+        .update({
+          status,
+          updated_at: new Date(),
+        })
+        .eq('tmdb_id', movie.tmdb_id)
+        .eq('user_id', session.user.id)
 
-    if (error) {
-      console.error("Erreur lors de l'upsert :", error.message)
-      setCurrentStatus(oldStatus)
+      if (error) {
+        console.error("Erreur lors de l'upsert :", error.message)
+        setCurrentStatus(oldStatus)
 
-      return
+        return
+      }
     }
 
     mediaCtx?.setWatchlist({
