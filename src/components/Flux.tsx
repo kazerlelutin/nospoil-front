@@ -119,7 +119,22 @@ export function Flux() {
                 alt={review.title}
                 class="w-10 h-14 object-cover"
                 onError={(e) => {
+                  if (!review.media_id || !review?.type) return
                   e.currentTarget.src = '/poster.svg'
+                  fetch(
+                    `${import.meta.env.VITE_API_URL}tv/${review.type}/${
+                      review.media_id
+                    }?language=${i18n.language}`
+                  )
+                    .then((res) => {
+                      res.json()
+                    })
+                    .then((data: any) => {
+                      if (!data?.poster_path) return
+                      console.log(data.poster_path)
+
+                      e.currentTarget.src = `https://image.tmdb.org/t/p/w500${data.poster_path}`
+                    })
                 }}
               />
               <div class="flex items-center h-full">

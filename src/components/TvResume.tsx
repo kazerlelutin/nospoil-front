@@ -42,7 +42,16 @@ export function TvResume() {
 
   return (
     <div class="">
-      <TvState item={watchlist} canFetch={false} defaultSeasons={tv.seasons} />
+      <TvState
+        item={{
+          poster_path: tv.poster_path,
+          title: tv.name,
+          tmdb_id: tv.id,
+          ...watchlist,
+        }}
+        canFetch={false}
+        defaultSeasons={tv.seasons}
+      />
 
       <div class="text-sm text-left">
         <img

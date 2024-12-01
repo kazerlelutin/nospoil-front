@@ -16,9 +16,9 @@ export function TvState({ item, canFetch, defaultSeasons = [] }: TvStateProps) {
   const session = useSession()
   const mediaCtx = useMedia()
   const [editMode, setEditMode] = useState(false)
-  const [currentSeason, setCurrentSeason] = useState(item.current_season || 1)
+  const [currentSeason, setCurrentSeason] = useState(item?.current_season || 1)
   const [currentEpisode, setCurrentEpisode] = useState(
-    item.current_episode || 0
+    item?.current_episode || 0
   )
 
   const [seasons, setSeasons] = useState<Serie['seasons']>(defaultSeasons)
@@ -48,11 +48,12 @@ export function TvState({ item, canFetch, defaultSeasons = [] }: TvStateProps) {
 
     if (!exist) {
       const { error } = await supabase.from('watchlist').insert({
-        tmdb_id: item.id,
+        tmdb_id: item.tmdb_id,
         user_id: session.user.id,
         current_episode: episode,
         current_season: currentSeason,
         type: 'tv',
+        status: null,
         title: item.title,
         updated_at: new Date(),
       })
