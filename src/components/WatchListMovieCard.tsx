@@ -41,7 +41,7 @@ export function WatchListMovieCard({ item }: WatchListTvCardProps) {
             </a>
           </h2>
         </header>
-        <MovieState movie={item} />
+        <MovieState movie={item} id={item.tmdb_id} />
       </div>
     </article>
   )

@@ -7,8 +7,9 @@ import { useState } from 'preact/hooks'
 
 type MovieStateProps = {
   movie: any
+  id: string | number
 }
-export function MovieState({ movie }: MovieStateProps) {
+export function MovieState({ movie, id }: MovieStateProps) {
   const session = useSession()
   const mediaCtx = useMedia()
 
@@ -23,13 +24,13 @@ export function MovieState({ movie }: MovieStateProps) {
     const { data: exist } = await supabase
       .from('watchlist')
       .select('id')
-      .eq('tmdb_id', movie.tmdb_id)
+      .eq('tmdb_id', id)
       .eq('user_id', session.user.id)
       .maybeSingle()
 
     if (!exist) {
       await supabase.from('watchlist').insert({
-        tmdb_id: movie.tmdb_id,
+        tmdb_id: id,
         user_id: session.user.id,
         status,
         type: 'movie',

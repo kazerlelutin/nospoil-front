@@ -2,6 +2,7 @@ import { useMedia } from '@/hooks/useMedia'
 import { i18n } from '@/utils/i18n'
 import dayjs from 'dayjs'
 import { MovieState } from './MovieState'
+import { Title } from './Title'
 
 export function MovieResume() {
   const { media: movie, watchlist } = useMedia()
@@ -59,7 +60,14 @@ export function MovieResume() {
         {movie.title}
       </h1>
       <div class="flex justify-center">
-        <MovieState movie={watchlist} />
+        <MovieState
+          movie={{
+            title: movie.title,
+            tmdb_id: movie.id,
+            ...watchlist,
+          }}
+          id={movie.id}
+        />
       </div>
       <div class="text-sm text-left">
         <img
