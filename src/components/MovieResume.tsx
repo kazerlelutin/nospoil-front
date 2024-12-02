@@ -2,7 +2,6 @@ import { useMedia } from '@/hooks/useMedia'
 import { i18n } from '@/utils/i18n'
 import dayjs from 'dayjs'
 import { MovieState } from './MovieState'
-import { Title } from './Title'
 
 export function MovieResume() {
   const { media: movie, watchlist } = useMedia()

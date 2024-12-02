@@ -28,6 +28,7 @@ import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
+import { Watchlist } from './pages/watchlist'
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -44,7 +45,7 @@ export function App() {
           <Route path="/login" component={Login} />
           <AuthRoute path="/" component={Home} />
           <AuthRoute path="/media/:type/:id" component={Media} />
-
+          <AuthRoute path="/watchlist/:user_id" component={Watchlist} />
           <AuthRoute path="/search" component={Search} />
 
           <AuthRoute default component={NotFound} />

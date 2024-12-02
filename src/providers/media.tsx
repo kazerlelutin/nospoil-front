@@ -75,7 +75,7 @@ export function MediaProvider({ children, type, id }: MediaProviderProps) {
       .select(
         `
         *,
-        profiles ( username, avatar )
+        profiles ( username, avatar, id )
         `
       )
       .eq('media_id', id)

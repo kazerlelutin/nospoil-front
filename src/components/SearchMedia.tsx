@@ -19,7 +19,6 @@ export function SearchMedia({ type }: SearchProps) {
   const [error, setError] = useState('')
   const [data, setData] = useState([])
   const [noResult, setNoResult] = useState(false)
-  const [watchtList, setWatchList] = useState([])
   const session = useSession()
 
   const initialRecentSearch =
@@ -74,8 +73,6 @@ export function SearchMedia({ type }: SearchProps) {
           'tmdb_id',
           results.map((r: any) => r.id)
         )
-
-      setWatchList(wl.map((w: any) => w.tmdb_id))
 
       setData(
         results.map((r: any) => {

@@ -6,12 +6,18 @@ import { WatchListTvCard } from './WatchListTvCard'
 import { InterObsProvider } from '@/providers/interObs'
 import { WatchListMovieCard } from './WatchListMovieCard'
 import { i18n } from '@/utils/i18n'
+import { useRoute } from 'preact-iso'
+import { WatchListMovieCardRead } from './WatchListMovieCardRead'
+import { WatchListTvCardRead } from './WatchListTvCardRead'
 
 type WatchListProps = {
   type: 'movie' | 'tv'
 }
 
-export function WatchList({ type }: WatchListProps) {
+export function WatchListRead({ type }: WatchListProps) {
+  const {
+    params: { user_id },
+  } = useRoute()
   const session = useSession()
 
   const [watchList, setWatchList] = useState([])
@@ -25,7 +31,7 @@ export function WatchList({ type }: WatchListProps) {
       .from('watchlist')
       .select()
       .eq('type', type)
-      .eq('user_id', session.user.id)
+      .eq('user_id', user_id)
       .order('updated_at', { ascending: false })
 
     if (error) {
@@ -61,14 +67,14 @@ export function WatchList({ type }: WatchListProps) {
         if (item.type === 'tv')
           return (
             <InterObsProvider>
-              <WatchListTvCard item={item} key={item.id} />
+              <WatchListTvCardRead item={item} key={item.id} />
             </InterObsProvider>
           )
 
         if (item.type === 'movie')
           return (
             <div>
-              <WatchListMovieCard item={item} key={item.id} />
+              <WatchListMovieCardRead item={item} key={item.id} />
             </div>
           )
         return null

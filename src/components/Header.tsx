@@ -1,5 +1,4 @@
 import { Hamburger } from './Hamburger'
-import { Breadcrumb } from './Breadcrumb'
 import { JSX } from 'preact/jsx-runtime'
 import { Logo } from '@/components/Logo'
 import { i18n } from '@/utils/i18n'

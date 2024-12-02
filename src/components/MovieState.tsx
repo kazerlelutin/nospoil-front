@@ -66,7 +66,7 @@ export function MovieState({ movie, id }: MovieStateProps) {
   }
 
   return (
-    <div class="flex gap-3">
+    <div class="flex gap-3 flex-wrap">
       {[
         MEDIA_STATUS.NOT_SEEN,
         MEDIA_STATUS.PLANNED,

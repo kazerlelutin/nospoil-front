@@ -4,9 +4,7 @@ import { Spoiler } from './Spoiler'
 import { i18n } from '@/utils/i18n'
 import { useMedia } from '@/hooks/useMedia'
 import { MEDIA_STATUS, RATING_EMOJIS, RATING_LABELS } from '@/utils/constants'
-import { useEffect, useMemo } from 'preact/hooks'
-import dayjs from 'dayjs'
-import { supabase } from '@/utils/supabase'
+import { useMemo } from 'preact/hooks'
 
 const EditorRead = lazy(() =>
   import('./EditorRead').then((mod) => ({ default: mod.EditorRead }))
@@ -22,6 +20,7 @@ type ReviewProps = {
     current_season: number
     current_episode: number
     profiles: {
+      id: string
       username: string
       avatar: string
     }
@@ -58,7 +57,10 @@ export function Review({ review, type }: ReviewProps) {
     <article class="flex flex-col gap-3 border-b-solid border-b-1 border-b-white/10 p-2">
       <header class="flex justify-between">
         <div>
-          <div class="flex gap-2 items-center">
+          <a
+            class="flex gap-2 items-center no-underline"
+            href={`/watchlist/${review.profiles.id}`}
+          >
             <Avatar
               alt={review.profiles.username}
               src={review.profiles.avatar}
@@ -75,31 +77,29 @@ export function Review({ review, type }: ReviewProps) {
                 </span>
               )}
             </div>
-          </div>
+          </a>
         </div>
-        <Spoiler
-          defaultShow={defaultShow}
-          fake={
-            <div class="flex items-center gap-2 ">
+      </header>
+      <Spoiler
+        defaultShow={defaultShow}
+        fake={
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center gap-2">
               <span class="text-xl">❓</span>
               "it's hide for real"
             </div>
-          }
-        >
+            <EditorRead blocks={review.content} id={review.id} />
+          </div>
+        }
+      >
+        <div class="flex flex-col gap-2">
           <div class="flex items-center gap-2 ">
             <span class="text-xl">{RATING_EMOJIS[review.rating]}</span>
             {i18n.t(RATING_LABELS[review.rating])}
           </div>
-        </Spoiler>
-      </header>
-      <div class="flex flex-col gap-3">
-        <span class="text-xs italic opacity-50">
-          {dayjs(review.updated_at).format('LL')}
-        </span>
-        <Spoiler defaultShow={defaultShow}>
           <EditorRead blocks={review.content} id={review.id} />
-        </Spoiler>
-      </div>
+        </div>
+      </Spoiler>
     </article>
   )
 }
