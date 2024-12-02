@@ -24,7 +24,7 @@ export function MovieDetails() {
           .map((person) => (
             <div key={person.id} class="w-20">
               <img
-                src={`https://image.tmdb.org/t/p/w500${person.profile_path}`}
+                src={`https://image.tmdb.org/t/p/w200${person.profile_path}`}
                 alt={person.name}
                 class="h-auto w-full"
               />

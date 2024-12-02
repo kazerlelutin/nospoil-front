@@ -55,7 +55,7 @@ export function TvResume() {
 
       <div class="text-sm text-left">
         <img
-          src={`https://image.tmdb.org/t/p/w500${tv.poster_path}`}
+          src={`https://image.tmdb.org/t/p/w200${tv.poster_path}`}
           alt={tv.name}
           class="h-auto w-full xs:w-38 w-full xs:float-left mr-4 mb-2"
         />

@@ -9,12 +9,12 @@ import { useEffect, useState } from 'preact/hooks'
 const tabs = [
   {
     id: 'watch-list-movie',
-    title: i18n.t('myMovies'),
+    title: i18n.t('movies'),
     content: <WatchListRead type="movie" />,
   },
   {
     id: 'watch-list-serie',
-    title: i18n.t('mySeries'),
+    title: i18n.t('series'),
     content: <WatchListRead type="tv" />,
   },
 ]

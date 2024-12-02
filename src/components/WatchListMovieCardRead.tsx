@@ -21,7 +21,7 @@ export function WatchListMovieCardRead({ item }: WatchListTvCardProps) {
     <article class="w-full rounded-md border-solid border-1 border-white/10 overflow-hidden relative grid grid-cols-[auto_1fr]">
       <a href={link} class=" flex items-center justify-center">
         <img
-          src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
+          src={`https://image.tmdb.org/t/p/w200${item.poster_path}`}
           alt={item.title}
           class="w-28 h-40 object-cover"
           onError={(e) => {
