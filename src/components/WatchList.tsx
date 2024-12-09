@@ -73,7 +73,11 @@ export function WatchList({ type }: WatchListProps) {
 
   return (
     <div class="overflow-y-auto p-2 flex flex-col gap-4">
-      {loading && <Loader />}
+      {loading && (
+        <div class="flex items-center justify-center p-3">
+          <Loader />
+        </div>
+      )}
       {watchList.map((item) => {
         if (item.type === 'tv')
           return (

@@ -49,7 +49,7 @@ export function WatchListRead({ type }: WatchListProps) {
 
   if (loading)
     return (
-      <div class="flex justify-center m-4">
+      <div class="flex justify-center items-center m-4">
         <Loader />
       </div>
     )
