@@ -74,7 +74,7 @@ export function Pagination({ totalPages, onFetch }: PaginationProps) {
         {'>'}
       </Button>
       <Button
-        onClick={() => handleClick(totalPages - 1)}
+        onClick={() => handleClick(totalPages)}
         disabled={page >= totalPages}
       >
         {'>>'}
