@@ -4,12 +4,13 @@ import { useRoute } from 'preact-iso'
 import { Review } from './Review'
 import { ReviewModal } from './ReviewModal'
 import { i18n } from '@/utils/i18n'
+import { Pagination } from './Pagination'
 
 export function Reviews() {
   const {
     params: { type },
   } = useRoute()
-  const { reviews } = useMedia()
+  const { reviews, loading, totalPagesReview, fetchReviews } = useMedia()
 
   return (
     <section class="flex flex-col gap-4">
@@ -22,6 +23,9 @@ export function Reviews() {
       {reviews.map((review) => (
         <Review review={review} key={review.id} type={type} />
       ))}
+      {!loading && (
+        <Pagination totalPages={totalPagesReview} onFetch={fetchReviews} />
+      )}
     </section>
   )
 }

@@ -51,3 +51,5 @@ export const RATING_LABELS = {
   [MEDIA_RATINGS.NOT_FOR_ME]: 'ratings.not_for_me',
   [MEDIA_RATINGS.GUILTY_PLEASURE]: 'ratings.guilty_pleasure',
 }
+
+export const PER_PAGE = 15

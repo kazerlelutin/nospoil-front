@@ -6,21 +6,26 @@ import { supabase } from '@/utils/supabase'
 import { i18n } from '@/utils/i18n'
 import type { Watchlist } from '@/types/Watchlist'
 import { Movie, Serie } from '@/types/media'
+import { PER_PAGE } from '@/utils/constants'
 
 export const MediaCtx = createContext<{
   media: (Movie & Serie) | null
+  reviews: any[]
+  loading?: boolean
   isInWatchlist: boolean
   watchlist: Watchlist | undefined
+  totalPagesReview: number
   fetchReviews: () => void
   setWatchlist: (watchlist: Watchlist) => void
-  reviews: any[]
 }>({
   media: null,
   isInWatchlist: false,
   watchlist: undefined,
+  reviews: [],
+  loading: true,
+  totalPagesReview: 0,
   fetchReviews: () => {},
   setWatchlist: () => {},
-  reviews: [],
 })
 
 type MediaProviderProps = {
@@ -34,8 +39,10 @@ export function MediaProvider({ children, type, id }: MediaProviderProps) {
   const [loading, setLoading] = useState(true)
   const [media, setMedia] = useState<any>(null)
   const [watchlist, setWatchlist] = useState<any>(null)
+  const [totalReview, setTotalReview] = useState(0)
   const [reviews, setReviews] = useState<any[]>([])
   const [error, setError] = useState('')
+  const totalPagesReview = Math.ceil(totalReview / PER_PAGE)
 
   const fetchMedia = async () => {
     if (!id || !session?.user?.id) return
@@ -50,7 +57,7 @@ export function MediaProvider({ children, type, id }: MediaProviderProps) {
 
     setWatchlist(wl)
 
-    handleFetchReviews()
+    fetchReviewCount()
 
     try {
       const res = await fetch(
@@ -65,6 +72,20 @@ export function MediaProvider({ children, type, id }: MediaProviderProps) {
     } finally {
       setLoading(false)
     }
+  }
+
+  const fetchReviewCount = async () => {
+    if (!session?.user?.id) return
+    setLoading(true)
+
+    const { count, error } = await supabase
+      .from('posts')
+      .select('id', { count: 'exact', head: true })
+      .eq('media_id', id)
+
+    if (error) setError(error.message)
+    setTotalReview(count)
+    setLoading(false)
   }
 
   const handleFetchReviews = async () => {
@@ -98,9 +119,11 @@ export function MediaProvider({ children, type, id }: MediaProviderProps) {
         media,
         isInWatchlist: !!watchlist,
         watchlist,
+        reviews,
+        loading,
+        totalPagesReview,
         fetchReviews: handleFetchReviews,
         setWatchlist,
-        reviews,
       }}
     >
       {children}

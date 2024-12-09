@@ -1,10 +1,16 @@
-import { MEDIA_STATUS, RATING_EMOJIS, RATING_LABELS } from '@/utils/constants'
+import {
+  MEDIA_STATUS,
+  PER_PAGE,
+  RATING_EMOJIS,
+  RATING_LABELS,
+} from '@/utils/constants'
 import { supabase } from '@/utils/supabase'
 import { useEffect, useState } from 'preact/hooks'
 import { Avatar } from './Avatar'
 import { i18n } from '@/utils/i18n'
 import { Spoiler } from './Spoiler'
 import { lazy } from 'preact-iso'
+import { Pagination } from './Pagination'
 
 const EditorRead = lazy(() =>
   import('./EditorRead').then((mod) => ({ default: mod.EditorRead }))
@@ -12,14 +18,31 @@ const EditorRead = lazy(() =>
 
 // Wathlist stats, wcurrent_epidose, wcurrent_season
 export function Flux() {
+  const [loading, setLoading] = useState(true)
+  const [total, setTotal] = useState(0)
   const [posts, setPosts] = useState([])
+  const totalPages = Math.ceil(total / PER_PAGE)
 
-  const handleFetchPosts = async () => {
+  const fetchcount = async () => {
+    const { count, error } = await supabase
+      .from('enriched_posts')
+      .select('id', { count: 'exact', head: true })
+
+    setLoading(false)
+    if (error) {
+      console.error('Error fetching posts:', error.message)
+      return
+    }
+
+    setTotal(count)
+  }
+
+  const handleFetchPosts = async (page: number) => {
     const { data, error } = await supabase
       .from('enriched_posts') // Appelle la vue
       .select('*')
       .order('created_at', { ascending: false })
-      .limit(200)
+      .range((page - 1) * PER_PAGE, page * PER_PAGE - 1)
 
     if (error) {
       console.error('Error fetching posts:', error.message)
@@ -60,7 +83,7 @@ export function Flux() {
   }
 
   useEffect(() => {
-    handleFetchPosts()
+    fetchcount()
   }, [])
 
   return (
@@ -132,6 +155,9 @@ export function Flux() {
             </div>
           </article>
         ))}
+        {!loading && (
+          <Pagination totalPages={totalPages} onFetch={handleFetchPosts} />
+        )}
       </section>
     </div>
   )
