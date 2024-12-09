@@ -44,7 +44,7 @@ export function Pagination({ totalPages, onFetch }: PaginationProps) {
     onFetch(page)
   }, [page])
 
-  if (totalPages === 1) return null
+  if (totalPages <= 1) return null
   return (
     <nav class="flex gap-2 w-full justify-between p-2">
       <Button onClick={() => handleClick(1)} disabled={page <= 1}>
