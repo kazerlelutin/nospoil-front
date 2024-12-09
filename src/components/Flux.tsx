@@ -89,7 +89,10 @@ export function Flux() {
 
   return (
     <div class="h-full relative overflow-hidden">
-      <section class="absolute inset-0 flex flex-col gap-4 overflow-y-auto">
+      <section
+        data-section="true"
+        class="absolute inset-0 flex flex-col gap-4 overflow-y-auto"
+      >
         {posts.map((review) => (
           <article
             key={review.id}
