@@ -10,7 +10,8 @@ export function Reviews() {
   const {
     params: { type },
   } = useRoute()
-  const { reviews, loading, totalPagesReview, fetchReviews } = useMedia()
+  const { reviews, loading, totalPagesReview, fetchReviews, watchlist } =
+    useMedia()
 
   return (
     <section class="flex flex-col gap-4">
@@ -21,7 +22,11 @@ export function Reviews() {
         <p class="text-center">{i18n.t('noReviewYet')}</p>
       )}
       {reviews.map((review) => (
-        <Review review={review} key={review.id} type={type} />
+        <Review
+          review={review}
+          key={`${review.id}-${watchlist?.status}-${watchlist?.current_episode}-${watchlist?.current_season}`}
+          type={type}
+        />
       ))}
       {!loading && (
         <Pagination totalPages={totalPagesReview} onFetch={fetchReviews} />

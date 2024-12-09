@@ -57,6 +57,7 @@ export function Flux() {
         if (!post.current_episode || !post.current_season) {
           if (
             post.media_state === MEDIA_STATUS.PLANNED ||
+            post.media_state === MEDIA_STATUS.NOT_SEEN ||
             //Status is watchlist
             post?.status?.match(/completed|not_interested/)
           ) {
