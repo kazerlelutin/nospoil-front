@@ -1,6 +1,7 @@
 import { Flux } from '@/components/Flux'
 import { PersistTabs } from '@/components/PersistTabs'
 import { WatchList } from '@/components/WatchList'
+import { useSession } from '@/providers/session'
 import { i18n } from '@/utils/i18n'
 
 const tabs = [
@@ -22,10 +23,11 @@ const tabs = [
 ]
 
 export function Home() {
+  const session = useSession()
   return (
     <div class="w-full m-auto h-full">
       <div class="grid grid-rows-[auto_1fr] gap-6 h-full">
-        <PersistTabs tabs={tabs} />
+        <PersistTabs tabs={tabs} key={session?.user?.id || '__'} />
       </div>
     </div>
   )

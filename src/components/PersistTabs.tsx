@@ -25,7 +25,7 @@ export function PersistTabs({ tabs, defaultTab }: PersistTabsProps) {
             <li key={tab.id} tabIndex={index} className="relative px-1">
               <a
                 href={`#${tab.id}`}
-                onClick={(e) => {
+                onClick={() => {
                   setCurrentTab(tab.id)
                 }}
                 data-current={currentTab === tab.id}

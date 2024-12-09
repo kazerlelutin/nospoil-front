@@ -35,6 +35,7 @@ export function Watchlist() {
 
     setUser(data)
   }
+
   useEffect(() => {
     handleFetch()
   }, [user_id])
@@ -52,7 +53,7 @@ export function Watchlist() {
             </>
           )}
         </header>
-        <PersistTabs tabs={tabs} />
+        <PersistTabs tabs={tabs} key={user_id} />
       </div>
     </div>
   )
