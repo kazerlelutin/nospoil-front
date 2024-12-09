@@ -10,11 +10,11 @@ export function TvResume() {
   const fields = [
     {
       name: 'releaseDate',
-      value: dayjs(tv.release_date).format('LL'),
+      value: dayjs(tv?.release_date).format('LL'),
     },
     {
       name: 'status',
-      value: i18n.t(tv.status),
+      value: i18n.t(tv?.status),
     },
     {
       name: 'genres',
@@ -22,7 +22,7 @@ export function TvResume() {
     },
     {
       name: 'numberOfSeasons',
-      value: `${tv.number_of_seasons} (${tv.number_of_episodes} episode${
+      value: `${tv?.number_of_seasons} (${tv?.number_of_episodes} episode${
         tv.number_of_episodes > 1 ? 's' : ''
       })`,
     },
@@ -44,9 +44,9 @@ export function TvResume() {
     <div class="">
       <TvState
         item={{
-          poster_path: tv.poster_path,
-          title: tv.name,
-          tmdb_id: tv.id,
+          poster_path: tv?.poster_path,
+          title: tv?.name,
+          tmdb_id: tv?.id,
           ...watchlist,
         }}
         canFetch={false}
@@ -55,7 +55,7 @@ export function TvResume() {
 
       <div class="text-sm text-left">
         <img
-          src={`https://image.tmdb.org/t/p/w200${tv.poster_path}`}
+          src={`https://image.tmdb.org/t/p/w200${tv?.poster_path || ''}`}
           alt={tv.name}
           class="h-auto w-full xs:w-38 w-full xs:float-left mr-4 mb-2"
         />

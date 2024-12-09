@@ -13,12 +13,12 @@ export function MovieResume() {
     },
     {
       name: 'genres',
-      value: movie.genres.map((genre) => genre.name).join(', '),
+      value: movie?.genres?.map((genre) => genre.name).join(', '),
     },
     {
       name: 'runtime',
-      value: dayjs().startOf('day').add(movie.runtime, 'minutes').format('LT'),
-      hide: movie.runtime === 0,
+      value: dayjs().startOf('day').add(movie?.runtime, 'minutes').format('LT'),
+      hide: movie?.runtime === 0,
     },
     {
       name: 'directedBy',
@@ -44,13 +44,13 @@ export function MovieResume() {
     },
     {
       name: 'budget',
-      value: `$${movie.budget.toLocaleString()}`,
-      hide: movie.budget === 0,
+      value: `$${movie?.budget.toLocaleString()}`,
+      hide: movie?.budget === 0,
     },
     {
       name: 'revenue',
-      value: `$${movie.revenue.toLocaleString()}`,
-      hide: movie.revenue === 0,
+      value: `$${movie?.revenue.toLocaleString()}`,
+      hide: movie?.revenue === 0,
     },
   ]
   return (
