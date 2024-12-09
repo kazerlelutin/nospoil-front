@@ -77,6 +77,7 @@ export function MovieResume() {
         />
         {fields
           .filter((field) => !field.hide)
+          .filter((field) => field.value)
           .map((field) => (
             <p class="">
               <span class="font-bold  whitespace-nowrap">
