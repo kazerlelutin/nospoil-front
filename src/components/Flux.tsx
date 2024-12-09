@@ -59,8 +59,9 @@ export function Flux() {
             post.media_state === MEDIA_STATUS.PLANNED ||
             //Status is watchlist
             post?.status?.match(/completed|not_interested/)
-          )
+          ) {
             post.hide = false
+          }
         }
 
         //TV

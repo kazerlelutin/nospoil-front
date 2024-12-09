@@ -12,10 +12,8 @@ type MediaCardProps = {
 export function MediaCard({
   id,
   title,
-  name,
   poster_path,
   overview,
-  isAdd,
   type,
 }: MediaCardProps) {
   const link = `/media/${type}/${id}`

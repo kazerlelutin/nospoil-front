@@ -16,6 +16,7 @@ export function PersistTabs({ tabs, defaultTab }: PersistTabsProps) {
     hash.slice(1) || defaultTab || tabs[0].id
   )
 
+  if (!currentTab) return null
   return (
     <>
       <nav className="flex gap-4 border-b-solid border-white/15 border-b-1 py-2">
