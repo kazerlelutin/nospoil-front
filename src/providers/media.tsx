@@ -37,6 +37,7 @@ type MediaProviderProps = {
 export function MediaProvider({ children, type, id }: MediaProviderProps) {
   const session = useSession()
   const [loading, setLoading] = useState(true)
+  const [loadingCount, setLoadingCount] = useState(true)
   const [media, setMedia] = useState<any>(null)
   const [watchlist, setWatchlist] = useState<any>(null)
   const [totalReview, setTotalReview] = useState(0)
@@ -46,7 +47,7 @@ export function MediaProvider({ children, type, id }: MediaProviderProps) {
 
   const fetchMedia = async () => {
     if (!id || !session?.user?.id) return
-    setLoading(true)
+    setLoadingCount(true)
 
     const { data: wl } = await supabase
       .from('watchlist')
@@ -70,7 +71,7 @@ export function MediaProvider({ children, type, id }: MediaProviderProps) {
     } catch (error) {
       setError(error.message)
     } finally {
-      setLoading(false)
+      setLoadingCount(false)
     }
   }
 
@@ -110,7 +111,7 @@ export function MediaProvider({ children, type, id }: MediaProviderProps) {
     if (!media?.id) fetchMedia()
   }, [id, session])
 
-  if (loading) return <Loader />
+  if (loading || loadingCount) return <Loader />
   if (error)
     return <div class="text-center text-dark-error font-bold">{error}</div>
 
