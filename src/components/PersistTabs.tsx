@@ -21,8 +21,8 @@ export function PersistTabs({ tabs, defaultTab }: PersistTabsProps) {
     <>
       <nav className="flex gap-4 border-b-solid border-white/15 border-b-1 py-2">
         <ul className="flex flex gap-3 list-none m-0 p-0">
-          {tabs.map((tab, index) => (
-            <li key={tab.id} tabIndex={index} className="relative px-1">
+          {tabs.map((tab) => (
+            <li key={tab.id} className="relative px-1">
               <a
                 href={`#${tab.id}`}
                 onClick={() => {
