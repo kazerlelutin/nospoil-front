@@ -102,5 +102,6 @@
   "Ended": "Ended",
   "Returning Series": "Returning Series",
   "numberOfSeasons": "Number of seasons",
-  "createdBy": "Created by"
+  "createdBy": "Created by",
+  "status": "Status"
 }

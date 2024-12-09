@@ -6,6 +6,7 @@ import { EditIcon } from './editIcon'
 import { Button } from './Button'
 import { Serie } from '@/types/media'
 import { useMedia } from '@/hooks/useMedia'
+import { useRoute } from 'preact-iso'
 
 type TvStateProps = {
   item: any
@@ -13,6 +14,7 @@ type TvStateProps = {
   defaultSeasons?: Serie['seasons']
 }
 export function TvState({ item, canFetch, defaultSeasons = [] }: TvStateProps) {
+  const { query } = useRoute()
   const session = useSession()
   const mediaCtx = useMedia()
   const [editMode, setEditMode] = useState(false)
@@ -69,6 +71,7 @@ export function TvState({ item, canFetch, defaultSeasons = [] }: TvStateProps) {
       .update({
         current_episode: episode,
         current_season: currentSeason,
+        poster_path: item.poster_path || mediaCtx?.media?.poster_path,
         updated_at: new Date(),
       })
       .eq('tmdb_id', item.tmdb_id)
@@ -79,7 +82,8 @@ export function TvState({ item, canFetch, defaultSeasons = [] }: TvStateProps) {
       current_episode: episode,
       current_season: currentSeason,
     })
-    mediaCtx.fetchReviews()
+    const page = Number(query.page) || 1
+    mediaCtx.fetchReviews(page)
     if (error) setCurrentEpisode(oldEpisode)
   }
 

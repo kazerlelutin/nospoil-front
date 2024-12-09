@@ -44,7 +44,7 @@ export function MovieState({ movie, id }: MovieStateProps) {
         .update({
           status,
           title: movie.title || mediaCtx?.media?.title,
-          poster_path: movie.poster_path || mediaCtx?.media.poster_path,
+          poster_path: movie.poster_path || mediaCtx?.media?.poster_path,
           updated_at: new Date(),
         })
         .eq('tmdb_id', movie.tmdb_id)
