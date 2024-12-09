@@ -126,7 +126,7 @@ export function Flux() {
                 </div>
                 <img
                   src={`https://image.tmdb.org/t/p/w92${review.poster_path}`}
-                  alt={review.title}
+                  alt={`poster ${review.title}`}
                   class="object-contain"
                   width={40}
                   height={56}
