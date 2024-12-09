@@ -137,7 +137,9 @@ export function Flux() {
               </a>
             </header>
             <div class="flex flex-col gap-3">
-              <span class="text-xs italic opacity-50">{review.updated_at}</span>
+              <time class="text-xs italic opacity-70">
+                {new Date(review.updated_at).toLocaleString()}
+              </time>
               <Spoiler
                 defaultShow={!review.hide}
                 fake={
