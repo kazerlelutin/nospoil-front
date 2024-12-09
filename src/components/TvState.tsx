@@ -25,6 +25,18 @@ export function TvState({ item, canFetch, defaultSeasons = [] }: TvStateProps) {
 
   const [seasons, setSeasons] = useState<Serie['seasons']>(defaultSeasons)
 
+  const myProgression = useMemo(() => {
+    return seasons.reduce((acc, s) => {
+      if (s.season_number < currentSeason) {
+        acc += s.episode_count
+      }
+      if (s.season_number === currentSeason) {
+        acc += currentEpisode
+      }
+      return acc
+    }, 0)
+  }, [currentEpisode, currentSeason, seasons])
+
   const episodeRemaining = useMemo(() => {
     return seasons.reduce((acc, s) => {
       if (s.season_number > currentSeason) {
@@ -132,9 +144,8 @@ export function TvState({ item, canFetch, defaultSeasons = [] }: TvStateProps) {
             class="absolute top-0 left-0 bottom-0 bg-green-800"
             style={{
               width: `${
-                (currentEpisode /
-                  seasons.find((s) => s.season_number === currentSeason)
-                    ?.episode_count) *
+                (myProgression /
+                  seasons.reduce((acc, s) => acc + s.episode_count, 0)) *
                 100
               }%`,
             }}
