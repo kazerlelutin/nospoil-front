@@ -111,7 +111,12 @@ export function MediaProvider({ children, type, id }: MediaProviderProps) {
     if (!media?.id) fetchMedia()
   }, [id, session])
 
-  if (loading || loadingCount) return <Loader />
+  if (loading || loadingCount)
+    return (
+      <div class="flex items-center justify-center p-3">
+        <Loader />
+      </div>
+    )
   if (error)
     return <div class="text-center text-dark-error font-bold">{error}</div>
 

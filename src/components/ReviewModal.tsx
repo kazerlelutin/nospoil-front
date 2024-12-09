@@ -20,13 +20,15 @@ const Editor = lazy(() =>
 export function ReviewModal() {
   const {
     params: { type, id },
+    query,
   } = useRoute()
+
   const { watchlist, media, fetchReviews } = useMedia()
   const session = useSession()
   const [loading, setLoading] = useState(false)
-  const [alreadyReviewed, setAlreadyReviewed] = useState(false)
   const [review, setReview] = useState<any>(undefined)
   const [rating, setRating] = useState<string>(MEDIA_RATINGS.GOOD)
+  const [initValue, setInitValue] = useState<any>(undefined)
   const [error, setError] = useState('')
 
   const handleOpen = async (openCb: () => void) => {
@@ -61,26 +63,28 @@ export function ReviewModal() {
     if (type === 'tv') {
       const { data } = await supabase
         .from('posts')
-        .select('id')
+        .select('content, rating')
         .eq('user_id', session.user.id)
         .eq('media_id', id)
         .eq('current_episode', watchlist.current_episode)
         .eq('current_season', watchlist.current_season)
         .maybeSingle()
 
-      setAlreadyReviewed(!!data)
+      if (data?.rating) setRating(data.rating)
+      setInitValue(data)
     }
 
     if (type === 'movie') {
       const { data } = await supabase
         .from('posts')
-        .select('id')
+        .select('content, rating')
         .eq('user_id', session.user.id)
         .eq('media_id', id)
         .eq('media_state', watchlist.status)
         .maybeSingle()
 
-      setAlreadyReviewed(!!data)
+      if (data?.rating) setRating(data.rating)
+      setInitValue(data)
     }
   }
 
@@ -89,6 +93,12 @@ export function ReviewModal() {
 
     setLoading(true)
     try {
+      await supabase
+        .from('posts')
+        .delete()
+        .eq('media_id', id)
+        .eq('user_id', session.user.id)
+
       const { error } = await supabase.from('posts').upsert({
         user_id: session.user.id,
         media_id: id,
@@ -100,9 +110,14 @@ export function ReviewModal() {
         content: review,
         updated_at: new Date(),
       })
-      setAlreadyReviewed(true)
-      fetchReviews()
+
+      const page = parseInt(query.page as string) || 1
+      fetchReviews(page)
       if (error) throw error
+      setInitValue({ content: JSON.stringify(review) })
+      setRating(rating)
+
+      //TODO remettre à zero les UpPosts quand il seront implémentés
     } catch (error) {
       setError(error.message)
     } finally {
@@ -120,17 +135,10 @@ export function ReviewModal() {
       button={(openCb) => (
         <div class="flex flex-col items-end gap-2">
           <div>
-            <Button
-              onClick={() => !alreadyReviewed && handleOpen(openCb)}
-              disabled={alreadyReviewed}
-            >
+            <Button onClick={() => handleOpen(openCb)}>
               {i18n.t('writeAReview')}
             </Button>
           </div>
-
-          <span class="text-xs italic">
-            {alreadyReviewed && i18n.t('alreadyReview')}
-          </span>
         </div>
       )}
     >
@@ -172,6 +180,7 @@ export function ReviewModal() {
             <div class="absolute inset-0 overflow-y-auto p-2">
               <Editor
                 id="review"
+                initialValue={initValue?.content}
                 onChange={setReview}
                 placeholder={i18n.t('writeYourReviewHere')}
               />

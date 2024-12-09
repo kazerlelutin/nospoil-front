@@ -8,9 +8,15 @@ type EditorProps = {
   id?: string
   placeholder?: string
   onChange?: (data: any) => void
+  initialValue?: any
 }
 
-export function Editor({ id: _id, placeholder, onChange }: EditorProps) {
+export function Editor({
+  id: _id,
+  placeholder,
+  initialValue = undefined,
+  onChange,
+}: EditorProps) {
   const id = _id || useId()
 
   const editorId = useMemo(() => {
@@ -20,7 +26,9 @@ export function Editor({ id: _id, placeholder, onChange }: EditorProps) {
        */
       autofocus: true,
       placeholder,
-
+      data: {
+        blocks: JSON.parse(initialValue || '[]'),
+      },
       tools: {
         // --- BLOCKS ---
         header: {
