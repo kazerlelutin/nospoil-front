@@ -24,6 +24,8 @@ export function MediaCard({
         <img
           src={`https://image.tmdb.org/t/p/w200${poster_path}`}
           alt={title}
+          width={40}
+          height={56}
           class="w-28 h-40 object-cover"
           onError={(e) => {
             e.currentTarget.src = '/poster.svg'

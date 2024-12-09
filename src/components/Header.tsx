@@ -39,7 +39,7 @@ export function Header(): JSX.Element {
         <img
           src="/kofi_logo.svg"
           alt="NoSpoil"
-          class="h-4"
+          class="h-[20px] w-[25px]"
           width={25}
           height={20}
         />
