@@ -36,13 +36,7 @@ export function Header(): JSX.Element {
         class="no-underline  flex gap-2 items-center text-sm"
       >
         {i18n.t('buyMeACoffee')}
-        <img
-          src="/kofi_logo.svg"
-          alt="NoSpoil"
-          class="h-4 aspect-[5/4]"
-          width={25}
-          height={20}
-        />
+        <img src="/kofi_logo.svg" alt="NoSpoil" width={25} height={20} />
       </a>
     </header>
   )
