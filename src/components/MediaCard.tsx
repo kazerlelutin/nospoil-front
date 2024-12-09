@@ -22,11 +22,11 @@ export function MediaCard({
     <article class="w-full rounded-md border-solid border-1 border-white/10 overflow-hidden relative grid grid-cols-[auto_1fr]">
       <a href={link} class=" flex items-center justify-center">
         <img
-          src={`https://image.tmdb.org/t/p/w200${poster_path}`}
+          src={`https://image.tmdb.org/t/p/w92${poster_path}`}
           alt={title}
           width={40}
           height={56}
-          class="w-28 h-40 object-cover"
+          class="object-contain"
           onError={(e) => {
             e.currentTarget.src = '/poster.svg'
           }}

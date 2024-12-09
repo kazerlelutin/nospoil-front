@@ -73,6 +73,8 @@ export function MovieResume() {
         <img
           src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
           alt={movie.title}
+          width={152}
+          height={228}
           class="h-auto w-full xs:w-38 w-full xs:float-left mr-4 mb-2"
         />
         {fields

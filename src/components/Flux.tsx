@@ -125,9 +125,11 @@ export function Flux() {
                   )}
                 </div>
                 <img
-                  src={`https://image.tmdb.org/t/p/w200${review.poster_path}`}
+                  src={`https://image.tmdb.org/t/p/w92${review.poster_path}`}
                   alt={review.title}
-                  class="w-10 h-14 object-cover"
+                  class="object-contain"
+                  width={40}
+                  height={56}
                   onError={(e) => {
                     e.currentTarget.src = '/poster.svg'
                   }}
