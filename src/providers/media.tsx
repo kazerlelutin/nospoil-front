@@ -15,7 +15,7 @@ export const MediaCtx = createContext<{
   isInWatchlist: boolean
   watchlist: Watchlist | undefined
   totalPagesReview: number
-  fetchReviews: () => void
+  fetchReviews: (page: number) => void
   setWatchlist: (watchlist: Watchlist) => void
 }>({
   media: null,
@@ -88,7 +88,7 @@ export function MediaProvider({ children, type, id }: MediaProviderProps) {
     setLoading(false)
   }
 
-  const handleFetchReviews = async () => {
+  const handleFetchReviews = async (page: number) => {
     if (!session?.user?.id) return
 
     const { data, error } = await supabase
@@ -100,6 +100,7 @@ export function MediaProvider({ children, type, id }: MediaProviderProps) {
         `
       )
       .eq('media_id', id)
+      .range((page - 1) * PER_PAGE, page * PER_PAGE - 1)
 
     if (error) setError(error.message)
     if (data) setReviews(data as any)

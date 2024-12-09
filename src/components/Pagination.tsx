@@ -29,7 +29,8 @@ export function Pagination({ totalPages, onFetch }: PaginationProps) {
     const start = Math.max(1, page - sectionMaxPages / 2)
 
     const end = Math.min(page + sectionMaxPages / 2, totalPages)
-    const pages = Array.from({ length: end - start }, (_, i) => start + i)
+
+    const pages = Array.from({ length: end - start + 1 }, (_, i) => start + i)
     return { pages, page }
   }, [totalPages, query.page])
 
@@ -46,10 +47,10 @@ export function Pagination({ totalPages, onFetch }: PaginationProps) {
   if (totalPages === 1) return null
   return (
     <nav class="flex gap-2 w-full justify-between p-2">
-      <Button onClick={() => handleClick(page - 1)} disabled={page === 0}>
+      <Button onClick={() => handleClick(1)} disabled={page <= 1}>
         {'<<'}
       </Button>
-      <Button onClick={() => handleClick(page - 1)} disabled={page === 0}>
+      <Button onClick={() => handleClick(page - 1)} disabled={page <= 1}>
         {'<'}
       </Button>
       <div class="flex gap-2 w-full justify-center flex-wrap">
@@ -68,13 +69,13 @@ export function Pagination({ totalPages, onFetch }: PaginationProps) {
       </div>
       <Button
         onClick={() => handleClick(page + 1)}
-        disabled={page === totalPages - 1}
+        disabled={page >= totalPages}
       >
         {'>'}
       </Button>
       <Button
-        onClick={() => handleClick(page + 1)}
-        disabled={page === totalPages - 1}
+        onClick={() => handleClick(totalPages - 1)}
+        disabled={page >= totalPages}
       >
         {'>>'}
       </Button>

@@ -6,6 +6,8 @@ import { WatchListTvCard } from './WatchListTvCard'
 import { InterObsProvider } from '@/providers/interObs'
 import { WatchListMovieCard } from './WatchListMovieCard'
 import { i18n } from '@/utils/i18n'
+import { PER_PAGE } from '@/utils/constants'
+import { Pagination } from './Pagination'
 
 type WatchListProps = {
   type: 'movie' | 'tv'
@@ -15,9 +17,29 @@ export function WatchList({ type }: WatchListProps) {
   const session = useSession()
 
   const [watchList, setWatchList] = useState([])
+  const [loadingCount, setLoadingCount] = useState(true)
   const [loading, setLoading] = useState(true)
+  const [total, setTotal] = useState(0)
+  const totalPages = Math.ceil(total / PER_PAGE)
 
-  const fetchWatchList = async () => {
+  const fetchWatchListCount = async () => {
+    if (!session?.user?.id) return
+    setLoadingCount(true)
+    const { count, error } = await supabase
+      .from('watchlist')
+      .select('id', { count: 'exact', head: true })
+      .eq('type', type)
+      .eq('user_id', session.user.id)
+
+    if (error) {
+      console.error('Error fetching watchlist:', error.message)
+      return
+    }
+    setLoadingCount(false)
+    setTotal(count)
+  }
+
+  const fetchWatchList = async (page: number) => {
     if (!session?.user?.id) return
     setLoading(true)
 
@@ -27,6 +49,7 @@ export function WatchList({ type }: WatchListProps) {
       .eq('type', type)
       .eq('user_id', session.user.id)
       .order('updated_at', { ascending: false })
+      .range((page - 1) * PER_PAGE, page * PER_PAGE - 1)
 
     if (error) {
       console.error('Error fetching watchlist:', error.message)
@@ -38,17 +61,10 @@ export function WatchList({ type }: WatchListProps) {
   }
 
   useEffect(() => {
-    fetchWatchList()
+    fetchWatchListCount()
   }, [session?.user?.id, type])
 
-  if (loading)
-    return (
-      <div class="flex justify-center m-4">
-        <Loader />
-      </div>
-    )
-
-  if (!watchList.length)
+  if (!watchList.length && !loadingCount && !loading)
     return (
       <div class="text-center text-white">
         {i18n.t('noTypeOnWatchlist', { type })}
@@ -57,6 +73,7 @@ export function WatchList({ type }: WatchListProps) {
 
   return (
     <div class="overflow-y-auto p-2 flex flex-col gap-4">
+      {loading && <Loader />}
       {watchList.map((item) => {
         if (item.type === 'tv')
           return (
@@ -73,6 +90,10 @@ export function WatchList({ type }: WatchListProps) {
           )
         return null
       })}
+
+      {!loadingCount && (
+        <Pagination totalPages={totalPages} onFetch={fetchWatchList} />
+      )}
     </div>
   )
 }
