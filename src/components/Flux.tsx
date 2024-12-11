@@ -122,7 +122,7 @@ export function Flux() {
                 <div class="flex items-center h-full">
                   {review.title}
                   {review.type === 'tv' && (
-                    <span class="font-bold">{`E${review.current_episode}S${review.current_season}`}</span>
+                    <span class="font-bold">{` E${review.current_episode}S${review.current_season}`}</span>
                   )}
                 </div>
                 <img
