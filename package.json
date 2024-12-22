@@ -5,7 +5,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest",
+    "test:u": "vitest",
+    "test:e2e": "cucumber-js",
     "test:ui": "vitest --ui",
     "coverage": "vitest run --coverage"
   },
@@ -22,11 +23,14 @@
     "preact-render-to-string": "^6.5.11"
   },
   "devDependencies": {
+    "@cucumber/cucumber": "^11.1.1",
     "@editorjs/delimiter": "^1.4.2",
     "@editorjs/header": "^2.8.8",
+    "@playwright/test": "^1.49.1",
     "@preact/preset-vite": "^2.9.0",
     "@testing-library/jest-dom": "^6.6.2",
     "@testing-library/preact": "^3.2.4",
+    "@types/node": "^22.10.2",
     "@unocss/postcss": "^0.63.6",
     "@vitest/coverage-istanbul": "^2.0.5",
     "@vitest/ui": "^2.0.5",
@@ -36,6 +40,7 @@
     "fast-check": "^3.22.0",
     "jsdom": "^25.0.1",
     "msw": "^1.3.5",
+    "ts-node": "^10.9.2",
     "typescript": "^5.6.3",
     "unocss": "^0.63.6",
     "vite": "^5.3.3",

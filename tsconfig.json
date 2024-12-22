@@ -15,7 +15,15 @@
       "react": ["./node_modules/preact/compat/"],
       "react-dom": ["./node_modules/preact/compat/"],
       "@/*": ["./src/*"]
-    }
+    },
+    "experimentalDecorators": true
   },
-  "include": ["node_modules/vite/client.d.ts", "**/*", "./**/*.test.ts"]
+  "include": ["node_modules/vite/client.d.ts", "**/*", "./**/*.test.ts"],
+  /* Cucumber Config */
+  "ts-node": {
+    "compilerOptions": {
+      "target": "ES6",
+      "moduleResolution": "node"
+    }
+  }
 }
