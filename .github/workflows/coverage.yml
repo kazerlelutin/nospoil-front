@@ -3,8 +3,8 @@ name: CI with Coverage
 on:
   push:
     branches:
-      - main
-      - develop
+      - main_
+      - develop_
   pull_request:
     branches:
       - main

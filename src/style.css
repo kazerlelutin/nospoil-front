@@ -22,6 +22,25 @@ body {
   font-style: normal;
 }
 
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  transition: 200ms ease-in-out;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
 a {
   color: var(--color-k-text);
 }
@@ -57,6 +76,14 @@ a:hover {
 .ce-toolbar__settings-btn {
   background-color: var(--color-k-bg);
   color: var(--color-k-text);
+}
+
+button {
+  background: none;
+  padding: 0;
+  outline: none;
+  border: none;
+  cursor: pointer;
 }
 
 @media (hover: hover) {

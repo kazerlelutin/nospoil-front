@@ -15,10 +15,20 @@ export default defineConfig({
     //['m-1', { margin: '1px' }]
   ],
   theme: {
+    breakpoints: {
+      xs: '325px',
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1536px',
+    },
     colors: {
       dark: {
         bg: '#000000',
         text: '#adacaa',
+        error: '#a12828',
+        success: '#2e7d32',
       },
       light: {
         bg: '#ffffff',

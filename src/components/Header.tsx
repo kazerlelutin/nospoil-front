@@ -1,7 +1,8 @@
 import { Hamburger } from './Hamburger'
-import { Breadcrumb } from './Breadcrumb'
 import { JSX } from 'preact/jsx-runtime'
-import { Logo } from '@/ui/Logo'
+import { Logo } from '@/components/Logo'
+import { i18n } from '@/utils/i18n'
+import { Profile } from './Profile'
 
 /**
  * @description
@@ -21,8 +22,16 @@ import { Logo } from '@/ui/Logo'
  */
 export function Header(): JSX.Element {
   return (
-    <header class="flex gap-2 items-center px-2">
-      <Logo />
+    <header class="flex gap-2 items-center px-2 justify-between">
+      <div class="flex">
+        <div class="md:hidden md:m-0 mr-2">
+          <Hamburger />
+        </div>
+        <Logo />
+      </div>
+      <div class="flex items-center py-1">
+        <Profile />
+      </div>
     </header>
   )
 }

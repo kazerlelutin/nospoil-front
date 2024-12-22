@@ -12,7 +12,9 @@
   "dependencies": {
     "@editorjs/editorjs": "^2.30.6",
     "@editorjs/underline": "^1.2.1",
+    "@supabase/supabase-js": "^2.46.1",
     "@unocss/reset": "^0.63.6",
+    "dayjs": "^1.11.13",
     "i18next": "^23.16.4",
     "i18next-browser-languagedetector": "^8.0.0",
     "preact": "^10.22.1",
