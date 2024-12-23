@@ -37,6 +37,9 @@ dependencies:
     version: 6.5.11(preact@10.22.1)
 
 devDependencies:
+  '@axe-core/playwright':
+    specifier: ^4.10.1
+    version: 4.10.1(playwright-core@1.49.1)
   '@cucumber/cucumber':
     specifier: ^11.1.1
     version: 11.1.1
@@ -70,6 +73,9 @@ devDependencies:
   '@vitest/ui':
     specifier: ^2.0.5
     version: 2.0.5(vitest@2.0.5)
+  dotenv:
+    specifier: ^16.4.7
+    version: 16.4.7
   editorjs-inline-spoiler-tool:
     specifier: ^1.0.1
     version: 1.0.1
@@ -133,6 +139,15 @@ packages:
 
   /@antfu/utils@0.7.10:
     resolution: {integrity: sha512-+562v9k4aI80m1+VuMHehNJWLOFjBnXn3tdOitzD0il5b7smkSBal4+a3oKiQTbrwMmN/TBUMDvbdoWDehgOww==}
+    dev: true
+
+  /@axe-core/playwright@4.10.1(playwright-core@1.49.1):
+    resolution: {integrity: sha512-EV5t39VV68kuAfMKqb/RL+YjYKhfuGim9rgIaQ6Vntb2HgaCaau0h98Y3WEUqW1+PbdzxDtDNjFAipbtZuBmEA==}
+    peerDependencies:
+      playwright-core: '>= 1.0.0'
+    dependencies:
+      axe-core: 4.10.2
+      playwright-core: 1.49.1
     dev: true
 
   /@babel/code-frame@7.26.2:
@@ -2689,6 +2704,11 @@ packages:
       dom-serializer: 2.0.0
       domelementtype: 2.3.0
       domhandler: 5.0.3
+    dev: true
+
+  /dotenv@16.4.7:
+    resolution: {integrity: sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==}
+    engines: {node: '>=12'}
     dev: true
 
   /duplexer@0.1.2:

@@ -1,8 +1,7 @@
 {
   "default": {
     "loader": ["ts-node/esm"],
-    "import": ["features/**/*.ts"],
-
+    "import": ["features/**/*.ts", "__tests__/step-definitions/**/*.steps.ts"],
     "format": [
       "progress-bar",
       "html:test-results/cucumber-report.html",
