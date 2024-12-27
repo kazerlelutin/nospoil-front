@@ -32,7 +32,8 @@ export default defineConfig({
     globals: true,
     pool: 'forks',
     environment: 'jsdom',
-    setupFiles: ['./__tests__/setupTests.js'],
+    setupFiles: ['./__tests__/units/setupTests.js'],
+    exclude: ['node_modules', '__tests__/e2e', '__tests__/step-definitions'],
     server: {},
     coverage: {
       provider: 'istanbul',

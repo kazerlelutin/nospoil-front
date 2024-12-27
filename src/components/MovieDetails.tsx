@@ -2,7 +2,7 @@ import { useMedia } from '@/hooks/useMedia'
 import { i18n } from '@/utils/i18n'
 
 export function MovieDetails() {
-  const { media: movie } = useMedia()
+  const { media: movie, loading } = useMedia()
 
   return (
     <div class="flex flex-col gap-3 mt-6">

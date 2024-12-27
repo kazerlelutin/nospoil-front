@@ -102,5 +102,6 @@
   "Returning Series": "반환 시리즈",
   "numberOfSeasons": "시즌 수",
   "createdBy": "만든 사람",
-  "status": "상태"
+  "status": "상태",
+  "errorOccured": "오류가 발생했습니다"
 }

@@ -103,5 +103,6 @@
   "Returning Series": "Returning Series",
   "numberOfSeasons": "Number of seasons",
   "createdBy": "Created by",
-  "status": "Status"
+  "status": "Status",
+  "errorOccured": "An error has occurred"
 }

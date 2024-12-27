@@ -5,26 +5,14 @@ import { i18n } from '@/utils/i18n'
 import { useMedia } from '@/hooks/useMedia'
 import { MEDIA_STATUS, RATING_EMOJIS, RATING_LABELS } from '@/utils/constants'
 import { useMemo } from 'preact/hooks'
+import type { Review as ReviewT } from '@/types/review'
 
 const EditorRead = lazy(() =>
   import('./EditorRead').then((mod) => ({ default: mod.EditorRead }))
 ) as any
 
 type ReviewProps = {
-  review: {
-    id: string
-    rating: number
-    content: string
-    updated_at: string
-    media_state: string
-    current_season: number
-    current_episode: number
-    profiles: {
-      id: string
-      username: string
-      avatar: string
-    }
-  }
+  review: ReviewT
   type: string
 }
 

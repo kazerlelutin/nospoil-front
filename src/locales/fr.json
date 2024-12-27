@@ -102,5 +102,6 @@
   "Returning Series": "Série en cours",
   "numberOfSeasons": "Nombre de saisons",
   "createdBy": "Créé par",
-  "status": "Statut"
+  "status": "Statut",
+  "errorOccured": "Une erreur est survenue"
 }

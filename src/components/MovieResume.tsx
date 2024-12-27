@@ -4,7 +4,8 @@ import dayjs from 'dayjs'
 import { MovieState } from './MovieState'
 
 export function MovieResume() {
-  const { media: movie, watchlist } = useMedia()
+  const { media: movie, loading, watchlist } = useMedia()
+  //TODO afficher un placeholder pendant le chargement
 
   const fields = [
     {
@@ -56,23 +57,23 @@ export function MovieResume() {
   return (
     <div class="">
       <h1 class="text-xl font-bold m-0 uppercase p-0 mb-4 text-center">
-        {movie.title}
+        {movie?.title}
       </h1>
       <div class="flex justify-center">
         <MovieState
           movie={{
-            title: movie.title,
-            tmdb_id: movie.id,
-            poster_path: movie.poster_path,
+            title: movie?.title,
+            tmdb_id: movie?.id,
+            poster_path: movie?.poster_path,
             ...watchlist,
           }}
-          id={movie.id}
+          id={movie?.id}
         />
       </div>
       <div class="text-sm text-left">
         <img
-          src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-          alt={movie.title}
+          src={`https://image.tmdb.org/t/p/w200${movie?.poster_path}`}
+          alt={movie?.title}
           width={152}
           height={228}
           class="h-auto w-full xs:w-38 w-full xs:float-left mr-4 mb-2"
