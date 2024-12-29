@@ -7,8 +7,6 @@ export function useAuthRedirect() {
   const { route } = useLocation()
 
   useEffect(() => {
-    if (!session?.start && !session.user?.id) {
-      route('/login')
-    }
+    if (!session?.start && !session.user?.id) route('/login')
   }, [session, route])
 }
