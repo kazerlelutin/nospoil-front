@@ -1,12 +1,7 @@
 import { createContext } from 'preact'
-import { useContext, useEffect, useRef, useState } from 'preact/hooks'
+import { useEffect, useRef, useState } from 'preact/hooks'
 
-const InterObsContext = createContext(false)
-
-export function useInterObs() {
-  const ctx = useContext(InterObsContext)
-  return ctx
-}
+export const InterObsContext = createContext(false)
 
 export function InterObsProvider({ children }) {
   const observerRef = useRef(null)
