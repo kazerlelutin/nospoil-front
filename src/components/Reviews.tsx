@@ -27,6 +27,7 @@ export function Reviews() {
   const { watchlist } = useMedia()
 
   const fetchReviewCount = async () => {
+    console.log('fetching review count')
     if (!session?.user?.id) return
     setLoading(true)
 
@@ -60,8 +61,7 @@ export function Reviews() {
 
   useEffect(() => {
     fetchReviewCount()
-    handleFetchReviews(1)
-  }, [])
+  }, [session])
 
   if (error) return <p class="text-center">{i18n.t('errorOccured')}</p>
 

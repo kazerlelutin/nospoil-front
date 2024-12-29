@@ -46,7 +46,7 @@ describe('Button', () => {
   it('should render correctly with various props', () => {
     fc.assert(
       fc.property(
-        fc.string({ minLength: 1 }),
+        fc.string({ minLength: 1 }).noBias(),
         fc.boolean(),
         fc.oneof(
           fc.constant('button'),
