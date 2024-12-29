@@ -1,15 +1,15 @@
+import { useId, useMemo } from 'preact/hooks'
 import EditorJS from '@editorjs/editorjs'
 import underline from '@editorjs/underline'
 import delimiter from '@editorjs/delimiter'
 import Header from '@editorjs/header'
-import { useId, useMemo } from 'preact/hooks'
 
-type EditorProps = {
+type UseEditorReadOnlyProps = {
   blocks: string
-  id?: string
+  id: string
 }
 
-export function EditorRead({ blocks, id: _id }: EditorProps) {
+export function useEditorReadOnly({ blocks, id: _id }: UseEditorReadOnlyProps) {
   const id = _id || useId()
 
   const editorId = useMemo(() => {
@@ -33,8 +33,6 @@ export function EditorRead({ blocks, id: _id }: EditorProps) {
         delimiter,
         // --- INLINE ---
         underline,
-
-        // TextSpolier,
       },
       holder: id,
       minHeight: 0,
@@ -42,5 +40,5 @@ export function EditorRead({ blocks, id: _id }: EditorProps) {
     return id
   }, [blocks])
 
-  return <div id={editorId}></div>
+  return editorId
 }

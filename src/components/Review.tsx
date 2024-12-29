@@ -7,8 +7,8 @@ import { MEDIA_STATUS, RATING_EMOJIS, RATING_LABELS } from '@/utils/constants'
 import { useMemo } from 'preact/hooks'
 import type { Review as ReviewT } from '@/types/review'
 
-const EditorRead = lazy(() =>
-  import('./EditorRead').then((mod) => ({ default: mod.EditorRead }))
+const EditorReadOnly = lazy(() =>
+  import('./EditorReadOnly').then((mod) => ({ default: mod.EditorReadOnly }))
 ) as any
 
 type ReviewProps = {
@@ -78,7 +78,7 @@ export function Review({ review, type }: ReviewProps) {
               <span class="text-xl">❓</span>
               "it's hide for real"
             </div>
-            <EditorRead blocks={review.content} id={review.id} />
+            <EditorReadOnly blocks={review.content} id={review.id} />
           </div>
         }
       >
@@ -87,7 +87,7 @@ export function Review({ review, type }: ReviewProps) {
             <span class="text-xl">{RATING_EMOJIS[review.rating]}</span>
             {i18n.t(RATING_LABELS[review.rating])}
           </div>
-          <EditorRead blocks={review.content} id={review.id} />
+          <EditorReadOnly blocks={review.content} id={review.id} />
         </div>
       </Spoiler>
     </article>
