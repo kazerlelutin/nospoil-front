@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'preact/hooks'
-import { Modal } from './Modal'
+import { Modal } from '@/components/Modal'
 import { supabase } from '@/utils/supabase'
 
 import { i18n } from '@/utils/i18n'
-import { Button } from './Button'
+import { Button } from '@/components/Button'
 import { useSession } from '@/providers/session'
-import { Avatar } from './Avatar'
-import { EditIcon } from './EditIcon'
+import { Avatar } from '@/components/Avatar'
+import { EditIcon } from '@/components/EditIcon'
 
 type Profile = {
   username: string | undefined
