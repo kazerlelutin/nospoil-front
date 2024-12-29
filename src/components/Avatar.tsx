@@ -18,9 +18,7 @@ export const Avatar = forwardRef(
         alt={alt || 'avatar'}
         data-size={size}
         class="w-16 h-16  data-[size=sm]:w-8 data-[size=sm]:h-8 rounded-full border-solid border-3 border-white/50 "
-        onError={(e) => {
-          e.currentTarget.src = '/avatar.svg'
-        }}
+        onError={(e) => (e.currentTarget.src = '/avatar.svg')}
       />
     )
   }
