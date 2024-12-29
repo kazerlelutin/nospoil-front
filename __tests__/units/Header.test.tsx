@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/preact'
 import { Header } from '@/components/Header'
 import { describe, it, expect, vi } from 'vitest'
 
-// Mock des composants enfants
 vi.mock('@/components/Hamburger', () => ({
   Hamburger: () => <div>Hamburger</div>,
 }))

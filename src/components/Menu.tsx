@@ -1,17 +1,14 @@
+import { useMobileMenu } from '@/hooks/useMobileMenu'
 import { i18n } from '@/utils/i18n'
 
 const links = [
   { href: '/', label: 'home' },
-  // { href: '/notif', label: 'notifications' },
-  //{ href: '/settings', label: 'settings' },
-  // { href: '/profile', label: 'profile' },
+  // { href: '/legal', label: 'legal' },
 ]
 
 export function Menu() {
   //reset mobile menu
-  const handleClick = () => {
-    document.querySelector('[data-menu]')?.setAttribute('data-menu', 'false')
-  }
+  const handleClick = useMobileMenu()
 
   return (
     <nav
@@ -31,13 +28,6 @@ export function Menu() {
           </li>
         ))}
         <div class="flex gap-2 items-center">
-          {/* <img
-            src="/kofi_logo.svg"
-            class="object-contain"
-            alt="Ko-fi logo"
-            width={15}
-            height={10}
-          />*/}
           <a
             href="https://ko-fi.com/kazerlelutin"
             target="_blank"
