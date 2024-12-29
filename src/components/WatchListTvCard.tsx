@@ -1,4 +1,4 @@
-import { useInterObs } from '@/providers/interObs'
+import { useInterObs } from '@/hooks/useInterObs'
 import { TvState } from './TvState'
 
 type WatchListTvCardProps = {

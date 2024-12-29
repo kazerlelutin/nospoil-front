@@ -1,8 +1,7 @@
-import { useInterObs } from '@/providers/interObs'
-import { TvState } from './TvState'
 import { useEffect, useMemo, useState } from 'preact/hooks'
 import { Serie } from '@/types/media'
 import { i18n } from '@/utils/i18n'
+import { useInterObs } from '@/hooks/useInterObs'
 
 type WatchListTvCardProps = {
   item: {
