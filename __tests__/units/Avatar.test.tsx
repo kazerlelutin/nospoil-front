@@ -1,8 +1,9 @@
-import { render, screen } from '@testing-library/preact'
+import { cleanup, render, screen } from '@testing-library/preact'
 import { Avatar } from '@/components/Avatar'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, afterEach } from 'vitest'
 
 describe('Avatar', () => {
+  afterEach(cleanup)
   it('should render with the correct src and alt attributes', () => {
     const src = 'test-avatar.png'
     const alt = 'Test Avatar'
