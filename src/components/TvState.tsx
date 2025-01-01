@@ -6,15 +6,14 @@ import { EditIcon } from './EditIcon'
 import { Button } from './Button'
 import { Serie } from '@/types/media'
 import { useMedia } from '@/hooks/useMedia'
-import { useRoute } from 'preact-iso'
 
 type TvStateProps = {
   item: any
   canFetch?: boolean
   defaultSeasons?: Serie['seasons']
 }
+
 export function TvState({ item, canFetch, defaultSeasons = [] }: TvStateProps) {
-  const { query } = useRoute()
   const session = useSession()
   const mediaCtx = useMedia()
   const [editMode, setEditMode] = useState(false)
@@ -94,8 +93,7 @@ export function TvState({ item, canFetch, defaultSeasons = [] }: TvStateProps) {
       current_episode: episode,
       current_season: currentSeason,
     })
-    const page = Number(query.page) || 1
-    mediaCtx.fetchReviews(page)
+
     if (error) setCurrentEpisode(oldEpisode)
   }
 
@@ -149,11 +147,18 @@ export function TvState({ item, canFetch, defaultSeasons = [] }: TvStateProps) {
                 100
               }%`,
             }}
+            role="progressbar"
           />
           <div class="absolute inset-0 bg-white/10 border-solid border-3 border-black rounded-md" />
         </div>
 
-        <button class="fill-dark-text w-4 h-auto" onClick={handleEditMode}>
+        <button
+          class="fill-dark-text w-4 h-auto"
+          onClick={handleEditMode}
+          name="edit"
+          role="button"
+          aria-label="edit"
+        >
           <EditIcon />
         </button>
       </div>
@@ -161,7 +166,11 @@ export function TvState({ item, canFetch, defaultSeasons = [] }: TvStateProps) {
         <div class="font-bold">
           E{currentEpisode}S{currentSeason}
         </div>
-        <div class="italic text-sm text-right">
+        <div
+          class="italic text-sm text-right"
+          aria-label="episodeRemaining"
+          data-episode-remaining={episodeRemaining}
+        >
           {i18n.t(
             episodeRemaining === 0 ? 'episodeRemaining_0' : 'episodeRemaining',
             {
@@ -225,6 +234,9 @@ export function TvState({ item, canFetch, defaultSeasons = [] }: TvStateProps) {
               data-is-before={episode < currentEpisode}
               class="cursor-pointer p-2 w-7 h-7 flex items-center justify-center bg-transparent border-solid border-white/10 rounded-md data-[current=true]:border-green-600 data-[current=true]:text-green-600 data-[is-before=true]:opacity-50"
               onClick={() => handleEpisodeChange(episode)}
+              name={`episode-${episode}`}
+              role="button"
+              aria-label={`episode-${episode}`}
             >
               {episode}
             </button>

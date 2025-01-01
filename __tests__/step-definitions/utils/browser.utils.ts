@@ -2,7 +2,7 @@ import { Before, After } from '@cucumber/cucumber'
 import { chromium } from '@playwright/test'
 import 'dotenv/config'
 
-const URL = process.env.CUCUMBER_URL_FRONT
+const URL = process.env.VITE_CUCUMBER_URL_FRONT
 
 Before(async function () {
   try {

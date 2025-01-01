@@ -24,8 +24,10 @@ export function Media() {
     params: { type, id },
   } = useRoute()
 
+  if (!type || !id || !type.match(/tv|movie/)) return null
+
   return (
-    <MediaProvider type={type} id={Number(id)}>
+    <MediaProvider type={type as 'movie' | 'tv'} id={Number(id)}>
       <div class="w-full m-auto h-full relative gap-3">
         <div class="absolute inset-0 overflow-y-auto py-1 px-4">
           <MediaResume />

@@ -98,3 +98,5 @@ export type Serie = {
     overview: string
   }[]
 }
+
+export type MEDIA_TYPE = 'movie' | 'tv'

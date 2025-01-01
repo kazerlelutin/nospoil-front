@@ -1,17 +1,9 @@
 import { useInterObs } from '@/hooks/useInterObs'
 import { TvState } from './TvState'
+import { Watchlist } from '@/types/Watchlist'
 
 type WatchListTvCardProps = {
-  item: {
-    poster_path: string
-    title: string
-    release_date: string
-    current_season: number
-    current_episode: number
-    id: number
-    tmdb_id: number
-    overview: string
-  }
+  item: Watchlist
 }
 
 export function WatchListTvCard({ item }: WatchListTvCardProps) {

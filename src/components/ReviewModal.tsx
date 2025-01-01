@@ -17,13 +17,16 @@ const Editor = lazy(() =>
   import('./Editor').then((mod) => ({ default: mod.Editor }))
 ) as any
 
-export function ReviewModal() {
+type ReviewModalProps = {
+  callback: (page: number) => void | Promise<void>
+}
+export function ReviewModal({ callback }: ReviewModalProps) {
   const {
     params: { type, id },
     query,
   } = useRoute()
 
-  const { watchlist, media, fetchReviews } = useMedia()
+  const { watchlist, media } = useMedia()
   const session = useSession()
   const [loading, setLoading] = useState(false)
   const [review, setReview] = useState<any>(undefined)
@@ -112,7 +115,7 @@ export function ReviewModal() {
       })
 
       const page = parseInt(query.page as string) || 1
-      fetchReviews(page)
+      callback(page)
       if (error) throw error
       setInitValue({ content: JSON.stringify(review) })
       setRating(rating)

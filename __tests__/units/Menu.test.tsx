@@ -13,6 +13,7 @@ describe('Menu', () => {
   it('should render the menu links', () => {
     render(<Menu />)
     expect(screen.getByText('home')).toBeInTheDocument()
+    expect(screen.getByText('legal')).toBeInTheDocument()
   })
 
   it('should call handleClick when a link is clicked', () => {

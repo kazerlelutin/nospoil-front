@@ -22,6 +22,7 @@ export function useWatchlist(userId: string, tmdbId: number) {
         .eq('tmdb_id', tmdbId)
         .maybeSingle()
 
+      console.log(error)
       if (error) throw new Error(error.message)
       return data
     })

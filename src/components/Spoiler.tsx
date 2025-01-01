@@ -1,25 +1,24 @@
 import { useState } from 'preact/hooks'
-import { JSX } from 'preact/jsx-runtime'
 
 type SpoilerProps = {
-  children: JSX.Element
-  defaultShow?: boolean
-  fake?: JSX.Element
+  children: preact.ComponentChildren
+  initialHidden?: boolean
+  fake?: preact.ComponentChildren
 }
 
-export function Spoiler({ children, fake, defaultShow }: SpoilerProps) {
-  const [show, setShow] = useState(defaultShow || false)
+export function Spoiler({ children, fake, initialHidden }: SpoilerProps) {
+  const [hidden, setHidden] = useState(initialHidden || false)
 
   const toggleShow = () => {
-    setShow((prev) => !prev)
+    setHidden((prev) => !prev)
   }
 
   return (
     <div class="relative cursor-pointer" data-show={true} onClick={toggleShow}>
-      {!show && (
+      {hidden && (
         <div class="absolute inset-0 backdrop-blur-sm backdrop-filter z-10"></div>
       )}
-      {show ? children : fake || children}
+      {!hidden ? children : fake || children}
     </div>
   )
 }

@@ -27,7 +27,6 @@ export function Reviews() {
   const { watchlist } = useMedia()
 
   const fetchReviewCount = async () => {
-    console.log('fetching review count')
     if (!session?.user?.id) return
     setLoading(true)
 
@@ -68,7 +67,7 @@ export function Reviews() {
   return (
     <section class="flex flex-col gap-4">
       <div class="flex justify-end pt-4">
-        <ReviewModal />
+        <ReviewModal callback={handleFetchReviews} />
       </div>
       {reviews.length === 0 && (
         <p class="text-center">{i18n.t('noReviewYet')}</p>
