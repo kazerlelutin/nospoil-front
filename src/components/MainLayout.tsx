@@ -3,7 +3,6 @@ import { Header } from './Header'
 import { Menu } from './Menu'
 import { JSX } from 'preact/jsx-runtime'
 import { SessionProvider } from '@/providers/session'
-import { Profile } from './Profile'
 
 type MainLayoutProps = {
   children: JSX.Element

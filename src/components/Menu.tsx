@@ -3,7 +3,7 @@ import { i18n } from '@/utils/i18n'
 
 const links = [
   { href: '/', label: 'home' },
-  // { href: '/legal', label: 'legal' },
+  { href: '/legal', label: 'legal' },
 ]
 
 export function Menu() {

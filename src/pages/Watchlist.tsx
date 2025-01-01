@@ -1,10 +1,9 @@
 import { Avatar } from '@/components/Avatar'
 import { PersistTabs } from '@/components/PersistTabs'
 import { WatchListRead } from '@/components/WatchListRead'
+import { useUser } from '@/hooks/useUser'
 import { i18n } from '@/utils/i18n'
-import { supabase } from '@/utils/supabase'
 import { useRoute } from 'preact-iso'
-import { useEffect, useState } from 'preact/hooks'
 
 const tabs = [
   {
@@ -24,21 +23,7 @@ export function Watchlist() {
     params: { user_id },
   } = useRoute()
 
-  const [user, setUser] = useState(null)
-
-  const handleFetch = async () => {
-    const { data } = await supabase
-      .from('profiles')
-      .select()
-      .eq('id', user_id)
-      .single()
-
-    setUser(data)
-  }
-
-  useEffect(() => {
-    handleFetch()
-  }, [user_id])
+  const user = useUser(user_id)
 
   return (
     <div class="w-full m-auto h-full">

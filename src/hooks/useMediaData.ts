@@ -12,8 +12,6 @@ export function useMediaData(tmdbId: number, type: 'movie' | 'tv') {
   } = useAsyncState<any>()
 
   useEffect(() => {
-    if (!tmdbId || !type) return
-
     run(async () => {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}tv/${type}/${tmdbId}?language=${
@@ -21,6 +19,7 @@ export function useMediaData(tmdbId: number, type: 'movie' | 'tv') {
         }&append_to_response=videos,images,credits`
       )
       const data = await res.json()
+
       if (!res.ok) throw new Error(res.statusText)
       return data
     })

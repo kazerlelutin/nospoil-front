@@ -1,84 +1,64 @@
-import { useSession } from '@/providers/session'
-import { supabase } from '@/utils/supabase'
-import { useEffect, useState } from 'preact/hooks'
 import { Loader } from './Loader'
-import { WatchListTvCard } from './WatchListTvCard'
 import { InterObsProvider } from '@/providers/interObs'
-import { WatchListMovieCard } from './WatchListMovieCard'
 import { i18n } from '@/utils/i18n'
 import { useRoute } from 'preact-iso'
 import { WatchListMovieCardRead } from './WatchListMovieCardRead'
 import { WatchListTvCardRead } from './WatchListTvCardRead'
+import { MEDIA_TYPE } from '@/types/media'
+import { useWatchlists } from '@/hooks/useWatchlists'
+import { useWatchlistsCount } from '@/hooks/useWatchlistsCount'
+import { PER_PAGE } from '@/utils/constants'
+import { Pagination } from './Pagination'
 
 type WatchListProps = {
-  type: 'movie' | 'tv'
+  type: MEDIA_TYPE
 }
 
 export function WatchListRead({ type }: WatchListProps) {
   const {
     params: { user_id },
   } = useRoute()
-  const session = useSession()
 
-  const [watchList, setWatchList] = useState([])
-  const [loading, setLoading] = useState(true)
-
-  const fetchWatchList = async () => {
-    if (!session?.user?.id) return
-    setLoading(true)
-
-    const { data, error } = await supabase
-      .from('watchlist')
-      .select()
-      .eq('type', type)
-      .eq('user_id', user_id)
-      .order('updated_at', { ascending: false })
-
-    if (error) {
-      console.error('Error fetching watchlist:', error.message)
-      return
-    }
-
-    setWatchList(data)
-    setLoading(false)
-  }
-
-  useEffect(() => {
-    fetchWatchList()
-  }, [session?.user?.id, type])
-
-  if (loading)
-    return (
-      <div class="flex justify-center items-center m-4">
-        <Loader />
-      </div>
-    )
-
-  if (!watchList.length)
-    return (
-      <div class="text-center text-white">
-        {i18n.t('noTypeOnWatchlist', { type })}
-      </div>
-    )
+  const { loading: loadingCount, watchListsCount } = useWatchlistsCount(
+    user_id,
+    type
+  )
+  const { loading, watchLists, fetchWatchList } = useWatchlists(user_id, type)
+  const totalPages = Math.ceil(watchListsCount / PER_PAGE)
 
   return (
     <div class="overflow-y-auto p-2 flex flex-col gap-4">
-      {watchList.map((item) => {
-        if (item.type === 'tv')
-          return (
-            <InterObsProvider>
-              <WatchListTvCardRead item={item} key={item.id} />
-            </InterObsProvider>
-          )
+      {loading && (
+        <div class="flex justify-center items-center m-4">
+          <Loader />
+        </div>
+      )}
+      {!watchLists?.length ? (
+        <div class="text-center text-white">
+          {i18n.t('noTypeOnWatchlist', { type })}
+        </div>
+      ) : (
+        watchLists?.map((watchList) => {
+          if (watchList.type === 'tv')
+            return (
+              <InterObsProvider>
+                <WatchListTvCardRead item={watchList} key={watchList.id} />
+              </InterObsProvider>
+            )
 
-        if (item.type === 'movie')
-          return (
-            <div>
-              <WatchListMovieCardRead item={item} key={item.id} />
-            </div>
-          )
-        return null
-      })}
+          if (watchList.type === 'movie')
+            return (
+              <div>
+                <WatchListMovieCardRead item={watchList} key={watchList.id} />
+              </div>
+            )
+          return null
+        })
+      )}
+
+      {!loadingCount && (
+        <Pagination totalPages={totalPages} onFetch={fetchWatchList} />
+      )}
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import { useEditor } from '@/hooks/useEditor'
-import { cleanup, renderHook, waitFor } from '@testing-library/preact'
-import { describe, it, expect, vi, afterEach } from 'vitest'
+import { renderHook, waitFor } from '@testing-library/preact'
+import { describe, it, expect, vi } from 'vitest'
 import EditorJS from '@editorjs/editorjs'
 
 // Mock EditorJS
@@ -22,11 +22,6 @@ vi.mock('@editorjs/editorjs', () => {
 })
 
 describe('useEditor', () => {
-  afterEach(() => {
-    cleanup()
-    vi.clearAllMocks()
-  })
-
   it('should initialize EditorJS correctly', () => {
     const placeholder = 'Salut'
     const initialValue = JSON.stringify([

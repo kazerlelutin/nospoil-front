@@ -23,7 +23,7 @@ export function TvResume() {
     {
       name: 'numberOfSeasons',
       value: `${tv?.number_of_seasons} (${tv?.number_of_episodes} episode${
-        tv.number_of_episodes > 1 ? 's' : ''
+        tv?.number_of_episodes > 1 ? 's' : ''
       })`,
     },
     {
@@ -40,8 +40,9 @@ export function TvResume() {
     },
   ]
 
+  if (!tv) return null
   return (
-    <div class="">
+    <div>
       <TvState
         item={{
           poster_path: tv?.poster_path,
@@ -50,7 +51,7 @@ export function TvResume() {
           ...watchlist,
         }}
         canFetch={false}
-        defaultSeasons={tv.seasons}
+        defaultSeasons={tv?.seasons || []}
       />
 
       <div class="text-sm text-left">

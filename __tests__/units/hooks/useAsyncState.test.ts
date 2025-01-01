@@ -1,6 +1,6 @@
 import { useAsyncState } from '@/hooks/useAsyncState'
 import { renderHook, waitFor } from '@testing-library/preact'
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect } from 'vitest'
 
 describe('useAsyncState', () => {
   it('should initialize with correct default values', () => {

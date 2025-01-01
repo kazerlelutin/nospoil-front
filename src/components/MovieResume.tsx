@@ -4,8 +4,7 @@ import dayjs from 'dayjs'
 import { MovieState } from './MovieState'
 
 export function MovieResume() {
-  const { media: movie, loading, watchlist } = useMedia()
-  //TODO afficher un placeholder pendant le chargement
+  const { media: movie, watchlist } = useMedia()
 
   const fields = [
     {
@@ -54,6 +53,7 @@ export function MovieResume() {
       hide: movie?.revenue === 0,
     },
   ]
+
   return (
     <div class="">
       <h1 class="text-xl font-bold m-0 uppercase p-0 mb-4 text-center">

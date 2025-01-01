@@ -1,21 +1,5 @@
 import { JSX } from 'preact/jsx-runtime'
 
-/**
- * @description
- *
- * Hamburger button to toggle menu
- *
- * ---
- *
- * @example ```tsx
- * <Hamburger />
- * ```
- *
- * ---
- * @see {@link [Tests](../../__tests__/Hamburger.test.tsx)}
- *
- * @returns {JSX.Element} Hamburger button
- */
 export function Hamburger(): JSX.Element {
   const handleClick = () => {
     const nav = document.querySelector('[data-menu]')

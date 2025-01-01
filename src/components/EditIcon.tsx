@@ -1,3 +1,4 @@
+//SOLID
 export function EditIcon() {
   return (
     <svg viewBox="0 0 16.933333 16.933333">
