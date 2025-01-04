@@ -1,141 +1,52 @@
 import { i18n } from '@/utils/i18n'
 import { Button } from './Button'
 import { Modal } from './Modal'
-import { useEffect, useState } from 'preact/hooks'
-import { useSession } from '@/providers/session'
 import {
   MEDIA_RATINGS,
   MEDIA_STATUS,
   RATING_EMOJIS,
   RATING_LABELS,
 } from '@/utils/constants'
-import { useMedia } from '@/hooks/useMedia'
-import { supabase } from '@/utils/supabase'
+
 import { lazy, useRoute } from 'preact-iso'
+import { useReviewModal } from '@/hooks/useReviewModal'
+import { MEDIA_TYPE } from '@/types/media'
 
 const Editor = lazy(() =>
   import('./Editor').then((mod) => ({ default: mod.Editor }))
 ) as any
 
-export function ReviewModal() {
+type ReviewModalProps = {
+  callback: (page: number) => void | Promise<void>
+}
+export function ReviewModal({ callback }: ReviewModalProps) {
   const {
     params: { type, id },
     query,
   } = useRoute()
 
-  const { watchlist, media, fetchReviews } = useMedia()
-  const session = useSession()
-  const [loading, setLoading] = useState(false)
-  const [review, setReview] = useState<any>(undefined)
-  const [rating, setRating] = useState<string>(MEDIA_RATINGS.GOOD)
-  const [initValue, setInitValue] = useState<any>(undefined)
-  const [error, setError] = useState('')
-
-  const handleOpen = async (openCb: () => void) => {
-    setLoading(true)
-    if (!watchlist?.id) {
-      const payload: any = {
-        tmdb_id: media.id,
-        user_id: session.user.id,
-        type,
-        title: media.title || media.name,
-        updated_at: new Date(),
-      }
-
-      if (type === 'tv') {
-        payload.current_episode = 1
-        payload.current_season = 1
-      }
-
-      if (type === 'movie') {
-        payload.status = MEDIA_STATUS.NOT_SEEN
-      }
-
-      await supabase.from('watchlist').insert(payload)
-    }
-    setLoading(false)
-
-    openCb()
-  }
-
-  const handleFetchReviewState = async () => {
-    if (!watchlist?.tmdb_id) return
-    if (type === 'tv') {
-      const { data } = await supabase
-        .from('posts')
-        .select('content, rating')
-        .eq('user_id', session.user.id)
-        .eq('media_id', id)
-        .eq('current_episode', watchlist.current_episode)
-        .eq('current_season', watchlist.current_season)
-        .maybeSingle()
-
-      if (data?.rating) setRating(data.rating)
-      setInitValue(data)
-    }
-
-    if (type === 'movie') {
-      const { data } = await supabase
-        .from('posts')
-        .select('content, rating')
-        .eq('user_id', session.user.id)
-        .eq('media_id', id)
-        .eq('media_state', watchlist.status)
-        .maybeSingle()
-
-      if (data?.rating) setRating(data.rating)
-      setInitValue(data)
-    }
-  }
-
-  const handleSave = async (closeCb: () => void) => {
-    if (!session?.user?.id) return
-
-    setLoading(true)
-    try {
-      await supabase
-        .from('posts')
-        .delete()
-        .eq('media_id', id)
-        .eq('user_id', session.user.id)
-
-      const { error } = await supabase.from('posts').upsert({
-        user_id: session.user.id,
-        media_id: id,
-        current_episode: watchlist?.current_episode,
-        current_season: watchlist?.current_season,
-        media_state: watchlist?.status || MEDIA_STATUS.NOT_SEEN,
-        importance: 0,
-        rating,
-        content: review,
-        updated_at: new Date(),
-      })
-
-      const page = parseInt(query.page as string) || 1
-      fetchReviews(page)
-      if (error) throw error
-      setInitValue({ content: JSON.stringify(review) })
-      setRating(rating)
-
-      //TODO remettre à zero les UpPosts quand il seront implémentés
-    } catch (error) {
-      setError(error.message)
-    } finally {
-      setLoading(false)
-      closeCb()
-    }
-  }
-
-  useEffect(() => {
-    handleFetchReviewState()
-  }, [watchlist])
+  const {
+    initValue,
+    loading,
+    rating,
+    watchlist,
+    openModal,
+    save,
+    setRating,
+    setReview,
+  } = useReviewModal({
+    id,
+    type: type as MEDIA_TYPE,
+    page: parseInt(query.page as string),
+    callback,
+  })
 
   return (
     <Modal
       button={(openCb) => (
         <div class="flex flex-col items-end gap-2">
           <div>
-            <Button onClick={() => handleOpen(openCb)}>
+            <Button onClick={() => openModal(openCb)}>
               {i18n.t('writeAReview')}
             </Button>
           </div>
@@ -190,7 +101,7 @@ export function ReviewModal() {
             <Button onClick={() => closeCb()} type="reset">
               {i18n.t('close')}
             </Button>
-            <Button onClick={() => handleSave(closeCb)}>
+            <Button onClick={() => save(closeCb)}>
               {i18n.t(loading ? 'loading' : 'save')}
             </Button>
           </div>

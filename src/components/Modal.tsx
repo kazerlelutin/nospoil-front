@@ -12,8 +12,8 @@ export function Modal({ defaultOpen = false, button, children }: ModalProps) {
 
   const openModal = () => setIsOpen(true)
 
-  const closeModal = (cb?: () => void) => {
-    cb?.()
+  const closeModal = (cb) => {
+    if (typeof cb === 'function') cb()
     setIsOpen(false)
   }
 

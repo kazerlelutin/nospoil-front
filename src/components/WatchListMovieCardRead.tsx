@@ -1,17 +1,8 @@
-import { MEDIA_STATUS, type MediaStatus } from '@/utils/constants'
-import { MovieState } from './MovieState'
 import { i18n } from '@/utils/i18n'
+import { Watchlist } from '@/types/Watchlist'
 
 type WatchListTvCardProps = {
-  item: {
-    poster_path: string
-    title: string
-    release_date: string
-    id: number
-    tmdb_id: number
-    overview: string
-    status: MediaStatus
-  }
+  item: Watchlist
 }
 
 export function WatchListMovieCardRead({ item }: WatchListTvCardProps) {

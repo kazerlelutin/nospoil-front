@@ -5,42 +5,41 @@ import { i18n } from '@/utils/i18n'
 import { useMedia } from '@/hooks/useMedia'
 import { MEDIA_STATUS, RATING_EMOJIS, RATING_LABELS } from '@/utils/constants'
 import { useMemo } from 'preact/hooks'
-import type { Review as ReviewT } from '@/types/review'
+import type { REVIEW } from '@/types/review'
 
 const EditorReadOnly = lazy(() =>
   import('./EditorReadOnly').then((mod) => ({ default: mod.EditorReadOnly }))
 ) as any
 
 type ReviewProps = {
-  review: ReviewT
+  review: REVIEW
   type: string
 }
 
 export function Review({ review, type }: ReviewProps) {
   const { watchlist } = useMedia()
 
-  const defaultShow = useMemo(() => {
-    if (!watchlist) return false
-
+  const initialHidden = useMemo(() => {
+    if (!watchlist) return true
     if (type === 'movie') {
-      if (review.media_state === MEDIA_STATUS.NOT_SEEN) return true
-      if (watchlist.status.match(/completed|not_seen|not_interested/))
-        return true
-      if (review.media_state === MEDIA_STATUS.PLANNED) return true
-      return false
+      if (watchlist.status.match(/completed|not_interested/)) return false
+      if (review.media_state === MEDIA_STATUS.NOT_SEEN) return false
+      if (review.media_state === MEDIA_STATUS.PLANNED) return false
+
+      return true
     }
 
     if (type === 'tv') {
-      if (watchlist.current_season > review.current_season) return true
+      if (watchlist.current_season > review.current_season) return false
       if (
         watchlist.current_season === review.current_season &&
         watchlist.current_episode > review.current_episode
       )
-        return true
-      return false
+        return false
+      return true
     }
 
-    return false
+    return true
   }, [watchlist, review])
 
   return (
@@ -70,8 +69,9 @@ export function Review({ review, type }: ReviewProps) {
           </a>
         </div>
       </header>
+
       <Spoiler
-        defaultShow={defaultShow}
+        initialHidden={initialHidden}
         fake={
           <div class="flex flex-col gap-2">
             <div class="flex items-center gap-2">

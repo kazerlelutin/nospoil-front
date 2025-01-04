@@ -6,7 +6,7 @@ import KR from '@/locales/kr.json'
 
 i18n.use(LanguageDetector).init({
   fallbackLng: 'en',
-  debug: true,
+  debug: false,
 
   resources: {
     en: {

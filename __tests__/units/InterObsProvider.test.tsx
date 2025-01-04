@@ -1,4 +1,4 @@
-import { cleanup, render, screen, waitFor } from '@testing-library/preact'
+import { render, screen, waitFor } from '@testing-library/preact'
 import { InterObsProvider } from '@/providers/interObs'
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import { useInterObs } from '@/hooks/useInterObs'
@@ -27,7 +27,6 @@ vi.stubGlobal('IntersectionObserver', IntersectionObserverMock)
 
 describe('InterObsProvider', () => {
   afterEach(() => {
-    cleanup()
     //@ts-ignore
     IntersectionObserverMock.instances = []
   })

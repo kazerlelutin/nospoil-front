@@ -12,9 +12,6 @@ import { Login } from '@/pages/Auth.js'
 import '@unocss/reset/normalize.css'
 import 'virtual:uno.css'
 import './style.css'
-import { MainLayout } from './components/MainLayout.js'
-import { AuthRoute } from './components/AuthRoute.js'
-import { Media } from './pages/Media.js'
 import dayjs from 'dayjs'
 import { i18n } from './utils/i18n'
 
@@ -27,7 +24,10 @@ import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
-import { Watchlist } from './pages/watchlist'
+import { Watchlist } from './pages/Watchlist'
+import { MainLayout } from './components/MainLayout'
+import { AuthRoute } from './components/AuthRoute'
+import { Media } from './pages/Media'
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)

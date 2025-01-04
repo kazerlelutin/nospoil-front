@@ -3,8 +3,8 @@ name: CI with Coverage
 on:
   push:
     branches:
-      - main_
-      - develop_
+      - main
+      - develop
   pull_request:
     branches:
       - main
@@ -30,13 +30,34 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+
+      - name: Set environment variables
+        env:
+          CUCUMBER_URL_FRONT: ${{ vars.CUCUMBER_URL_FRONT }}
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
+          TEST_EMAIL: ${{ vars.TEST_EMAIL }}
+
+        run: |
+          echo "Environment variables configured"
+
+      - name: Install pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
 
       - name: Install Dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Run Tests with Coverage
-        run: npm run coverage
+        env:
+          CUCUMBER_URL_FRONT: ${{ vars.CUCUMBER_URL_FRONT }}
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
+          TEST_EMAIL: ${{ vars.TEST_EMAIL }}
+        run: pnpm run coverage
 
       - name: Upload Coverage Report
         if: always()
@@ -50,7 +71,7 @@ jobs:
         shell: bash
         run: |
           echo "coverage_message<<EOF" >> $GITHUB_OUTPUT
-          cat coverage/coverage.txt >> $GITHUB_OUTPUT
+          cat ./coverage/coverage-summary.txt >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Comment Coverage Report on PR

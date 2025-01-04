@@ -1,158 +1,22 @@
-import { useEffect, useRef, useState } from 'preact/hooks'
 import { Modal } from '@/components/Modal'
-import { supabase } from '@/utils/supabase'
 
 import { i18n } from '@/utils/i18n'
 import { Button } from '@/components/Button'
-import { useSession } from '@/providers/session'
 import { Avatar } from '@/components/Avatar'
 import { EditIcon } from '@/components/EditIcon'
+import { useProfile } from '@/hooks/useProfile'
 
-type Profile = {
-  username: string | undefined
-  email: string | undefined
-  avatar: string | undefined
-  updated_at?: Date | undefined
-  id?: string | undefined
-}
 export function Profile() {
-  const session = useSession()
-  const [isInit, setIsInit] = useState(false)
-  const [profile, setProfile] = useState<Profile>({
-    username: undefined,
-    email: undefined,
-    avatar: undefined,
-    updated_at: undefined,
-    id: undefined,
-  })
-
-  const [alreadyExist, setAlreadyExist] = useState(false)
-
-  const profileRef = useRef(profile)
-  const avatarRef = useRef(null)
-  const canvasRef = useRef(null)
-
-  const handleFetchProfile = async () => {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select()
-      .eq('id', session.user.id)
-      .maybeSingle()
-
-    if (error) {
-      console.error('Error fetching profile:', error.message)
-      return
-    }
-    if (data) {
-      setProfile(data as Profile)
-      profileRef.current = data as Profile
-    }
-    // fetch profile
-    setIsInit(true)
-  }
-
-  const handleUpdateProfile = async (profile: Profile, close: () => void) => {
-    setAlreadyExist(false)
-    const { data: existUserName } = await supabase
-      .from('profiles')
-      .select('username')
-      .eq('username', profile.username)
-      .neq('id', session.user.id)
-      .maybeSingle()
-
-    if (existUserName) {
-      setAlreadyExist(true)
-      return
-    }
-
-    const { error } = await supabase
-      .from('profiles')
-      .upsert({ ...profile, id: session.user.id, updated_at: new Date() })
-      .eq('id', session.user.id)
-
-    if (error) {
-      setProfile(profileRef.current)
-      return
-    } else {
-      profileRef.current = profile as Profile
-    }
-    close()
-  }
-
-  const handleUpdateAvatar = async (e: any, close: () => void) => {
-    const file = e.target.files[0]
-    if (!file) return
-
-    const SIZE = 64 // Taille souhaitée pour l'avatar
-    const imageUrl = URL.createObjectURL(file)
-
-    const img = new Image()
-    img.src = imageUrl
-
-    img.onload = () => {
-      const canvas = canvasRef.current
-      const ctx = canvas.getContext('2d')
-
-      // Dimensions du canvas (carré)
-      canvas.width = SIZE
-      canvas.height = SIZE
-
-      // Obtenir les dimensions et rapport d'aspect de l'image
-      const aspectRatio = img.width / img.height
-
-      // Calcul pour centrer l'image
-      let drawWidth = SIZE
-      let drawHeight = SIZE
-      let offsetX = 0
-      let offsetY = 0
-
-      if (aspectRatio > 1) {
-        // Image paysage : réduire la largeur pour qu'elle s'adapte
-        drawWidth = SIZE * aspectRatio
-        offsetX = (SIZE - drawWidth) / 2
-      } else {
-        // Image portrait : réduire la hauteur pour qu'elle s'adapte
-        drawHeight = SIZE / aspectRatio
-        offsetY = (SIZE - drawHeight) / 2
-      }
-
-      // Efface le canvas et dessine l'image centrée
-      ctx.clearRect(0, 0, SIZE, SIZE)
-      ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight)
-
-      // Convertir en blob pour l'upload ou affichage
-      canvas.toBlob(async (blob) => {
-        if (!blob) return
-
-        // Injecte le blob dans l'avatarRef pour prévisualisation
-        avatarRef.current.src = URL.createObjectURL(blob)
-
-        const path = `avatar/${session.user.id}`
-
-        await supabase.storage.from('avatars').remove([path])
-        const { data, error } = await supabase.storage
-          .from('avatars')
-
-          .upload(path, blob)
-        if (error) {
-          console.error('Error uploading avatar:', error.message)
-          return
-        }
-
-        await handleUpdateProfile({ ...profile, avatar: data.path }, close)
-      }, 'image/png') // Format PNG pour conserver la transparence si nécessaire
-    }
-
-    img.onerror = () => {
-      console.error("Impossible de charger l'image.")
-    }
-  }
-
-  useEffect(() => {
-    if (!session?.user?.id) return
-    handleFetchProfile()
-  }, [session])
-
+  const {
+    isInit,
+    profile,
+    avatarRef,
+    canvasRef,
+    alreadyExist,
+    setProfile,
+    updateAvatar,
+    updateProfile,
+  } = useProfile()
   if (!isInit) return null
 
   return (
@@ -184,7 +48,7 @@ export function Profile() {
               type="file"
               id="avatar"
               class="hidden"
-              onInput={(e) => handleUpdateAvatar(e, close)}
+              onInput={(e) => updateAvatar(e, close)}
             />
           </div>
           <div class="flex flex-col gap-2">
@@ -212,7 +76,7 @@ export function Profile() {
               {i18n.t('cancel')}
             </Button>
             <Button
-              onClick={() => handleUpdateProfile(profile, close)}
+              onClick={() => updateProfile(profile, close)}
               type="button"
               disabled={!profile.username}
             >
