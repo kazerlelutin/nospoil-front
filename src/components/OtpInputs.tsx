@@ -35,13 +35,9 @@ export function OtpInputs({ email }: OtpInputsProps) {
       token: code,
       type: 'email',
     })
-
-    //TODO Redirect to dashboard
     setLoading(false)
 
-    if (error)
-      //TODO Handle error
-      console.log(error)
+    if (error) console.log(error) // TODO: handle error
     else route('/')
   }
 

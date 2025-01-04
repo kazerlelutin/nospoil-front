@@ -1,19 +1,11 @@
-import { useEffect, useMemo, useState } from 'preact/hooks'
-import { Serie } from '@/types/media'
+import { useEffect, useMemo } from 'preact/hooks'
 import { i18n } from '@/utils/i18n'
 import { useInterObs } from '@/hooks/useInterObs'
+import { useFetchSeasons } from '@/hooks/useFetchSeasons'
+import { Watchlist } from '@/types/Watchlist'
 
 type WatchListTvCardProps = {
-  item: {
-    poster_path: string
-    title: string
-    release_date: string
-    current_season: number
-    current_episode: number
-    id: number
-    tmdb_id: number
-    overview: string
-  }
+  item: Watchlist
 }
 
 export function WatchListTvCardRead({ item }: WatchListTvCardProps) {
@@ -23,38 +15,24 @@ export function WatchListTvCardRead({ item }: WatchListTvCardProps) {
 
   const link = `/media/tv/${item.tmdb_id}`
 
-  const [seasons, setSeasons] = useState<Serie['seasons']>([])
+  const { seasons, fetchSeason } = useFetchSeasons(item.tmdb_id)
 
   const episodeRemaining = useMemo(() => {
-    return seasons.reduce((acc, s) => {
-      if (s.season_number > currentSeason) {
-        acc += s.episode_count
-      }
-      if (s.season_number === currentSeason) {
-        acc += s.episode_count - currentEpisode
-      }
-      return acc
-    }, 0)
+    return (
+      seasons?.reduce((acc, s) => {
+        if (s.season_number > currentSeason) {
+          acc += s.episode_count
+        }
+        if (s.season_number === currentSeason) {
+          acc += s.episode_count - currentEpisode
+        }
+        return acc
+      }, 0) || 0
+    )
   }, [currentEpisode, currentSeason, seasons])
 
-  const fetchSeason = async () => {
-    try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}tv/tv/${item.tmdb_id}?language=${
-          i18n.language
-        }`
-      )
-      const { seasons: dataSeasons } = await res.json()
-
-      setSeasons(dataSeasons)
-    } catch (error) {
-      console.error('Error fetching watchlist:', error.message)
-    } finally {
-    }
-  }
-
   useEffect(() => {
-    if (interObs && seasons.length === 0) fetchSeason()
+    if (interObs && seasons?.length === 0) fetchSeason()
   }, [interObs])
 
   return (
@@ -85,10 +63,11 @@ export function WatchListTvCardRead({ item }: WatchListTvCardProps) {
           <div class="flex-1 relative h-4 rounded-md overflow-hidden border-solid border-1 border-white/15">
             <div
               class="absolute top-0 left-0 bottom-0 bg-green-800"
+              role="progressbar"
               style={{
                 width: `${
                   (currentEpisode /
-                    seasons.find((s) => s.season_number === currentSeason)
+                    seasons?.find((s) => s.season_number === currentSeason)
                       ?.episode_count) *
                   100
                 }%`,

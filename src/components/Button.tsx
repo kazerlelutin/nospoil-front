@@ -7,6 +7,7 @@ type ButtonProps = {
   disabled?: boolean
 }
 
+//SOLID
 export function Button({
   children,
   onClick,

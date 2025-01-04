@@ -6,6 +6,7 @@ type AvatarProps = {
   size?: 'sm' | 'md' | 'lg'
 }
 
+//SOLID
 export const Avatar = forwardRef(
   ({ src, alt, size = 'md' }: AvatarProps, ref) => {
     return (

@@ -2,7 +2,7 @@ import 'dotenv/config'
 import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 
-const URL = process.env.CUCUMBER_URL_FRONT
+const URL = process.env.VITE_CUCUMBER_URL_FRONT
 
 test.describe('Accessibility tests', () => {
   test('Login page', async ({ page }) => {
