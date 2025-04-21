@@ -8,7 +8,7 @@ export function useAuth() {
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: any) => {
-    e.preventDefault()
+    e?.preventDefault()
 
     setLoading(true)
 

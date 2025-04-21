@@ -17,7 +17,7 @@ export function EmailStep({
     <form
       class="flex flex-col gap-3 w-full relative"
       onSubmit={(e) => {
-        e.preventDefault()
+        e?.preventDefault()
         if (isValidEmail(email)) handleSubmit()
       }}
       role="form"
